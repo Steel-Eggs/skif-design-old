@@ -132,8 +132,9 @@ const ContactsSection = () => {
                     <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-background" />
                   </div>
                   <h3 className="font-heading font-bold text-foreground mb-2">Режим работы</h3>
-                  <div className="text-foreground text-sm sm:text-base">
-                    <p>9:00 - 18:00</p>
+                  <div className="text-foreground text-xs sm:text-sm">
+                    <p>Вт, Ср, Чт: <span className="font-semibold">9:00–20:00</span></p>
+                    <p>Остальные дни: <span className="font-semibold">9:00–18:00</span></p>
                     <p className="text-primary font-semibold">БЕЗ ВЫХОДНЫХ</p>
                   </div>
                 </CardContent>
