@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import CallbackModal from "@/components/CallbackModal";
+import MarketingBadge from "@/components/MarketingBadge";
 import { useFavorites, dispatchFavoritesUpdate, FAVORITES_UPDATED_EVENT } from "@/hooks/useFavorites";
 import trailerUserHorizontal from "@/assets/products/trailer-user-horizontal.jpg";
 import trailerUserVertical from "@/assets/products/trailer-user-vertical-collage.jpg";
@@ -323,6 +324,8 @@ const Product = () => {
                 <h1 className="text-lg md:text-3xl lg:text-4xl font-heading font-bold text-foreground leading-tight break-words">
                   {product.name}
                 </h1>
+                
+                <MarketingBadge productId={product.id} variant="detail" />
                 
                 {/* Features badges - wrap on mobile instead of scroll */}
                 <div className="flex flex-wrap gap-1 md:gap-2">

@@ -37,6 +37,12 @@ const PriceNotification = () => {
           <p className="text-muted-foreground leading-relaxed">
             Уважаемые посетители! На сайте проводится обновление цен. Просим вас уточнять актуальные цены у наших менеджеров.
           </p>
+          <div className="w-full rounded-lg bg-amber-50 border border-amber-200 p-3 text-sm text-amber-900">
+            <div className="font-semibold mb-1">Новый график работы:</div>
+            <div>Вт, Ср, Чт: <span className="font-semibold">9:00 – 20:00</span></div>
+            <div>Остальные дни: <span className="font-semibold">9:00 – 18:00</span></div>
+            <div className="font-semibold mt-1">Без выходных</div>
+          </div>
           <a
             href="tel:+78002001636"
             className="text-primary font-semibold hover:underline"

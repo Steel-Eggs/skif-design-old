@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useFavorites, FAVORITES_UPDATED_EVENT, dispatchFavoritesUpdate } from "@/hooks/useFavorites";
 import { useCart, dispatchCartUpdate } from "@/hooks/useCart";
+import MarketingBadge from "@/components/MarketingBadge";
 // Import product images
 import trailer1 from "@/assets/products/trailer-1.jpg";
 import trailer2 from "@/assets/products/trailer-2.jpg";
@@ -146,7 +147,10 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
               </Link>
             </h3>
             
-            
+            <div className="mb-2">
+              <MarketingBadge productId={product.id} />
+            </div>
+
             <div className="flex items-baseline gap-2 mb-2 flex-wrap">
               <span className="text-xl font-heading font-bold text-foreground">
                 {formatPrice(product.price)} ₽
@@ -266,6 +270,9 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
             </Link>
           </h3>
           
+          <div className="mb-3">
+            <MarketingBadge productId={product.id} />
+          </div>
           
           {/* Price section */}
           <div className="mb-3">
