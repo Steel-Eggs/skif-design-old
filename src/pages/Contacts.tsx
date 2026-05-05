@@ -225,7 +225,8 @@ const Contacts = () => {
                     <Clock className="h-6 w-6 text-muted-foreground" />
                   </div>
                   <h3 className="font-bold text-foreground mb-2">Режим работы</h3>
-                  <span className="text-foreground block">9:00 - 18:00</span>
+                  <span className="text-foreground block text-sm">Вт, Ср, Чт: 9:00–20:00</span>
+                  <span className="text-foreground block text-sm">Остальные дни: 9:00–18:00</span>
                   <span className="text-primary font-semibold text-sm">БЕЗ ВЫХОДНЫХ</span>
                 </CardContent>
               </Card>
