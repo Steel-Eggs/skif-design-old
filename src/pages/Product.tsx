@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import CallbackModal from "@/components/CallbackModal";
+import MarketingBadge from "@/components/MarketingBadge";
 import { useFavorites, dispatchFavoritesUpdate, FAVORITES_UPDATED_EVENT } from "@/hooks/useFavorites";
 import trailerUserHorizontal from "@/assets/products/trailer-user-horizontal.jpg";
 import trailerUserVertical from "@/assets/products/trailer-user-vertical-collage.jpg";
