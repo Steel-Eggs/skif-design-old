@@ -145,13 +145,8 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
               <Link to={`/product/${product.id}`}>
                 {product.name}
               </Link>
-          </h3>
-          
-          <div className="mb-3">
-            <MarketingBadge productId={product.id} />
-          </div>
-
-          
+            </h3>
+            
             <div className="mb-2">
               <MarketingBadge productId={product.id} />
             </div>
