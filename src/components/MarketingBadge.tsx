@@ -66,21 +66,21 @@ export const MarketingBadge = ({ productId, variant = "card" }: MarketingBadgePr
   }, [productId]);
 
   const tones: Record<string, string> = {
-    blue: "bg-blue-50 text-blue-800 border-blue-200",
-    amber: "bg-amber-50 text-amber-900 border-amber-200",
-    green: "bg-green-50 text-green-800 border-green-200",
-    purple: "bg-purple-50 text-purple-800 border-purple-200",
+    blue: "bg-blue-100 text-blue-900 border-blue-300",
+    amber: "bg-amber-100 text-amber-950 border-amber-300",
+    green: "bg-green-100 text-green-900 border-green-300",
+    purple: "bg-purple-100 text-purple-900 border-purple-300",
   };
 
   const Icon = data.icon;
 
   return (
     <div
-      className={`flex items-center gap-2 rounded-md border px-2.5 py-1.5 ${tones[data.tone]} ${
-        variant === "detail" ? "text-sm" : "text-[11px] sm:text-xs"
-      } font-medium leading-snug`}
+      className={`flex items-center gap-2 rounded-md border-2 px-3 py-2 shadow-sm ${tones[data.tone]} ${
+        variant === "detail" ? "text-sm" : "text-xs sm:text-[13px]"
+      } font-semibold leading-snug`}
     >
-      <Icon className={`shrink-0 ${variant === "detail" ? "h-4 w-4" : "h-3.5 w-3.5"}`} />
+      <Icon className={`shrink-0 ${variant === "detail" ? "h-4 w-4" : "h-4 w-4"}`} />
       <span>{data.text}</span>
     </div>
   );
