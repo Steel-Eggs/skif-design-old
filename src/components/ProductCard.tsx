@@ -147,9 +147,6 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
               </Link>
             </h3>
             
-            <div className="mb-2">
-              <MarketingBadge productId={product.id} />
-            </div>
 
             <div className="flex items-baseline gap-2 mb-2 flex-wrap">
               <span className="text-xl font-heading font-bold text-foreground">
