@@ -267,9 +267,6 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
             </Link>
           </h3>
           
-          <div className="mb-3">
-            <MarketingBadge productId={product.id} />
-          </div>
           
           {/* Price section */}
           <div className="mb-3">
