@@ -59,7 +59,7 @@ export const MarketingBadge = ({ productId, variant = "card" }: MarketingBadgePr
       default:
         return {
           icon: Trophy,
-          text: `Этот товар — самый популярный в ${lastYear}!`,
+          text: `Этот товар — был самым популярным в ${lastYear}!`,
           tone: "purple",
         };
     }
