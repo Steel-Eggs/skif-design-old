@@ -6,64 +6,60 @@ const MONTHS = [
   "июле", "августе", "сентябре", "октябре", "ноябре", "декабре",
 ];
 
-// Deterministic pseudo-random based on product id (so the badge stays the same for a given product)
-const seeded = (seed: number) => {
-  const x = Math.sin(seed) * 10000;
-  return x - Math.floor(x);
+const STORAGE_KEY = "marketing-badge-session-v1";
+
+interface SessionData {
+  tipIndex: number;
+  count: number;
+  daysAgo: number;
+  discount: number;
+}
+
+const getSessionData = (): SessionData => {
+  try {
+    const cached = sessionStorage.getItem(STORAGE_KEY);
+    if (cached) return JSON.parse(cached);
+  } catch {}
+  const data: SessionData = {
+    tipIndex: Math.floor(Math.random() * 4),
+    count: 2 + Math.floor(Math.random() * 18),
+    daysAgo: 5 + Math.floor(Math.random() * 6),
+    discount: 5 + Math.floor(Math.random() * 11),
+  };
+  try {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch {}
+  return data;
 };
 
 interface MarketingBadgeProps {
-  productId: number;
+  productId?: number;
   variant?: "card" | "detail";
 }
 
-export const MarketingBadge = ({ productId, variant = "card" }: MarketingBadgeProps) => {
+export const MarketingBadge = ({ variant = "card" }: MarketingBadgeProps) => {
   const data = useMemo(() => {
+    const s = getSessionData();
     const now = new Date();
     const month = MONTHS[now.getMonth()];
     const year = now.getFullYear();
     const lastYear = year - 1;
 
-    const r1 = seeded(productId * 7.13 + 1);
-    const r2 = seeded(productId * 11.7 + 2);
-    const r3 = seeded(productId * 3.31 + 3);
-
-    const tipIndex = Math.floor(r1 * 4);
-    const count = 2 + Math.floor(r2 * 18); // 2..19
-    const daysAgo = 5 + Math.floor(r2 * 6); // 5..10
-    const discount = 5 + Math.floor(r3 * 11); // 5..15
-
     const soldDate = new Date();
-    soldDate.setDate(soldDate.getDate() - daysAgo);
+    soldDate.setDate(soldDate.getDate() - s.daysAgo);
     const soldStr = soldDate.toLocaleDateString("ru-RU", { day: "numeric", month: "long" });
 
-    switch (tipIndex) {
+    switch (s.tipIndex) {
       case 0:
-        return {
-          icon: TrendingUp,
-          text: `Этот товар в ${month} ${year} купили уже ${count} раз`,
-          tone: "blue",
-        };
+        return { icon: TrendingUp, text: `Этот товар в ${month} ${year} купили уже ${s.count} раз`, tone: "blue" };
       case 1:
-        return {
-          icon: Tag,
-          text: `Этот товар был продан ${soldStr} со скидкой ${discount}%`,
-          tone: "amber",
-        };
+        return { icon: Tag, text: `Этот товар был продан ${soldStr} со скидкой ${s.discount}%`, tone: "amber" };
       case 2:
-        return {
-          icon: Award,
-          text: "Этот товар — самый популярный среди наших клиентов!",
-          tone: "green",
-        };
+        return { icon: Award, text: "Этот товар — самый популярный среди наших клиентов!", tone: "green" };
       default:
-        return {
-          icon: Trophy,
-          text: `Этот товар — был самым популярным в ${lastYear}!`,
-          tone: "purple",
-        };
+        return { icon: Trophy, text: `Этот товар — был самым популярным в ${lastYear}!`, tone: "purple" };
     }
-  }, [productId]);
+  }, []);
 
   const tones: Record<string, string> = {
     blue: "bg-blue-100 text-blue-900 border-blue-300",
@@ -80,7 +76,7 @@ export const MarketingBadge = ({ productId, variant = "card" }: MarketingBadgePr
         variant === "detail" ? "text-sm" : "text-xs sm:text-[13px]"
       } font-semibold leading-snug`}
     >
-      <Icon className={`shrink-0 ${variant === "detail" ? "h-4 w-4" : "h-4 w-4"}`} />
+      <Icon className="shrink-0 h-4 w-4" />
       <span>{data.text}</span>
     </div>
   );
