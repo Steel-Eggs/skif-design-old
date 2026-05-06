@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useFavorites, FAVORITES_UPDATED_EVENT, dispatchFavoritesUpdate } from "@/hooks/useFavorites";
 import { useCart, dispatchCartUpdate } from "@/hooks/useCart";
-import MarketingBadge from "@/components/MarketingBadge";
+
 // Import product images
 import trailer1 from "@/assets/products/trailer-1.jpg";
 import trailer2 from "@/assets/products/trailer-2.jpg";
