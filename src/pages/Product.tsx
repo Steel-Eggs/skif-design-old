@@ -444,6 +444,12 @@ const Product = () => {
             <Tabs defaultValue="video" className="space-y-8">
               <TabsList className="w-full justify-start bg-card border border-border rounded-xl p-1 md:p-1.5 h-auto flex-wrap gap-1">
                 <TabsTrigger 
+                  value="video" 
+                  className="px-3 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
+                >
+                  ▶ Видео
+                </TabsTrigger>
+                <TabsTrigger 
                   value="description" 
                   className="px-3 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
                 >
@@ -454,12 +460,6 @@ const Product = () => {
                   className="px-3 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
                 >
                   Характеристики
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="video" 
-                  className="px-3 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
-                >
-                  Видео
                 </TabsTrigger>
               </TabsList>
               
