@@ -73,7 +73,9 @@ const mockProduct = {
     { name: "Производитель", value: "ССТ" },
     { name: "Гарантия", value: "12 месяцев" },
   ],
-  videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  // VK Video embed. Замените oid и id на свои:
+  // https://vk.com/video_ext.php?oid=-XXXXXXXXX&id=YYYYYYYYY&hd=2&autoplay=0
+  videoUrl: "https://vk.com/video_ext.php?oid=-220754053&id=456239466&hd=2",
   videoTitle: "Самый красивый и практичный прицеп для квадроцикла и мотоблока!",
   features: [
     "Горячее цинкование",
@@ -439,8 +441,14 @@ const Product = () => {
         {/* Tabs section */}
         <section className="py-8 md:py-12">
           <div className="container">
-            <Tabs defaultValue="description" className="space-y-8">
+            <Tabs defaultValue="video" className="space-y-8">
               <TabsList className="w-full justify-start bg-card border border-border rounded-xl p-1 md:p-1.5 h-auto flex-wrap gap-1">
+                <TabsTrigger 
+                  value="video" 
+                  className="px-3 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
+                >
+                  ▶ Видео
+                </TabsTrigger>
                 <TabsTrigger 
                   value="description" 
                   className="px-3 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
@@ -452,12 +460,6 @@ const Product = () => {
                   className="px-3 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
                 >
                   Характеристики
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="video" 
-                  className="px-3 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
-                >
-                  Видео
                 </TabsTrigger>
               </TabsList>
               
@@ -560,13 +562,14 @@ const Product = () => {
                     <h3 className="text-xl font-heading font-bold text-foreground mb-6">
                       {product.videoTitle}
                     </h3>
-                    <div className="relative aspect-video rounded-xl overflow-hidden bg-black">
+                    <div className="relative w-full rounded-xl overflow-hidden bg-black" style={{ paddingBottom: "56.25%" }}>
                       <iframe
                         src={product.videoUrl}
                         title={product.videoTitle}
-                        className="absolute inset-0 w-full h-full"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        className="absolute inset-0 w-full h-full border-0"
+                        allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
                         allowFullScreen
+                        frameBorder={0}
                       />
                     </div>
                     <p className="text-muted-foreground mt-4">
