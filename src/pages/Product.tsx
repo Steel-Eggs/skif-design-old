@@ -441,14 +441,8 @@ const Product = () => {
         {/* Tabs section */}
         <section className="py-8 md:py-12">
           <div className="container">
-            <Tabs defaultValue="video" className="space-y-8">
+            <Tabs defaultValue="description" className="space-y-8">
               <TabsList className="w-full justify-start bg-card border border-border rounded-xl p-1 md:p-1.5 h-auto flex-wrap gap-1">
-                <TabsTrigger 
-                  value="video" 
-                  className="px-3 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
-                >
-                  ▶ Видео
-                </TabsTrigger>
                 <TabsTrigger 
                   value="description" 
                   className="px-3 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
@@ -554,31 +548,31 @@ const Product = () => {
                   </CardContent>
                 </Card>
               </TabsContent>
-              
-              {/* Video tab */}
-              <TabsContent value="video" className="mt-0">
-                <Card className="border-2">
-                  <CardContent className="p-6 md:p-8">
-                    <h3 className="text-xl font-heading font-bold text-foreground mb-6">
-                      {product.videoTitle}
-                    </h3>
-                    <div className="relative w-full rounded-xl overflow-hidden bg-black" style={{ paddingBottom: "56.25%" }}>
-                      <iframe
-                        src={product.videoUrl}
-                        title={product.videoTitle}
-                        className="absolute inset-0 w-full h-full border-0"
-                        allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
-                        allowFullScreen
-                        frameBorder={0}
-                      />
-                    </div>
-                    <p className="text-muted-foreground mt-4">
-                      Посмотрите подробный видеообзор данной модели прицепа от наших экспертов.
-                    </p>
-                  </CardContent>
-                </Card>
-              </TabsContent>
             </Tabs>
+
+            {/* Video block — рендерится ниже описания, всегда виден */}
+            <div className="mt-10 md:mt-12">
+              <Card className="border-2">
+                <CardContent className="p-6 md:p-8">
+                  <h3 className="text-xl font-heading font-bold text-foreground mb-6">
+                    {product.videoTitle}
+                  </h3>
+                  <div className="relative w-full rounded-xl overflow-hidden bg-black" style={{ paddingBottom: "56.25%" }}>
+                    <iframe
+                      src={product.videoUrl}
+                      title={product.videoTitle}
+                      className="absolute inset-0 w-full h-full border-0"
+                      allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                      allowFullScreen
+                      frameBorder={0}
+                    />
+                  </div>
+                  <p className="text-muted-foreground mt-4">
+                    Посмотрите подробный видеообзор данной модели прицепа от наших экспертов.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </section>
       </main>
