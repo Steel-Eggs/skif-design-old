@@ -263,16 +263,15 @@
         </div>
       </div>
 
-      <!-- Tabs: Description / Specs / Video -->
+      <!-- Tabs: Description / Specs -->
       <div class="mt-10 md:mt-16">
         <div class="flex gap-1 border-b border-border mb-8" id="product-tabs">
-          <button class="tab-btn px-3 sm:px-5 py-3 font-semibold border-b-2 border-primary text-primary text-xs sm:text-sm whitespace-nowrap" data-tab="video">▶ Видео</button>
-          <button class="tab-btn px-3 sm:px-5 py-3 font-semibold border-b-2 border-transparent text-muted-foreground hover:text-foreground text-xs sm:text-sm transition-colors whitespace-nowrap" data-tab="description">Описание</button>
+          <button class="tab-btn px-3 sm:px-5 py-3 font-semibold border-b-2 border-primary text-primary text-xs sm:text-sm whitespace-nowrap" data-tab="description">Описание</button>
           <button class="tab-btn px-3 sm:px-5 py-3 font-semibold border-b-2 border-transparent text-muted-foreground hover:text-foreground text-xs sm:text-sm transition-colors whitespace-nowrap" data-tab="specs">Характеристики</button>
         </div>
 
         <!-- Description -->
-        <div id="tab-description" class="tab-content" style="display:none">
+        <div id="tab-description" class="tab-content">
           <div class="grid lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 prose max-w-none">
               <p class="text-muted-foreground leading-relaxed mb-4">Прицеп <strong>ССТ-7132-мини</strong> — компактный одноосный прицеп для перевозки квадроциклов, мотоциклов и другой мототехники. Идеально подходит для активного отдыха и транспортировки спортивных снарядов.</p>
@@ -352,16 +351,17 @@
           </div>
         </div>
 
-        <!-- Video -->
-        <div id="tab-video" class="tab-content">
-          <div class="max-w-full overflow-hidden">
-            <h3 class="font-bold text-foreground mb-4 text-lg">Самый красивый и практичный прицеп для квадроцикла и мотоблока!</h3>
-            <!-- VK Video embed (адаптивный 16:9). Замените oid и id на свои -->
-            <div class="bg-card border border-border rounded-2xl overflow-hidden" style="position:relative;padding-bottom:56.25%;height:0;width:100%;">
-              <iframe src="https://vk.com/video_ext.php?oid=-220754053&id=456239466&hd=2" title="Видеообзор прицепа ССТ-7132-мини" frameborder="0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:1rem;"></iframe>
-            </div>
-            <p class="text-muted-foreground text-sm mt-4">Подробный видеообзор прицепа ССТ-7132-мини. Обзор конструкции, характеристик и возможностей.</p>
+      </div>
+
+      <!-- Video block — всегда виден ниже описания -->
+      <div class="mt-10 md:mt-12">
+        <div class="bg-card border border-border rounded-2xl p-6 md:p-8">
+          <h3 class="font-bold text-foreground mb-4 text-lg">Самый красивый и практичный прицеп для квадроцикла и мотоблока!</h3>
+          <!-- VK Video embed (адаптивный 16:9). Замените oid и id на свои -->
+          <div style="position:relative;padding-bottom:56.25%;height:0;width:100%;background:#000;border-radius:1rem;overflow:hidden;">
+            <iframe src="https://vk.com/video_ext.php?oid=-220754053&id=456239466&hd=2" title="Видеообзор прицепа ССТ-7132-мини" frameborder="0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe>
           </div>
+          <p class="text-muted-foreground text-sm mt-4">Подробный видеообзор прицепа ССТ-7132-мини. Обзор конструкции, характеристик и возможностей.</p>
         </div>
       </div>
 
