@@ -6,7 +6,7 @@ const MONTHS = [
   "июле", "августе", "сентябре", "октябре", "ноябре", "декабре",
 ];
 
-const STORAGE_KEY = "marketing-badge-session-v1";
+const STORAGE_KEY = "marketing-badge-by-product-v1";
 
 interface SessionData {
   tipIndex: number;
@@ -15,31 +15,35 @@ interface SessionData {
   discount: number;
 }
 
-const getSessionData = (): SessionData => {
+const getSessionData = (productId: string | number): SessionData => {
+  const key = String(productId ?? "default");
+  let store: Record<string, SessionData> = {};
   try {
     const cached = sessionStorage.getItem(STORAGE_KEY);
-    if (cached) return JSON.parse(cached);
+    if (cached) store = JSON.parse(cached) || {};
   } catch {}
+  if (store[key]) return store[key];
   const data: SessionData = {
     tipIndex: Math.floor(Math.random() * 4),
     count: 2 + Math.floor(Math.random() * 18),
     daysAgo: 5 + Math.floor(Math.random() * 6),
     discount: 5 + Math.floor(Math.random() * 11),
   };
+  store[key] = data;
   try {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(store));
   } catch {}
   return data;
 };
 
 interface MarketingBadgeProps {
-  productId?: number;
+  productId?: number | string;
   variant?: "card" | "detail";
 }
 
-export const MarketingBadge = ({ variant = "card" }: MarketingBadgeProps) => {
+export const MarketingBadge = ({ productId = "default", variant = "card" }: MarketingBadgeProps) => {
   const data = useMemo(() => {
-    const s = getSessionData();
+    const s = getSessionData(productId);
     const now = new Date();
     const month = MONTHS[now.getMonth()];
     const year = now.getFullYear();
@@ -59,7 +63,8 @@ export const MarketingBadge = ({ variant = "card" }: MarketingBadgeProps) => {
       default:
         return { icon: Trophy, text: `Этот товар — был самым популярным в ${lastYear}!`, tone: "purple" };
     }
-  }, []);
+  }, [productId]);
+
 
   const tones: Record<string, string> = {
     blue: "bg-blue-100 text-blue-900 border-blue-300",

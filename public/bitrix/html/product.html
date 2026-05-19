@@ -567,9 +567,20 @@ function closePriceNotice(){
 (function(){
   var months=["январе","феврале","марте","апреле","мае","июне","июле","августе","сентябре","октябре","ноябре","декабре"];
   function fmtDate(d){return d.toLocaleDateString('ru-RU',{day:'numeric',month:'long'});}
-  var KEY='marketing-badge-session-v1';
-  var data;
-  try{data=JSON.parse(sessionStorage.getItem(KEY));}catch(e){}
+  function getProductId(){
+    try{
+      var u=new URL(window.location.href);
+      var id=u.searchParams.get('id')||u.searchParams.get('ID')||u.searchParams.get('product');
+      if(id) return id;
+      var seg=u.pathname.replace(/\/$/,'').split('/').pop()||'';
+      return seg||'default';
+    }catch(e){return 'default';}
+  }
+  var KEY='marketing-badge-by-product-v1';
+  var pid=getProductId();
+  var store={};
+  try{store=JSON.parse(sessionStorage.getItem(KEY))||{};}catch(e){}
+  var data=store[pid];
   if(!data){
     data={
       tipIndex:Math.floor(Math.random()*4),
@@ -577,7 +588,8 @@ function closePriceNotice(){
       daysAgo:5+Math.floor(Math.random()*6),
       discount:5+Math.floor(Math.random()*11)
     };
-    try{sessionStorage.setItem(KEY,JSON.stringify(data));}catch(e){}
+    store[pid]=data;
+    try{sessionStorage.setItem(KEY,JSON.stringify(store));}catch(e){}
   }
   var now=new Date();var month=months[now.getMonth()];var year=now.getFullYear();var lastYear=year-1;
   var soldDate=new Date();soldDate.setDate(soldDate.getDate()-data.daysAgo);
