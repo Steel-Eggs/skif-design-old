@@ -327,7 +327,7 @@ const Product = () => {
                   {product.name}
                 </h1>
                 
-                <MarketingBadge productId={product.id} variant="detail" />
+                <MarketingBadge productId={productId ?? product.id} variant="detail" />
                 
                 {/* Features badges - wrap on mobile instead of scroll */}
                 <div className="flex flex-wrap gap-1 md:gap-2">
