@@ -282,6 +282,61 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  function normalizeProductSlug(value) {
+    return String(value || '')
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9а-яё_-]+/gi, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  function isUsefulProductText(value) {
+    var text = String(value || '').trim();
+    if (!text || text.length < 4) return false;
+    return !/^(подробнее|в корзину|под заказ|купить)$/i.test(text);
+  }
+
+  function getProductNameFromLink(link) {
+    var ownHeading = link.querySelector('h1, h2, h3, h4');
+    if (ownHeading && isUsefulProductText(ownHeading.textContent)) return ownHeading.textContent;
+
+    if (isUsefulProductText(link.textContent)) return link.textContent;
+
+    var card = link.closest('.product-card, .mega-menu-product, [class*="product"], article');
+    if (card) {
+      var heading = card.querySelector('h1, h2, h3, h4');
+      if (heading && isUsefulProductText(heading.textContent)) return heading.textContent;
+
+      var titleLink = card.querySelector('a[href^="product.html"]:not(.product-card-overlay a)');
+      if (titleLink && isUsefulProductText(titleLink.textContent)) return titleLink.textContent;
+
+      var image = card.querySelector('img[alt]');
+      if (image && isUsefulProductText(image.getAttribute('alt')) && image.getAttribute('alt') !== 'Прицеп') {
+        return image.getAttribute('alt');
+      }
+    }
+
+    return '';
+  }
+
+  document.querySelectorAll('a[href^="product.html"]').forEach(function (link) {
+    var productName = getProductNameFromLink(link);
+    var productSlug = normalizeProductSlug(productName);
+    if (!productSlug) return;
+
+    var href = link.getAttribute('href') || 'product.html';
+    var hashIndex = href.indexOf('#');
+    var hash = hashIndex >= 0 ? href.slice(hashIndex) : '';
+    var cleanHref = hashIndex >= 0 ? href.slice(0, hashIndex) : href;
+    var parts = cleanHref.split('?');
+    var base = parts[0] || 'product.html';
+    var params = new URLSearchParams(parts[1] || '');
+    if (!params.get('product')) params.set('product', productSlug);
+    link.setAttribute('href', base + '?' + params.toString() + hash);
+  });
+
   /* ============================================
      9. HERO-СЛАЙДЕР
      ============================================ */
