@@ -11,13 +11,13 @@ const VideoShowcaseSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
-          {/* Horizontal video (16:9) */}
-          <div className="lg:col-span-2">
-            <div className="relative w-full overflow-hidden rounded-2xl shadow-lg bg-black" style={{ paddingTop: "56.25%" }}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-start">
+          {/* Vertical video (9:16) — left, large */}
+          <div className="lg:col-span-1 mx-auto w-full max-w-[420px] lg:max-w-none">
+            <div className="relative w-full overflow-hidden rounded-2xl shadow-lg bg-black" style={{ paddingTop: "177.78%" }}>
               <iframe
-                src="https://vk.com/video_ext.php?oid=-213382481&id=456239155&hd=2"
-                title="Обзор прицепа СКИФ"
+                src="https://vk.com/video_ext.php?oid=-213382481&id=456239168&hd=2"
+                title="Короткое видео о прицепе СКИФ"
                 frameBorder={0}
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
                 allowFullScreen
@@ -26,12 +26,12 @@ const VideoShowcaseSection = () => {
             </div>
           </div>
 
-          {/* Vertical video (9:16) */}
-          <div className="lg:col-span-1 mx-auto w-full max-w-[360px] lg:max-w-none">
-            <div className="relative w-full overflow-hidden rounded-2xl shadow-lg bg-black" style={{ paddingTop: "177.78%" }}>
+          {/* Horizontal video (16:9) — right */}
+          <div className="lg:col-span-2">
+            <div className="relative w-full overflow-hidden rounded-2xl shadow-lg bg-black" style={{ paddingTop: "56.25%" }}>
               <iframe
-                src="https://vk.com/video_ext.php?oid=-213382481&id=456239168&hd=2"
-                title="Короткое видео о прицепе СКИФ"
+                src="https://vk.com/video_ext.php?oid=-213382481&id=456239155&hd=2"
+                title="Обзор прицепа СКИФ"
                 frameBorder={0}
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
                 allowFullScreen
