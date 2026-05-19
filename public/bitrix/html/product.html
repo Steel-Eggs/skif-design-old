@@ -217,7 +217,7 @@
           </h1>
 
           <!-- Marketing badge -->
-          <div class="marketing-badge" data-product-id="main"></div>
+          <div class="marketing-badge"></div>
 
           <!-- Features chips -->
           <div class="flex flex-wrap gap-2">
@@ -567,21 +567,36 @@ function closePriceNotice(){
 (function(){
   var months=["январе","феврале","марте","апреле","мае","июне","июле","августе","сентябре","октябре","ноябре","декабре"];
   function fmtDate(d){return d.toLocaleDateString('ru-RU',{day:'numeric',month:'long'});}
-  function getProductId(){
+  function normalizeProductId(value){
+    return String(value || '')
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g,'-')
+      .replace(/[^a-z0-9а-яё_-]+/gi,'-')
+      .replace(/-+/g,'-')
+      .replace(/^-|-$/g,'');
+  }
+  function getProductId(node){
     try{
       var u=new URL(window.location.href);
+      var nodeId=node&&node.getAttribute('data-product-id');
+      if(nodeId && nodeId !== 'main') return normalizeProductId(nodeId);
       var id=u.searchParams.get('id')||u.searchParams.get('ID')||u.searchParams.get('product');
-      if(id) return id;
+      if(id) return normalizeProductId(id);
       var seg=u.pathname.replace(/\/$/,'').split('/').pop()||'';
-      return seg||'default';
+      if(seg && seg !== 'product.html') return normalizeProductId(seg);
+      var h1=document.querySelector('h1');
+      if(h1 && h1.textContent) return normalizeProductId(h1.textContent);
+      if(document.title) return normalizeProductId(document.title);
+      return 'default';
     }catch(e){return 'default';}
   }
   var KEY='marketing-badge-by-product-v1';
-  var pid=getProductId();
   var store={};
   try{store=JSON.parse(sessionStorage.getItem(KEY))||{};}catch(e){}
-  var data=store[pid];
-  if(!data){
+  function getProductData(pid){
+    var data=store[pid];
+    if(data) return data;
     data={
       tipIndex:Math.floor(Math.random()*4),
       count:2+Math.floor(Math.random()*18),
@@ -590,18 +605,21 @@ function closePriceNotice(){
     };
     store[pid]=data;
     try{sessionStorage.setItem(KEY,JSON.stringify(store));}catch(e){}
+    return data;
   }
-  var now=new Date();var month=months[now.getMonth()];var year=now.getFullYear();var lastYear=year-1;
-  var soldDate=new Date();soldDate.setDate(soldDate.getDate()-data.daysAgo);
-  var tones=[
-    {bg:'#dbeafe',br:'#93c5fd',fg:'#1e3a8a',icon:'📈',text:'Этот товар в '+month+' '+year+' купили уже '+data.count+' раз'},
-    {bg:'#fef3c7',br:'#fcd34d',fg:'#78350f',icon:'🏷️',text:'Этот товар был продан '+fmtDate(soldDate)+' со скидкой '+data.discount+'%'},
-    {bg:'#dcfce7',br:'#86efac',fg:'#14532d',icon:'⭐',text:'Этот товар — самый популярный среди наших клиентов!'},
-    {bg:'#f3e8ff',br:'#d8b4fe',fg:'#581c87',icon:'🏆',text:'Этот товар — был самым популярным в '+lastYear+'!'}
-  ];
-  var t=tones[data.tipIndex];
   var nodes=document.querySelectorAll('.marketing-badge');
   nodes.forEach(function(el){
+    var pid=getProductId(el);
+    var data=getProductData(pid);
+    var now=new Date();var month=months[now.getMonth()];var year=now.getFullYear();var lastYear=year-1;
+    var soldDate=new Date();soldDate.setDate(soldDate.getDate()-data.daysAgo);
+    var tones=[
+      {bg:'#dbeafe',br:'#93c5fd',fg:'#1e3a8a',icon:'📈',text:'Этот товар в '+month+' '+year+' купили уже '+data.count+' раз'},
+      {bg:'#fef3c7',br:'#fcd34d',fg:'#78350f',icon:'🏷️',text:'Этот товар был продан '+fmtDate(soldDate)+' со скидкой '+data.discount+'%'},
+      {bg:'#dcfce7',br:'#86efac',fg:'#14532d',icon:'⭐',text:'Этот товар — самый популярный среди наших клиентов!'},
+      {bg:'#f3e8ff',br:'#d8b4fe',fg:'#581c87',icon:'🏆',text:'Этот товар — был самым популярным в '+lastYear+'!'}
+    ];
+    var t=tones[data.tipIndex];
     el.style.cssText='display:flex;align-items:center;gap:0.5rem;border-radius:0.375rem;border:2px solid '+t.br+';background:'+t.bg+';color:'+t.fg+';padding:0.5rem 0.75rem;font-size:0.8125rem;font-weight:600;line-height:1.3;box-shadow:0 1px 2px rgba(0,0,0,0.05);';
     el.innerHTML='<span style="font-size:0.875rem;flex-shrink:0;">'+t.icon+'</span><span>'+t.text+'</span>';
   });
