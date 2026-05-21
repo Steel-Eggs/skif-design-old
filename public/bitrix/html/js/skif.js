@@ -745,3 +745,35 @@ document.addEventListener('DOMContentLoaded', function () {
   document.head.appendChild(tgStyle);
 
 });
+
+// === VK Video embeds ===
+// Превращает <div data-vk-video="https://vkvideo.ru/video-XXX_YYY"> в iframe плеера VK
+document.addEventListener('DOMContentLoaded', function () {
+  function parseVkUrl(url) {
+    if (!url) return null;
+    var m = url.match(/(?:video|clip)(-?\d+)_(\d+)/);
+    if (!m) return null;
+    return { oid: m[1], id: m[2] };
+  }
+  function buildEmbed(url) {
+    var p = parseVkUrl(url);
+    if (!p) return null;
+    return 'https://vk.com/video_ext.php?oid=' + p.oid + '&id=' + p.id + '&hd=2';
+  }
+  var nodes = document.querySelectorAll('.vk-video-embed[data-vk-video]');
+  for (var i = 0; i < nodes.length; i++) {
+    var node = nodes[i];
+    var src = buildEmbed(node.getAttribute('data-vk-video'));
+    if (!src) continue;
+    var title = node.getAttribute('data-vk-title') || 'VK Видео';
+    var iframe = document.createElement('iframe');
+    iframe.src = src;
+    iframe.title = title;
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('allow', 'autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;';
+    node.innerHTML = '';
+    node.appendChild(iframe);
+  }
+});
