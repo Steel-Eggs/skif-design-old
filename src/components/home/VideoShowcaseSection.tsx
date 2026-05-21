@@ -12,8 +12,8 @@ const VideoShowcaseSection = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-start">
-          {/* Vertical video (9:16) — left, large */}
-          <div className="lg:col-span-1 mx-auto w-full max-w-[420px] lg:max-w-none">
+          {/* Vertical video (9:16) — left */}
+          <div className="lg:col-span-1 mx-auto w-full max-w-[420px] lg:max-w-none order-1 lg:order-1">
             <div className="relative w-full overflow-hidden rounded-2xl shadow-lg bg-black" style={{ paddingTop: "177.78%" }}>
               <iframe
                 src="https://vk.com/video_ext.php?oid=-213382481&id=456239168&hd=2"
@@ -26,17 +26,42 @@ const VideoShowcaseSection = () => {
             </div>
           </div>
 
-          {/* Horizontal video (16:9) — right */}
-          <div className="lg:col-span-2">
+          {/* Right column: main horizontal + 2 thumbnails */}
+          <div className="lg:col-span-2 order-2 lg:order-2 flex flex-col gap-6">
+            {/* Main horizontal video (16:9) */}
             <div className="relative w-full overflow-hidden rounded-2xl shadow-lg bg-black" style={{ paddingTop: "56.25%" }}>
               <iframe
-                src="https://vk.com/video_ext.php?oid=-213382481&id=456239155&hd=2"
+                src="https://vk.com/video_ext.php?oid=-213382481&id=456239156&hd=2"
                 title="Обзор прицепа СКИФ"
                 frameBorder={0}
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
                 allowFullScreen
                 className="absolute inset-0 w-full h-full border-0"
               />
+            </div>
+
+            {/* Two thumbnails */}
+            <div className="grid grid-cols-2 gap-4 md:gap-6">
+              <div className="relative w-full overflow-hidden rounded-xl shadow-md bg-black" style={{ paddingTop: "56.25%" }}>
+                <iframe
+                  src="https://vk.com/video_ext.php?oid=-213382481&id=456239155&hd=2"
+                  title="Видео о прицепе СКИФ"
+                  frameBorder={0}
+                  allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full border-0"
+                />
+              </div>
+              <div className="relative w-full overflow-hidden rounded-xl shadow-md bg-black" style={{ paddingTop: "56.25%" }}>
+                <iframe
+                  src="https://vk.com/video_ext.php?oid=-213382481&id=456239169&hd=2"
+                  title="Видео о прицепе СКИФ"
+                  frameBorder={0}
+                  allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full border-0"
+                />
+              </div>
             </div>
           </div>
         </div>
