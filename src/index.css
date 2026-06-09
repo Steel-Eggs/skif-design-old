@@ -199,6 +199,16 @@
     @apply border-border;
   }
 
+  html {
+    font-size: 17px;
+  }
+
+  @media (min-width: 1024px) {
+    html {
+      font-size: 18px;
+    }
+  }
+
   html, body {
     @apply overflow-x-hidden;
   }
@@ -211,6 +221,7 @@
     @apply font-sans font-black tracking-tight;
   }
 }
+
 
 @layer utilities {
   .gradient-primary {

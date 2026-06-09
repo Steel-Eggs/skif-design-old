@@ -13,8 +13,7 @@ import ReviewsSection from "@/components/home/ReviewsSection";
 import SeoSection from "@/components/home/SeoSection";
 import ContactsSection from "@/components/home/ContactsSection";
 import FeedbackButton from "@/components/FeedbackButton";
-import TelegramPopup from "@/components/TelegramPopup";
-import PriceNotification from "@/components/PriceNotification";
+import MaxPopup from "@/components/MaxPopup";
 
 const Index = () => {
   return (
@@ -36,8 +35,7 @@ const Index = () => {
       </main>
       <Footer />
       <FeedbackButton />
-      <TelegramPopup />
-      <PriceNotification />
+      <MaxPopup />
     </div>
   );
 };

@@ -207,43 +207,19 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-0.5">
-            {/* Catalog dropdown - hover */}
-            <div 
-              ref={catalogRef} 
-              className="relative"
-              onMouseEnter={() => setIsCatalogOpen(true)}
-              onMouseLeave={() => setIsCatalogOpen(false)}
-            >
-              <button
-                className="flex items-center gap-1.5 px-4 py-2 gradient-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-all"
+          <nav className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.href}
+                className="flex items-center gap-1 px-3 py-2 text-foreground font-medium hover:text-primary transition-colors rounded-lg hover:bg-muted"
               >
-                <Menu className="h-4 w-4" />
-                Каталог
-                <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isCatalogOpen ? 'rotate-180' : ''}`} />
-              </button>
-              
-              {/* Mega Menu */}
-              <CatalogMegaMenu 
-                isOpen={isCatalogOpen} 
-                onClose={() => setIsCatalogOpen(false)} 
-              />
-            </div>
-
-            <div className="flex items-center gap-1 ml-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className="flex items-center gap-1 px-3 py-2 text-foreground font-medium hover:text-primary transition-colors rounded-lg hover:bg-muted"
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
+                {link.name}
+              </Link>
+            ))}
 
             {/* О компании dropdown */}
-            <div 
+            <div
               ref={aboutRef}
               className="relative"
               onMouseEnter={() => setIsAboutOpen(true)}
@@ -253,7 +229,7 @@ const Header = () => {
                 О компании
                 <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isAboutOpen ? 'rotate-180' : ''}`} />
               </button>
-              
+
               {isAboutOpen && (
                 <div className="absolute top-full left-0 pt-2 z-[100]">
                   <div className="w-48 bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in">
@@ -289,38 +265,22 @@ const Header = () => {
             </Link>
           </nav>
 
-          {/* Search button with dropdown */}
-          <div ref={searchRef} className="hidden md:block relative">
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-10 w-10 rounded-lg"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
-              <Search className="h-5 w-5" />
-            </Button>
-            
-            {isSearchOpen && (
-              <div className="absolute top-full right-0 mt-2 z-[100] animate-fade-in">
-                <form onSubmit={handleSearch} className="flex bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
-                  <Input
-                    type="text"
-                    placeholder="Поиск товаров..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-64 border-0 focus-visible:ring-0 h-11"
-                    autoFocus
-                  />
-                  <Button
-                    type="submit"
-                    className="rounded-none gradient-primary h-11 px-4"
-                  >
-                    <Search className="h-5 w-5" />
-                  </Button>
-                </form>
-              </div>
-            )}
-          </div>
+          {/* Desktop inline search */}
+          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md mx-2 lg:mx-4">
+            <div className="flex w-full bg-muted border border-border rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary/40">
+              <Input
+                type="text"
+                placeholder="Поиск по сайту..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="flex-1 border-0 bg-transparent focus-visible:ring-0 h-11 text-base"
+              />
+              <Button type="submit" className="rounded-none gradient-primary h-11 px-4 shrink-0">
+                <Search className="h-5 w-5" />
+              </Button>
+            </div>
+          </form>
+
 
           {/* Actions */}
           <div className="flex items-center gap-1 md:gap-4">
@@ -402,43 +362,20 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="lg:hidden border-t border-border bg-card animate-fade-in max-h-[70vh] overflow-y-auto">
             <nav className="container py-4 flex flex-col gap-2">
-              {/* Catalog with accordion */}
-              <div className="border-b border-border pb-4">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIsMobileCatalogOpen(!isMobileCatalogOpen);
-                  }}
-                  className="flex items-center justify-between w-full px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                >
-                  <span className="flex items-center gap-2">
-                    <Menu className="h-5 w-5" />
-                    Каталог
-                  </span>
-                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isMobileCatalogOpen ? 'rotate-180' : ''}`} />
-                </button>
-                {isMobileCatalogOpen && (
-                  <div className="pl-4 mt-2 space-y-1 animate-fade-in">
-                    {catalogCategories.map((category) => (
-                      <Link
-                        key={category.name}
-                        to={category.href}
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                        onClick={() => {
-                          setIsMobileCatalogOpen(false);
-                          setIsMobileMenuOpen(false);
-                        }}
-                      >
-                        <span className="text-base">{category.icon}</span>
-                        {category.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-
+              <Link
+                to="/"
+                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Главная
+              </Link>
+              <Link
+                to="/catalog"
+                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Каталог
+              </Link>
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
@@ -449,8 +386,29 @@ const Header = () => {
                   {link.name}
                 </Link>
               ))}
+              <Link
+                to="/about"
+                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                О компании
+              </Link>
+              <Link
+                to="/news"
+                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Новости
+              </Link>
+              <Link
+                to="/contacts"
+                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Контакты
+              </Link>
               <div className="pt-4 border-t border-border mt-2">
-                <Button 
+                <Button
                   onClick={() => {
                     setIsCallbackModalOpen(true);
                     setIsMobileMenuOpen(false);
@@ -463,6 +421,7 @@ const Header = () => {
             </nav>
           </div>
         )}
+
       </div>
       
       {/* Callback Modal */}

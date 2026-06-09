@@ -718,31 +718,37 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   /* ============================================
-     16. TELEGRAM POPUP (через 30 сек)
+     16. MAX MINI-POPUP (через 4 сек)
      ============================================ */
-  if (!sessionStorage.getItem('tg-popup-dismissed')) {
+  if (!sessionStorage.getItem('max-popup-dismissed')) {
     setTimeout(function () {
-      if (sessionStorage.getItem('tg-popup-dismissed')) return;
-      var popup = document.createElement('div');
-      popup.id = 'tg-popup';
-      popup.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;max-width:320px;width:calc(100% - 48px);background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden;animation:tgSlideIn .5s ease-out';
-      popup.innerHTML = '<div style="position:relative;padding:20px">'
-        + '<button onclick="document.getElementById(\'tg-popup\').remove();sessionStorage.setItem(\'tg-popup-dismissed\',\'1\')" style="position:absolute;top:12px;right:12px;background:none;border:none;cursor:pointer;padding:4px;border-radius:50%;color:#9ca3af" aria-label="Закрыть">'
-        + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>'
-        + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">'
-        + '<svg width="20" height="20" viewBox="0 0 24 24" fill="#2AABEE"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>'
-        + '<span style="font-weight:600;font-size:14px">Telegram</span></div>'
-        + '<p style="font-size:14px;margin:0 0 16px;padding-right:16px;line-height:1.4">Добавляйтесь в наш телеграм-канал, чтобы быть в курсе всех событий.</p>'
-        + '<a href="https://t.me/skif_avto_38" target="_blank" rel="noopener" style="display:flex;justify-content:center"><img src="images/qr-telegram.jpg" alt="QR-код @skif_avto_38" style="width:100%;max-width:260px;object-fit:contain;border-radius:12px"></a>'
-        + '<a href="https://t.me/skif_avto_38" target="_blank" rel="noopener" style="display:block;margin-top:16px;text-align:center;padding:10px;border-radius:12px;background:#2AABEE;color:#fff;font-weight:500;font-size:14px;text-decoration:none">Подписаться</a>'
-        + '</div>';
-      document.body.appendChild(popup);
-    }, 30000);
+      if (sessionStorage.getItem('max-popup-dismissed')) return;
+      var p = document.createElement('a');
+      p.id = 'max-popup';
+      p.href = 'https://max.ru/'; // TODO: реальная ссылка на канал
+      p.target = '_blank';
+      p.rel = 'noopener';
+      p.style.cssText = 'position:fixed;bottom:16px;right:16px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;background:#fff;border:1px solid #e5e7eb;border-radius:9999px;box-shadow:0 10px 25px -5px rgba(0,0,0,.18);text-decoration:none;color:#0d1821;font-family:inherit;animation:maxSlideIn .4s ease-out';
+      p.innerHTML =
+        '<img src="images/max-logo.png" alt="MAX" style="width:32px;height:32px;border-radius:8px;display:block">' +
+        '<span style="font-size:14px;font-weight:600">Мы в MAX</span>' +
+        '<button type="button" aria-label="Закрыть" id="max-popup-close" style="margin-left:4px;background:none;border:none;cursor:pointer;color:#9ca3af;padding:4px;border-radius:50%;line-height:0">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+        '</button>';
+      document.body.appendChild(p);
+      document.getElementById('max-popup-close').addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        sessionStorage.setItem('max-popup-dismissed', '1');
+        p.remove();
+      });
+    }, 4000);
   }
 
-  var tgStyle = document.createElement('style');
-  tgStyle.textContent = '@keyframes tgSlideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}';
-  document.head.appendChild(tgStyle);
+  var maxStyle = document.createElement('style');
+  maxStyle.textContent = '@keyframes maxSlideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}';
+  document.head.appendChild(maxStyle);
+
 
 });
 
