@@ -117,23 +117,24 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
             {/* Badges */}
             <div className="absolute top-2 left-2 flex flex-col gap-1">
               {isHit && (
-                <Badge className="gradient-accent text-accent-foreground font-bold text-xs">
-                  <Flame className="h-3 w-3 mr-1" />
+                <Badge className="gradient-accent text-accent-foreground font-bold text-sm px-2.5 py-1">
+                  <Flame className="h-4 w-4 mr-1" />
                   Хит
                 </Badge>
               )}
               {isNew && (
-                <Badge className="gradient-secondary text-secondary-foreground font-bold text-xs">
+                <Badge className="gradient-secondary text-secondary-foreground font-bold text-sm px-2.5 py-1">
                   Новинка
                 </Badge>
               )}
               {product.oldPrice && (
-                <Badge variant="destructive" className="font-bold text-xs">
+                <Badge variant="destructive" className="font-bold text-sm px-2.5 py-1">
                   -{discountPercent}%
                 </Badge>
               )}
             </div>
           </div>
+
 
           {/* Content */}
           <div className="flex-1 p-4 flex flex-col justify-center min-w-0">
@@ -214,22 +215,23 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-2">
             {isHit && (
-              <Badge className="gradient-accent text-accent-foreground font-bold">
-                <Flame className="h-3 w-3 mr-1" />
+              <Badge className="gradient-accent text-accent-foreground font-bold text-sm px-3 py-1.5">
+                <Flame className="h-4 w-4 mr-1" />
                 Хит
               </Badge>
             )}
             {isNew && (
-              <Badge className="gradient-secondary text-secondary-foreground font-bold">
+              <Badge className="gradient-secondary text-secondary-foreground font-bold text-sm px-3 py-1.5">
                 Новинка
               </Badge>
             )}
             {product.oldPrice && (
-              <Badge variant="destructive" className="font-bold text-sm">
+              <Badge variant="destructive" className="font-bold text-sm px-3 py-1.5">
                 -{discountPercent}%
               </Badge>
             )}
           </div>
+
           
           {/* Wishlist - higher z-index to be above overlay */}
           <button 
@@ -318,11 +320,12 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
           {/* Stock status */}
           <div className="mt-3">
             {inStock ? (
-              <span className="text-sm font-medium text-secondary">✓ В наличии</span>
+              <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-secondary/10 text-secondary text-base font-semibold">✓ В наличии</span>
             ) : (
-              <span className="text-sm font-medium text-muted-foreground">Под заказ</span>
+              <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-muted text-muted-foreground text-base font-semibold">Под заказ</span>
             )}
           </div>
+
         </div>
       </CardContent>
     </Card>
