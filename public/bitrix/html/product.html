@@ -489,6 +489,7 @@
   var panState = {
     isPointerDown: false,
     isDragging: false,
+    pointerId: null,
     startX: 0,
     startY: 0,
     startScrollLeft: 0,
@@ -510,6 +511,7 @@
       lbStage.style.justifyContent = 'center';
     }
     if (lbHint) lbHint.textContent = 'Клик для увеличения';
+    if (lbScroll) lbScroll.style.touchAction = 'auto';
     if (lbScroll) {
       lbScroll.scrollTop = 0;
       lbScroll.scrollLeft = 0;
@@ -536,6 +538,7 @@
       lbStage.style.display = 'block';
     }
     if (lbHint) lbHint.textContent = 'Клик чтобы уменьшить';
+    if (lbScroll) lbScroll.style.touchAction = 'none';
     requestAnimationFrame(function() {
       lbScroll.scrollLeft = Math.max(0, (zoomW - lbScroll.clientWidth) / 2);
       lbScroll.scrollTop = Math.max(0, (zoomH - lbScroll.clientHeight) / 2);
@@ -566,6 +569,10 @@
   }
   function endPan() {
     panState.isPointerDown = false;
+    if (panState.pointerId !== null && lbScroll && lbScroll.hasPointerCapture && lbScroll.hasPointerCapture(panState.pointerId)) {
+      lbScroll.releasePointerCapture(panState.pointerId);
+    }
+    panState.pointerId = null;
     requestAnimationFrame(function() {
       panState.isDragging = false;
     });
@@ -576,13 +583,16 @@
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       panState.isPointerDown = true;
       panState.isDragging = false;
+      panState.pointerId = e.pointerId;
       panState.startX = e.clientX;
       panState.startY = e.clientY;
       panState.startScrollLeft = lbScroll.scrollLeft;
       panState.startScrollTop = lbScroll.scrollTop;
+      if (lbScroll.setPointerCapture) lbScroll.setPointerCapture(e.pointerId);
     });
     lbScroll.addEventListener('pointermove', function(e) {
       if (!panState.isPointerDown || !zoomed) return;
+      if (panState.pointerId !== null && e.pointerId !== panState.pointerId) return;
       var deltaX = e.clientX - panState.startX;
       var deltaY = e.clientY - panState.startY;
       if (!panState.isDragging && Math.hypot(deltaX, deltaY) > 6) {
