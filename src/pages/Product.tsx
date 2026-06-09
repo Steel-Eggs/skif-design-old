@@ -83,6 +83,14 @@ const mockProduct = {
     "Документы для ГИБДД",
     "Рессорная подвеска",
   ],
+  // Маркетинговая плашка — заполняется вручную в Битрикс
+  // (свойства UF_MARKETING_TEXT / UF_MARKETING_TONE / UF_MARKETING_ICON).
+  // Если оставить text пустым — плашка не показывается.
+  marketing: {
+    text: "Этот товар в этом месяце купили уже 12 раз",
+    tone: "blue" as const,        // blue | amber | green | purple
+    icon: "trending" as const,    // trending | tag | award | trophy | sparkles
+  },
 };
 
 // Additional options/accessories
@@ -330,7 +338,12 @@ const Product = () => {
                   {product.name}
                 </h1>
                 
-                <MarketingBadge productId={productId ?? product.id} variant="detail" />
+                <MarketingBadge
+                  text={product.marketing?.text}
+                  tone={product.marketing?.tone}
+                  icon={product.marketing?.icon}
+                  variant="detail"
+                />
                 
                 {/* Features badges - wrap on mobile instead of scroll */}
                 <div className="flex flex-wrap gap-1 md:gap-2">
