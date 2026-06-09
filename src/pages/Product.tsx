@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { 
   ChevronLeft, ChevronRight, ShoppingCart, Phone, Heart,
@@ -134,6 +134,9 @@ const Product = () => {
   const [zoomedIn, setZoomedIn] = useState(false);
   const [isCallbackOpen, setIsCallbackOpen] = useState(false);
   const [selectedAccessories, setSelectedAccessories] = useState<number[]>([]);
+  const zoomScrollRef = useRef<HTMLDivElement | null>(null);
+  const zoomStageRef = useRef<HTMLDivElement | null>(null);
+  const zoomImgRef = useRef<HTMLImageElement | null>(null);
   
   const { isFavorite, toggleFavorite } = useFavorites();
   const [isInFavorites, setIsInFavorites] = useState(false);
@@ -201,6 +204,57 @@ const Product = () => {
   const separateTotal = product.price + accessoriesTotal;
   const bundleDiscount = selectedAccessories.length >= 2 ? Math.round(accessoriesTotal * 0.05) : 0;
   const bundleTotal = separateTotal - bundleDiscount;
+
+  useEffect(() => {
+    if (!isZoomOpen) return;
+
+    const syncZoomLayout = () => {
+      const scroll = zoomScrollRef.current;
+      const stage = zoomStageRef.current;
+      const img = zoomImgRef.current;
+      if (!scroll || !stage || !img) return;
+
+      if (!zoomedIn) {
+        stage.style.width = "100%";
+        stage.style.minHeight = "100%";
+        stage.style.display = "flex";
+        stage.style.alignItems = "center";
+        stage.style.justifyContent = "center";
+        img.style.width = "";
+        img.style.height = "";
+        img.style.maxWidth = "100%";
+        img.style.maxHeight = "92vh";
+        scroll.scrollLeft = 0;
+        scroll.scrollTop = 0;
+        return;
+      }
+
+      const naturalW = img.naturalWidth || img.clientWidth || 1;
+      const naturalH = img.naturalHeight || img.clientHeight || 1;
+      const viewportW = Math.max(scroll.clientWidth - 32, 1);
+      const viewportH = Math.max(Math.min(scroll.clientHeight - 32, window.innerHeight * 0.92), 1);
+      const fitScale = Math.min(viewportW / naturalW, viewportH / naturalH) || 1;
+      const zoomW = Math.max(Math.round(naturalW * fitScale * 2.5), viewportW);
+      const zoomH = Math.max(Math.round(naturalH * fitScale * 2.5), viewportH);
+
+      stage.style.width = `${zoomW}px`;
+      stage.style.minHeight = `${zoomH}px`;
+      stage.style.display = "block";
+      img.style.maxWidth = "none";
+      img.style.maxHeight = "none";
+      img.style.width = `${zoomW}px`;
+      img.style.height = `${zoomH}px`;
+
+      requestAnimationFrame(() => {
+        scroll.scrollLeft = Math.max(0, (zoomW - scroll.clientWidth) / 2);
+        scroll.scrollTop = Math.max(0, (zoomH - scroll.clientHeight) / 2);
+      });
+    };
+
+    syncZoomLayout();
+    window.addEventListener("resize", syncZoomLayout);
+    return () => window.removeEventListener("resize", syncZoomLayout);
+  }, [isZoomOpen, zoomedIn, currentImageIndex]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background w-full max-w-[100vw] overflow-x-hidden">
@@ -598,7 +652,7 @@ const Product = () => {
       {/* Image zoom modal */}
       {isZoomOpen && (
         <div
-          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 overflow-auto"
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
           onClick={() => { setIsZoomOpen(false); setZoomedIn(false); }}
         >
           <button
@@ -622,21 +676,29 @@ const Product = () => {
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-white/10 text-white text-sm z-10 pointer-events-none">
             {zoomedIn ? "Клик чтобы уменьшить" : "Клик для увеличения"}
           </div>
-          <img
-            src={product.images[currentImageIndex]}
-            alt={product.name}
-            onClick={(e) => { e.stopPropagation(); setZoomedIn(z => !z); }}
-            onMouseMove={(e) => {
-              if (!zoomedIn) return;
-              const target = e.currentTarget;
-              const rect = target.getBoundingClientRect();
-              const x = ((e.clientX - rect.left) / rect.width) * 100;
-              const y = ((e.clientY - rect.top) / rect.height) * 100;
-              target.style.transformOrigin = `${x}% ${y}%`;
+          <div
+            ref={zoomScrollRef}
+            className="w-full h-full overflow-auto"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setIsZoomOpen(false);
+                setZoomedIn(false);
+              }
             }}
-            style={{ transform: zoomedIn ? "scale(2.5)" : "scale(1)", transformOrigin: zoomedIn ? undefined : "center" }}
-            className={`max-w-full max-h-[92vh] object-contain transition-transform duration-300 ${zoomedIn ? "cursor-zoom-out" : "cursor-zoom-in"}`}
-          />
+          >
+            <div
+              ref={zoomStageRef}
+              className="w-full min-h-full flex items-center justify-center p-4 box-border"
+            >
+              <img
+                ref={zoomImgRef}
+                src={product.images[currentImageIndex]}
+                alt={product.name}
+                onClick={(e) => { e.stopPropagation(); setZoomedIn(z => !z); }}
+                className={`${zoomedIn ? "cursor-zoom-out" : "cursor-zoom-in"} block object-contain`}
+              />
+            </div>
+          </div>
         </div>
       )}
 
