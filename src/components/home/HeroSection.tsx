@@ -148,6 +148,12 @@ const HeroSection = () => {
               </h1>
             </div>
 
+            {/* Badge */}
+            <div className="flex items-center justify-center lg:justify-start gap-2 text-sm font-semibold text-primary-foreground/90 bg-background/15 backdrop-blur-sm rounded-full px-4 py-1.5 w-fit border border-background/20">
+              <Award className="h-4 w-4 text-accent" />
+              <span>Более 15 лет на рынке</span>
+            </div>
+
             {/* Image */}
             <div className="relative">
               <div className="aspect-[16/9] lg:aspect-[16/8] xl:aspect-[16/7] rounded-2xl overflow-hidden border border-background/20 shadow-2xl relative">
