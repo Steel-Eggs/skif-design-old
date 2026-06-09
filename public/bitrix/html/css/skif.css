@@ -26,6 +26,16 @@
   --gradient-hero: linear-gradient(135deg, #0b4a7a 0%, #1f8f5a 100%);
 }
 
+html {
+  font-size: 17px;
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+}
+
 /* Gradient utilities (Tailwind CDN can't generate these) */
 .gradient-primary { background: var(--gradient-primary) !important; }
 .gradient-secondary { background: var(--gradient-secondary) !important; }
