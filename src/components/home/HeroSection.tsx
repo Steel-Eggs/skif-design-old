@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight, ChevronRight as Arrow } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, ChevronRight as Arrow, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import trailerImage1 from "@/assets/products/trailer-1.jpg";
 import trailerImage2 from "@/assets/products/trailer-2.jpg";
