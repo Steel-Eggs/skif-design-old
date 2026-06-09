@@ -104,14 +104,14 @@ const HeroSection = () => {
             {/* Desktop: vertical list */}
             <nav className="hidden lg:flex flex-col divide-y divide-border flex-1">
               {heroCategories.map((c) => (
-                <Link
-                  key={c.name}
-                  to={c.href}
-                  className="flex items-center gap-3 px-5 py-[0.55rem] text-[0.95rem] font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
-                >
-                  <span className="flex-1 leading-tight">{c.name}</span>
-                  <Arrow className="h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </Link>
+                  <Link
+                    key={c.name}
+                    to={c.href}
+                    className="flex items-center gap-3 px-5 py-[0.7rem] text-[0.95rem] font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
+                  >
+                    <span className="flex-1 leading-tight">{c.name}</span>
+                    <Arrow className="h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                  </Link>
               ))}
             </nav>
 
