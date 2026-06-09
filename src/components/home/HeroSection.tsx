@@ -136,12 +136,12 @@ const HeroSection = () => {
           </aside>
 
           {/* SLIDER */}
-          <div className="lg:col-span-8 flex flex-col gap-4">
+          <div className="lg:col-span-8 flex flex-col gap-3">
             {/* Title */}
             <div className="text-center lg:text-left overflow-hidden">
               <h1
                 key={`title-${currentSlide}`}
-                className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-heading font-black leading-tight animate-slide-up"
+                className="text-2xl md:text-3xl lg:text-[2rem] xl:text-4xl font-heading font-black leading-tight animate-slide-up"
               >
                 {currentSlideData.title}{" "}
                 <span className="text-accent">{currentSlideData.highlight}</span>
@@ -149,8 +149,9 @@ const HeroSection = () => {
             </div>
 
             {/* Image */}
-            <div className="relative flex-1 min-h-0">
-              <div className="aspect-[16/9] lg:aspect-auto lg:h-full rounded-2xl overflow-hidden border border-background/20 shadow-2xl relative">
+            <div className="relative">
+              <div className="aspect-[16/9] lg:aspect-[16/8] xl:aspect-[16/7] rounded-2xl overflow-hidden border border-background/20 shadow-2xl relative">
+
                 {slides.map((slide, index) => (
                   <div
                     key={slide.id}
