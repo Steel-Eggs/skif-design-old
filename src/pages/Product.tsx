@@ -613,8 +613,16 @@ const Product = () => {
             src={product.images[currentImageIndex]}
             alt={product.name}
             onClick={(e) => { e.stopPropagation(); setZoomedIn(z => !z); }}
-            style={{ transform: zoomedIn ? "scale(2.5)" : "scale(1)" }}
-            className={`max-w-full max-h-[92vh] object-contain transition-transform duration-300 origin-center ${zoomedIn ? "cursor-zoom-out" : "cursor-zoom-in"}`}
+            onMouseMove={(e) => {
+              if (!zoomedIn) return;
+              const target = e.currentTarget;
+              const rect = target.getBoundingClientRect();
+              const x = ((e.clientX - rect.left) / rect.width) * 100;
+              const y = ((e.clientY - rect.top) / rect.height) * 100;
+              target.style.transformOrigin = `${x}% ${y}%`;
+            }}
+            style={{ transform: zoomedIn ? "scale(2.5)" : "scale(1)", transformOrigin: zoomedIn ? undefined : "center" }}
+            className={`max-w-full max-h-[92vh] object-contain transition-transform duration-300 ${zoomedIn ? "cursor-zoom-out" : "cursor-zoom-in"}`}
           />
         </div>
       )}
