@@ -616,10 +616,14 @@
   lbImg.addEventListener('click', function(e) {
     e.stopPropagation();
     if (panState.isDragging) return;
+    if (zoomedIn) return; // в увеличенном состоянии клик не сбрасывает зум — тяните для перемещения
     toggleZoom();
   });
   lbImg.addEventListener('load', syncZoomLayout);
-  lb.addEventListener('click', function(e) { if (e.target === lb || e.target === lbScroll) closeLb(); });
+  lb.addEventListener('click', function(e) {
+    if (zoomedIn) return;
+    if (e.target === lb || e.target === lbScroll) closeLb();
+  });
   window.addEventListener('resize', syncZoomLayout);
   document.addEventListener('keydown', function(e) {
     if (lb.style.display !== 'flex') return;
