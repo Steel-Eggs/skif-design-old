@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight, ChevronRight as Arrow } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, ChevronRight as Arrow, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import trailerImage1 from "@/assets/products/trailer-1.jpg";
 import trailerImage2 from "@/assets/products/trailer-2.jpg";
@@ -104,14 +104,14 @@ const HeroSection = () => {
             {/* Desktop: vertical list */}
             <nav className="hidden lg:flex flex-col divide-y divide-border flex-1">
               {heroCategories.map((c) => (
-                <Link
-                  key={c.name}
-                  to={c.href}
-                  className="flex items-center gap-3 px-5 py-[0.55rem] text-[0.95rem] font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
-                >
-                  <span className="flex-1 leading-tight">{c.name}</span>
-                  <Arrow className="h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </Link>
+                  <Link
+                    key={c.name}
+                    to={c.href}
+                    className="flex items-center gap-3 px-5 py-[0.7rem] text-[0.95rem] font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
+                  >
+                    <span className="flex-1 leading-tight">{c.name}</span>
+                    <Arrow className="h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                  </Link>
               ))}
             </nav>
 
@@ -146,6 +146,12 @@ const HeroSection = () => {
                 {currentSlideData.title}{" "}
                 <span className="text-accent">{currentSlideData.highlight}</span>
               </h1>
+            </div>
+
+            {/* Badge */}
+            <div className="flex items-center justify-center lg:justify-start gap-2 text-sm font-semibold text-primary-foreground/90 bg-background/15 backdrop-blur-sm rounded-full px-4 py-1.5 w-fit border border-background/20">
+              <Award className="h-4 w-4 text-accent" />
+              <span>Более 15 лет на рынке</span>
             </div>
 
             {/* Image */}
