@@ -404,8 +404,10 @@
     <button id="lightbox-next" aria-label="Следующее" style="position:absolute;right:1rem;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:9999px;background:rgba(255,255,255,0.15);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:2">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
     </button>
-    <div id="lightbox-scroll" style="width:100%;height:100%;overflow:auto;display:flex;align-items:center;justify-content:center">
-      <img id="lightbox-img" src="" alt="" style="max-width:100%;max-height:92vh;object-fit:contain;transition:transform 0.3s ease;cursor:zoom-in;transform:scale(1);transform-origin:center">
+    <div id="lightbox-scroll" style="width:100%;height:100%;overflow:auto">
+      <div id="lightbox-stage" style="width:100%;min-height:100%;display:flex;align-items:center;justify-content:center;padding:1rem;box-sizing:border-box">
+        <img id="lightbox-img" src="" alt="" style="display:block;max-width:100%;max-height:92vh;object-fit:contain;cursor:zoom-in">
+      </div>
     </div>
     <div id="lightbox-hint" style="position:absolute;bottom:1.25rem;left:50%;transform:translateX(-50%);color:#fff;font-size:0.875rem;opacity:0.75;pointer-events:none">Клик для увеличения</div>
   </div>
@@ -481,27 +483,78 @@
   var lbImg = document.getElementById('lightbox-img');
   var lbHint = document.getElementById('lightbox-hint');
   var lbScroll = document.getElementById('lightbox-scroll');
+  var lbStage = document.getElementById('lightbox-stage');
   var zoomed = false;
+  var zoomScale = 2.5;
+  function resetZoomLayout() {
+    zoomed = false;
+    lbImg.style.width = '';
+    lbImg.style.height = '';
+    lbImg.style.maxWidth = '100%';
+    lbImg.style.maxHeight = '92vh';
+    lbImg.style.objectFit = 'contain';
+    lbImg.style.cursor = 'zoom-in';
+    if (lbStage) {
+      lbStage.style.width = '100%';
+      lbStage.style.minHeight = '100%';
+      lbStage.style.display = 'flex';
+      lbStage.style.alignItems = 'center';
+      lbStage.style.justifyContent = 'center';
+    }
+    if (lbHint) lbHint.textContent = 'Клик для увеличения';
+    if (lbScroll) {
+      lbScroll.scrollTop = 0;
+      lbScroll.scrollLeft = 0;
+    }
+  }
+  function applyZoomLayout() {
+    if (!lbScroll) return;
+    var naturalW = lbImg.naturalWidth || lbImg.width || 1;
+    var naturalH = lbImg.naturalHeight || lbImg.height || 1;
+    var viewportW = Math.max(lbScroll.clientWidth - 32, 1);
+    var viewportH = Math.max(Math.min(lbScroll.clientHeight - 32, window.innerHeight * 0.92), 1);
+    var fitScale = Math.min(viewportW / naturalW, viewportH / naturalH);
+    if (!isFinite(fitScale) || fitScale <= 0) fitScale = 1;
+    var zoomW = Math.max(Math.round(naturalW * fitScale * zoomScale), viewportW);
+    var zoomH = Math.max(Math.round(naturalH * fitScale * zoomScale), viewportH);
+    lbImg.style.maxWidth = 'none';
+    lbImg.style.maxHeight = 'none';
+    lbImg.style.width = zoomW + 'px';
+    lbImg.style.height = zoomH + 'px';
+    lbImg.style.cursor = 'zoom-out';
+    if (lbStage) {
+      lbStage.style.width = zoomW + 'px';
+      lbStage.style.minHeight = zoomH + 'px';
+      lbStage.style.display = 'block';
+    }
+    if (lbHint) lbHint.textContent = 'Клик чтобы уменьшить';
+    requestAnimationFrame(function() {
+      lbScroll.scrollLeft = Math.max(0, (zoomW - lbScroll.clientWidth) / 2);
+      lbScroll.scrollTop = Math.max(0, (zoomH - lbScroll.clientHeight) / 2);
+    });
+  }
+  function syncZoomLayout() {
+    if (lb.style.display !== 'flex') return;
+    if (zoomed) applyZoomLayout();
+    else resetZoomLayout();
+  }
   function openLb(idx) {
     if (typeof idx === 'number') current = (idx + images.length) % images.length;
     lbImg.src = images[current];
-    lbImg.style.transform = 'scale(1)';
-    lbImg.style.cursor = 'zoom-in';
-    if (lbHint) lbHint.textContent = 'Клик для увеличения';
-    zoomed = false;
+    resetZoomLayout();
     lb.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    if (lbImg.complete) requestAnimationFrame(syncZoomLayout);
   }
   function closeLb() {
     lb.style.display = 'none';
     document.body.style.overflow = '';
+    resetZoomLayout();
   }
   function toggleZoom() {
     zoomed = !zoomed;
-    lbImg.style.transform = zoomed ? 'scale(2.5)' : 'scale(1)';
-    lbImg.style.cursor = zoomed ? 'zoom-out' : 'zoom-in';
-    if (lbHint) lbHint.textContent = zoomed ? 'Клик чтобы уменьшить' : 'Клик для увеличения';
-    if (!zoomed && lbScroll) { lbScroll.scrollTop = 0; lbScroll.scrollLeft = 0; }
+    if (zoomed) applyZoomLayout();
+    else resetZoomLayout();
   }
   mainImg.style.cursor = 'zoom-in';
   mainImg.addEventListener('click', function() { openLb(current); });
@@ -509,7 +562,9 @@
   document.getElementById('lightbox-prev').addEventListener('click', function(e) { e.stopPropagation(); openLb(current - 1); });
   document.getElementById('lightbox-next').addEventListener('click', function(e) { e.stopPropagation(); openLb(current + 1); });
   lbImg.addEventListener('click', function(e) { e.stopPropagation(); toggleZoom(); });
+  lbImg.addEventListener('load', syncZoomLayout);
   lb.addEventListener('click', function(e) { if (e.target === lb || e.target === lbScroll) closeLb(); });
+  window.addEventListener('resize', syncZoomLayout);
   document.addEventListener('keydown', function(e) {
     if (lb.style.display !== 'flex') return;
     if (e.key === 'Escape') closeLb();

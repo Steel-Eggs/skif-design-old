@@ -4,6 +4,12 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+  document.querySelectorAll('#price-notification-overlay').forEach(function (el) {
+    el.remove();
+  });
+
+  window.closePriceNotice = function () {};
+
   /* ============================================
      1. МОБИЛЬНОЕ МЕНЮ
      ============================================ */
