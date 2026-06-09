@@ -531,13 +531,13 @@
     lbImg.style.maxHeight = 'none';
     lbImg.style.width = zoomW + 'px';
     lbImg.style.height = zoomH + 'px';
-    lbImg.style.cursor = 'zoom-out';
+    lbImg.style.cursor = 'grab';
     if (lbStage) {
       lbStage.style.width = zoomW + 'px';
       lbStage.style.minHeight = zoomH + 'px';
       lbStage.style.display = 'block';
     }
-    if (lbHint) lbHint.textContent = 'Клик чтобы уменьшить';
+    if (lbHint) lbHint.textContent = 'Тяните, чтобы перемещаться';
     if (lbScroll) lbScroll.style.touchAction = 'none';
     requestAnimationFrame(function() {
       lbScroll.scrollLeft = Math.max(0, (zoomW - lbScroll.clientWidth) / 2);
@@ -616,13 +616,13 @@
   lbImg.addEventListener('click', function(e) {
     e.stopPropagation();
     if (panState.isDragging) return;
-    if (zoomedIn) return; // в увеличенном состоянии клик не сбрасывает зум — тяните для перемещения
+    if (zoomed) return;
     toggleZoom();
   });
   lbImg.addEventListener('load', syncZoomLayout);
   lb.addEventListener('click', function(e) {
-    if (zoomedIn) return;
-    if (e.target === lb || e.target === lbScroll) closeLb();
+    if (zoomed || panState.isDragging) return;
+    if (e.target === lb || e.target === lbScroll || e.target === lbStage) closeLb();
   });
   window.addEventListener('resize', syncZoomLayout);
   document.addEventListener('keydown', function(e) {

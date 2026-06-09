@@ -724,7 +724,15 @@ const Product = () => {
       {isZoomOpen && (
         <div
           className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
-          onClick={() => { setIsZoomOpen(false); setZoomedIn(false); }}
+          onClick={(e) => {
+            const isBackdropTarget =
+              e.target === e.currentTarget ||
+              e.target === zoomScrollRef.current ||
+              e.target === zoomStageRef.current;
+            if (!isBackdropTarget || zoomedIn || zoomPanRef.current.isDragging) return;
+            setIsZoomOpen(false);
+            setZoomedIn(false);
+          }}
         >
           <button
             onClick={(e) => { e.stopPropagation(); setIsZoomOpen(false); setZoomedIn(false); }}
@@ -751,7 +759,10 @@ const Product = () => {
             ref={zoomScrollRef}
             className={`w-full h-full overflow-auto ${zoomedIn ? "touch-none cursor-grab active:cursor-grabbing" : ""}`}
             onClick={(e) => {
-              if (zoomedIn) return;
+              if (zoomedIn || zoomPanRef.current.isDragging) {
+                e.stopPropagation();
+                return;
+              }
               if (e.target === e.currentTarget) {
                 setIsZoomOpen(false);
                 setZoomedIn(false);
