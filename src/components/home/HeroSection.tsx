@@ -91,7 +91,7 @@ const HeroSection = () => {
         }} />
       </div>
 
-      <div className="container relative py-6 md:py-8 lg:py-10">
+      <div className="container relative pt-6 md:pt-8 lg:pt-10 pb-14 md:pb-16 lg:pb-20">
         <div className="grid gap-5 lg:gap-6 lg:grid-cols-12 items-stretch">
 
           {/* CATALOG */}
@@ -235,7 +235,7 @@ const HeroSection = () => {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 -mb-px pointer-events-none">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-10 md:h-12 block">
           <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))" />
         </svg>
       </div>
