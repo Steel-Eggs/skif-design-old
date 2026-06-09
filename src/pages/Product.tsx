@@ -745,12 +745,13 @@ const Product = () => {
             <ChevronRight className="w-8 h-8" />
           </button>
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-white/10 text-white text-sm z-10 pointer-events-none">
-            {zoomedIn ? "Клик чтобы уменьшить" : "Клик для увеличения"}
+            {zoomedIn ? "Тяните, чтобы перемещаться" : "Клик для увеличения"}
           </div>
           <div
             ref={zoomScrollRef}
             className={`w-full h-full overflow-auto ${zoomedIn ? "touch-none cursor-grab active:cursor-grabbing" : ""}`}
             onClick={(e) => {
+              if (zoomedIn) return;
               if (e.target === e.currentTarget) {
                 setIsZoomOpen(false);
                 setZoomedIn(false);
@@ -768,10 +769,11 @@ const Product = () => {
                 draggable={false}
                 onClick={(e) => {
                   e.stopPropagation();
+                  if (zoomedIn) return;
                   if (zoomPanRef.current.isDragging) return;
-                  setZoomedIn(z => !z);
+                  setZoomedIn(true);
                 }}
-                className={`${zoomedIn ? "cursor-zoom-out" : "cursor-zoom-in"} block object-contain`}
+                className={`${zoomedIn ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-in"} block object-contain select-none`}
               />
             </div>
           </div>
