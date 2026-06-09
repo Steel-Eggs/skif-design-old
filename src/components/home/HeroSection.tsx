@@ -91,7 +91,7 @@ const HeroSection = () => {
         }} />
       </div>
 
-      <div className="container relative py-6 md:py-8 lg:py-10">
+      <div className="container relative pt-6 md:pt-8 lg:pt-10 pb-14 md:pb-16 lg:pb-20">
         <div className="grid gap-5 lg:gap-6 lg:grid-cols-12 items-stretch">
 
           {/* CATALOG */}
