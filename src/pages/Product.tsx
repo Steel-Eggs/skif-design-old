@@ -140,6 +140,7 @@ const Product = () => {
   const zoomPanRef = useRef({
     isPointerDown: false,
     isDragging: false,
+    pointerId: null as number | null,
     startX: 0,
     startY: 0,
     startScrollLeft: 0,
@@ -223,6 +224,7 @@ const Product = () => {
       if (!scroll || !stage || !img) return;
 
       if (!zoomedIn) {
+        scroll.style.touchAction = "auto";
         stage.style.width = "100%";
         stage.style.minHeight = "100%";
         stage.style.display = "flex";
@@ -245,6 +247,7 @@ const Product = () => {
       const zoomW = Math.max(Math.round(naturalW * fitScale * 2.5), viewportW);
       const zoomH = Math.max(Math.round(naturalH * fitScale * 2.5), viewportH);
 
+      scroll.style.touchAction = "none";
       stage.style.width = `${zoomW}px`;
       stage.style.minHeight = `${zoomH}px`;
       stage.style.display = "block";
@@ -271,7 +274,11 @@ const Product = () => {
     const state = zoomPanRef.current;
 
     const endPan = () => {
+      if (state.pointerId !== null && scroll.hasPointerCapture?.(state.pointerId)) {
+        scroll.releasePointerCapture(state.pointerId);
+      }
       state.isPointerDown = false;
+      state.pointerId = null;
       requestAnimationFrame(() => {
         state.isDragging = false;
       });
@@ -281,14 +288,17 @@ const Product = () => {
       if (event.pointerType === "mouse" && event.button !== 0) return;
       state.isPointerDown = true;
       state.isDragging = false;
+      state.pointerId = event.pointerId;
       state.startX = event.clientX;
       state.startY = event.clientY;
       state.startScrollLeft = scroll.scrollLeft;
       state.startScrollTop = scroll.scrollTop;
+      scroll.setPointerCapture?.(event.pointerId);
     };
 
     const onPointerMove = (event: PointerEvent) => {
       if (!state.isPointerDown) return;
+      if (state.pointerId !== null && event.pointerId !== state.pointerId) return;
       const deltaX = event.clientX - state.startX;
       const deltaY = event.clientY - state.startY;
 
