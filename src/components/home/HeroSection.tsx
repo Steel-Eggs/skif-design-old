@@ -138,10 +138,10 @@ const HeroSection = () => {
           {/* SLIDER */}
           <div className="lg:col-span-8 flex flex-col gap-3">
             {/* Title */}
-            <div className="text-center lg:text-left overflow-hidden">
+            <div className="text-center lg:text-left overflow-hidden mb-6">
               <h1
                 key={`title-${currentSlide}`}
-                className="text-2xl md:text-3xl lg:text-[2rem] xl:text-4xl font-heading font-black leading-tight animate-slide-up"
+                className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-black leading-tight animate-slide-up"
               >
                 {currentSlideData.title}{" "}
                 <span className="text-accent">{currentSlideData.highlight}</span>
