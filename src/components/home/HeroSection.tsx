@@ -222,7 +222,7 @@ const HeroSection = () => {
             {/* Buttons */}
             <div
               key={`buttons-${currentSlide}`}
-              className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-fade-in-up"
+              className="flex flex-col sm:flex-row items-center lg:items-start gap-3 justify-center lg:justify-start animate-fade-in-up"
             >
               <Link to={currentSlideData.buttonLink}>
                 <Button size="lg" className="gradient-accent text-accent-foreground font-bold text-base px-6 hover:opacity-90 shadow-lg">
