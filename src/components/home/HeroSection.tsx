@@ -207,6 +207,28 @@ const HeroSection = () => {
                 </Button>
               </Link>
             </div>
+
+            {/* Slide dots */}
+            <div className="flex items-center justify-center lg:justify-start gap-2">
+              {slides.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  onClick={() => {
+                    if (index !== currentSlide) {
+                      changeSlide(index);
+                      setIsAutoPlaying(false);
+                      setTimeout(() => setIsAutoPlaying(true), 10000);
+                    }
+                  }}
+                  className={`h-3 rounded-full transition-all duration-300 ${
+                    index === currentSlide
+                      ? 'w-8 bg-accent'
+                      : 'w-3 bg-primary-foreground/40 hover:bg-primary-foreground/60'
+                  }`}
+                  aria-label={`Перейти к слайду ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
