@@ -64,105 +64,6 @@
     <div class="container flex items-center justify-between py-2 md:py-3 gap-2 md:gap-3">
       <a href="index.html" class="flex items-center shrink-0"><img src="images/logo-new.png" alt="СКИФ" class="h-10 md:h-14 w-auto"></a>
       <nav class="hidden lg:flex items-center gap-0.5 desktop-nav">
-        <div class="relative" id="catalog-dropdown">
-          <button class="flex items-center gap-1.5 px-4 py-2 gradient-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-all">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-            Каталог
-            <svg class="h-3.5 w-3.5 transition-transform" id="catalog-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="mega-menu" id="mega-menu">
-            <div class="mega-menu-inner">
-              <div class="mega-menu-left">
-                <button class="mega-menu-cat-item" data-cat="sale"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg></span><span class="cat-name">Распродажа</span><span class="cat-badge bg-destructive text-destructive-foreground rounded-full px-1.5 py-0.5 text-[10px] font-bold">-30%</span></button>
-                <button class="mega-menu-cat-item active" data-cat="odnoosnye"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span><span class="cat-name">Одноосные</span></button>
-                <button class="mega-menu-cat-item" data-cat="dvuhosnye"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18h2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="7" cy="18" r="2"/><circle cx="19" cy="18" r="2"/></svg></span><span class="cat-name">Двухосные</span></button>
-                <button class="mega-menu-cat-item" data-cat="s-kryshkoy"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span><span class="cat-name">С крышкой</span></button>
-                <button class="mega-menu-cat-item" data-cat="platforma"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></span><span class="cat-name">Платформы</span></button>
-                <button class="mega-menu-cat-item" data-cat="gruzy"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><path d="M6.5 8a2 2 0 0 0-1.905 1.46L2.1 18.23A2 2 0 0 0 4 21h16a2 2 0 0 0 1.925-2.54L19.4 9.46A2 2 0 0 0 17.48 8Z"/></svg></span><span class="cat-name">Для грузов</span></button>
-                <button class="mega-menu-cat-item" data-cat="furgony"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="4" height="4" x="2" y="9"/><rect width="4" height="10" x="10" y="9"/><path d="M18 19V9a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v8a2 2 0 0 0 2 2h2"/><circle cx="8" cy="19" r="2"/><path d="M10 19h12v-2"/></svg></span><span class="cat-name">Фургоны</span></button>
-                <button class="mega-menu-cat-item" data-cat="kommercheskie"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></span><span class="cat-name">Коммерческие</span></button>
-                <button class="mega-menu-cat-item" data-cat="moto"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg></span><span class="cat-name">Для мототехники</span><span class="cat-badge bg-secondary text-secondary-foreground rounded-full px-1.5 py-0.5 text-[10px] font-bold">Хит</span></button>
-                <button class="mega-menu-cat-item" data-cat="lodki"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><circle cx="12" cy="5" r="3"/></svg></span><span class="cat-name">Для лодок</span><span class="cat-badge bg-secondary text-secondary-foreground rounded-full px-1.5 py-0.5 text-[10px] font-bold">Хит</span></button>
-                <button class="mega-menu-cat-item" data-cat="elektrostancii"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span><span class="cat-name">Электростанции</span></button>
-                <button class="mega-menu-cat-item" data-cat="evakuatory"><span class="cat-icon"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span><span class="cat-name">Эвакуаторы</span></button>
-                <div class="mega-menu-divider"></div>
-                <a href="catalog.html?cat=spectehnika" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span class="cat-name">Для спецтехники</span></a>
-                <a href="catalog.html?cat=bytovki" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="cat-name">Бытовки на колёсах</span></a>
-                <a href="catalog.html?cat=bu" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></span><span class="cat-name">Прицепы Б/У</span></a>
-                <a href="catalog.html?cat=prokat" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></span><span class="cat-name">Прицепы в прокат</span></a>
-                <a href="catalog.html?cat=proizvoditeli" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></span><span class="cat-name">По производителям</span></a>
-                <a href="catalog.html?cat=zapchasti" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span class="cat-name">Запчасти и аксессуары</span></a>
-                <a href="catalog.html?cat=boksy" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span><span class="cat-name">Боксы и багажники</span></a>
-                <a href="catalog.html?cat=snegohody" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg></span><span class="cat-name">Снегоходы</span></a>
-                <a href="catalog.html?cat=motobuksirovschiki" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg></span><span class="cat-name">Мотобуксировщики</span></a>
-                <a href="catalog.html?cat=zapchasti-moto" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v4"/><path d="M14 14h-4"/><path d="m14 18 4-4"/><path d="M17.37 5.63a4 4 0 1 0-5.74 5.57L6 17v3h3l5.8-5.8a4 4 0 0 0 5.57-5.74"/></svg></span><span class="cat-name">Запчасти для мотобуксировщиков</span></a>
-                <a href="catalog.html?cat=rybalka" class="mega-menu-cat-item"><span class="cat-icon"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6-3.56 0-7.56-2.53-8.5-6Z"/><path d="M18 12v.5"/><path d="M16 17.93a9.77 9.77 0 0 1-3.5.07"/><path d="M12.5 6a9.77 9.77 0 0 1 3.5.07"/><path d="m2 10 2 2-2 2"/></svg></span><span class="cat-name">Товары для рыбалки</span></a>
-              </div>
-              <div class="mega-menu-right">
-                <div class="mega-menu-header"><h3 id="mega-menu-cat-title">Одноосные</h3><a href="category.html">Смотреть все товары →</a></div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="odnoosnye" style="display:grid">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt="МЗСА 817711"></div><h4>МЗСА 817711.001-05</h4><div><span class="price">119 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt="Курганские"></div><h4>Курганские прицепы 8213B5</h4><div><span class="price">89 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt="СПУТНИК"></div><h4>СПУТНИК 821305</h4><div><span class="price">76 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt="ССТ 7132"></div><h4>ССТ 7132 Стандарт</h4><div><span class="price">82 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt="МЗСА 817701"></div><h4>МЗСА 817701 Эконом</h4><div><span class="price">69 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt="Курганский 8213"></div><h4>Курганский 8213 Базовый</h4><div><span class="price">74 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt="ВЕКТОР 82111"></div><h4>ВЕКТОР 82111</h4><div><span class="price">79 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt="СПУТНИК 821301"></div><h4>СПУТНИК 821301 Комфорт</h4><div><span class="price">94 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="sale" style="display:none">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt=""></div><h4>МЗСА 817711 со скидкой</h4><div><span class="price" style="color:hsl(0 84% 60%)">89 900 ₽</span> <span class="price-old">109 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>Курганский 8213B5</h4><div><span class="price" style="color:hsl(0 84% 60%)">64 900 ₽</span> <span class="price-old">79 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt=""></div><h4>Прицеп для лодки ПВХ</h4><div><span class="price" style="color:hsl(0 84% 60%)">45 900 ₽</span> <span class="price-old">59 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt=""></div><h4>СПУТНИК 821301</h4><div><span class="price" style="color:hsl(0 84% 60%)">54 900 ₽</span> <span class="price-old">69 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="dvuhosnye" style="display:none">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>МЗСА 832132.201</h4><div><span class="price">189 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt=""></div><h4>Курганские прицепы 8512</h4><div><span class="price">159 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt=""></div><h4>ССТ 7132 Двухосный</h4><div><span class="price">145 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>МЗСА 832134 Платформа</h4><div><span class="price">169 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="s-kryshkoy" style="display:none">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt=""></div><h4>МЗСА 817717 с крышкой</h4><div><span class="price">134 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>Курганский с ABS крышкой</h4><div><span class="price">115 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt=""></div><h4>СПУТНИК с крышкой</h4><div><span class="price">99 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt=""></div><h4>ССТ с пластиковой крышкой</h4><div><span class="price">109 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="platforma" style="display:none">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt=""></div><h4>Платформа МЗСА 832171</h4><div><span class="price">159 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>Платформа Курганская</h4><div><span class="price">139 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="furgony" style="display:none">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>Фургон МЗСА</h4><div><span class="price">219 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt=""></div><h4>Фургон Курганский</h4><div><span class="price">189 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="kommercheskie" style="display:none">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt=""></div><h4>Коммерческий МЗСА</h4><div><span class="price">249 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="moto" style="display:none">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>Для 2-х мотоциклов</h4><div><span class="price">89 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt=""></div><h4>Для квадроцикла</h4><div><span class="price">79 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="lodki" style="display:none">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt=""></div><h4>МЗСА для ПВХ лодок</h4><div><span class="price">79 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt=""></div><h4>Прицеп для катера до 6м</h4><div><span class="price">189 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="elektrostancii" style="display:none">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt=""></div><h4>Для электростанции</h4><div><span class="price">179 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="evakuatory" style="display:none">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>Прицеп-эвакуатор</h4><div><span class="price">289 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-info-bar">
-                  <div class="mega-menu-info-item"><span class="info-value">500+</span><span class="info-label">моделей<br>в наличии</span></div>
-                  <div class="mega-menu-info-item"><span class="info-value">0%</span><span class="info-label">рассрочка<br>до 24 мес</span></div>
-                  <div class="mega-menu-info-item" style="background:hsl(152 68% 42% / 0.1)"><span class="info-value">🚚</span><span class="info-label">доставка<br>по России</span></div>
-                  <a href="contacts.html" class="mega-menu-consult-btn gradient-primary">✨ Консультация</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="flex items-center gap-1 ml-2">
           <a href="services.html" class="flex items-center gap-1 px-3 py-2 text-foreground font-medium hover:text-primary transition-colors rounded-lg hover:bg-muted">Услуги</a>
           <a href="payment.html" class="flex items-center gap-1 px-3 py-2 text-foreground font-medium hover:text-primary transition-colors rounded-lg hover:bg-muted">Оплата</a>
@@ -181,17 +82,15 @@
         </div>
         <a href="contacts.html" class="flex items-center gap-1 px-3 py-2 text-foreground font-medium hover:text-primary transition-colors rounded-lg hover:bg-muted">Контакты</a>
       </nav>
-      <div class="hidden md:block relative desktop-search">
-        <button class="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors icon-btn" id="search-toggle-desktop">
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </button>
-        <div class="search-dropdown" id="search-dropdown">
-          <form class="search-dropdown-inner">
-            <input type="text" placeholder="Поиск товаров..." autocomplete="off">
-            <button type="submit"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
-          </form>
+      <!-- Desktop inline search -->
+      <form class="hidden md:flex flex-1 max-w-md mx-2 lg:mx-4" action="search.html" method="get">
+        <div class="flex w-full bg-muted border border-border rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary/40">
+          <input type="text" name="search" placeholder="Поиск по сайту..." class="flex-1 border-0 bg-transparent outline-none h-11 px-3 text-base" autocomplete="off">
+          <button type="submit" class="gradient-primary text-primary-foreground h-11 px-4 shrink-0 inline-flex items-center justify-center">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
         </div>
-      </div>
+      </form>
       <div class="flex items-center gap-1 md:gap-4">
         <button class="md:hidden h-9 w-9 inline-flex items-center justify-center mobile-search-btn" id="search-toggle-mobile">
           <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -223,20 +122,10 @@
   </div>
   <div class="mobile-nav" id="mobile-nav">
     <div class="p-4 flex flex-col gap-2">
-      <div class="border-b border-border pb-4">
-        <button type="button" class="flex items-center justify-between w-full px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors" id="mobile-catalog-toggle">
-          <span class="flex items-center gap-2"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>Каталог</span>
-          <svg class="h-4 w-4 transition-transform" id="mobile-catalog-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-        </button>
-        <div class="mobile-catalog-items" id="mobile-catalog-items">
-          <a href="category.html?cat=odnoosnye">🚗 Одноосные прицепы</a>
-          <a href="category.html?cat=dvuhosnye">🚙 Двухосные прицепы</a>
-          <a href="category.html?cat=s-kryshkoy">📦 Прицепы с крышкой</a>
-          <a href="category.html?cat=lodki">🚤 Для лодок и катеров</a>
-          <a href="category.html?cat=moto">🏍️ Для мототехники</a>
-          <a href="catalog.html?cat=zapchasti">🔩 Запчасти</a>
-        </div>
-      </div>
+        <a href="catalog.html" class="flex items-center gap-2 px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          Каталог
+        </a>
       <a href="services.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">Услуги</a>
       <a href="payment.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">Оплата</a>
       <a href="about.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">О компании</a>

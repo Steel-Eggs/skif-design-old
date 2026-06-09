@@ -52,49 +52,6 @@
     <div class="container flex items-center justify-between py-2 md:py-3 gap-2 md:gap-3">
       <a href="index.html" class="flex items-center shrink-0"><img src="images/logo-new.png" alt="СКИФ" class="h-10 md:h-14 w-auto"></a>
       <nav class="hidden lg:flex items-center gap-0.5 desktop-nav">
-        <div class="relative" id="catalog-dropdown">
-          <button class="flex items-center gap-1.5 px-4 py-2 gradient-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-all">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-            Каталог
-            <svg class="h-3.5 w-3.5 transition-transform" id="catalog-chevron" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="mega-menu" id="mega-menu">
-            <div class="mega-menu-inner">
-              <div class="mega-menu-left">
-                <button class="mega-menu-cat-item active" data-cat="odnoosnye"><span class="cat-icon">🚗</span><span class="cat-name">Одноосные</span></button>
-                <button class="mega-menu-cat-item" data-cat="dvuhosnye"><span class="cat-icon">🚙</span><span class="cat-name">Двухосные</span></button>
-                <button class="mega-menu-cat-item" data-cat="s-kryshkoy"><span class="cat-icon">📦</span><span class="cat-name">С крышкой</span></button>
-                <button class="mega-menu-cat-item" data-cat="platforma"><span class="cat-icon">🏗️</span><span class="cat-name">Платформы</span></button>
-                <button class="mega-menu-cat-item" data-cat="furgony"><span class="cat-icon">🚐</span><span class="cat-name">Фургоны</span></button>
-                <button class="mega-menu-cat-item" data-cat="lodki"><span class="cat-icon">🚤</span><span class="cat-name">Для лодок</span><span class="cat-badge bg-secondary text-secondary-foreground rounded-full px-1.5 py-0.5 text-[10px] font-bold">Хит</span></button>
-                <button class="mega-menu-cat-item" data-cat="evakuatory"><span class="cat-icon">⚠️</span><span class="cat-name">Эвакуаторы</span></button>
-                <div class="mega-menu-divider"></div>
-                <a href="catalog.html?cat=zapchasti" class="mega-menu-cat-item"><span class="cat-icon">🔩</span><span class="cat-name">Запчасти и аксессуары</span></a>
-              </div>
-              <div class="mega-menu-right">
-                <div class="mega-menu-header"><h3 id="mega-menu-cat-title">Одноосные</h3><a href="category.html">Смотреть все товары →</a></div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="odnoosnye" style="display:grid">
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt="МЗСА"></div><h4>МЗСА 817711.001-05</h4><div><span class="price">119 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt="Курганские"></div><h4>Курганские прицепы 8213B5</h4><div><span class="price">89 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt="СПУТНИК"></div><h4>СПУТНИК 821305</h4><div><span class="price">76 900 ₽</span></div></a>
-                  <a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt="ССТ"></div><h4>ССТ 7132 Стандарт</h4><div><span class="price">82 900 ₽</span></div></a>
-                </div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="dvuhosnye" style="display:none"><a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>МЗСА 832132.201</h4><div><span class="price">189 900 ₽</span></div></a></div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="s-kryshkoy" style="display:none"><a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt=""></div><h4>МЗСА 817717 с крышкой</h4><div><span class="price">134 900 ₽</span></div></a></div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="platforma" style="display:none"><a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-1.jpg" alt=""></div><h4>Платформа МЗСА 832171</h4><div><span class="price">159 900 ₽</span></div></a></div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="furgony" style="display:none"><a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>Фургон МЗСА</h4><div><span class="price">219 900 ₽</span></div></a></div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="lodki" style="display:none"><a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-3.jpg" alt=""></div><h4>МЗСА для ПВХ лодок</h4><div><span class="price">79 900 ₽</span></div></a></div>
-                <div class="mega-menu-products mega-menu-product-set" data-cat="evakuatory" style="display:none"><a href="product.html" class="mega-menu-product"><div class="mega-menu-product-img"><img src="images/trailer-2.jpg" alt=""></div><h4>Прицеп-эвакуатор</h4><div><span class="price">289 900 ₽</span></div></a></div>
-                <div class="mega-menu-info-bar">
-                  <div class="mega-menu-info-item"><span class="info-value">500+</span><span class="info-label">моделей<br>в наличии</span></div>
-                  <div class="mega-menu-info-item"><span class="info-value">0%</span><span class="info-label">рассрочка<br>до 24 мес</span></div>
-                  <div class="mega-menu-info-item" style="background:hsl(152 68% 42% / 0.1)"><span class="info-value">🚚</span><span class="info-label">доставка<br>по России</span></div>
-                  <a href="contacts.html" class="mega-menu-consult-btn gradient-primary">✨ Консультация</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="flex items-center gap-1 ml-2">
           <a href="services.html" class="flex items-center gap-1 px-3 py-2 text-foreground font-medium hover:text-primary transition-colors rounded-lg hover:bg-muted">Услуги</a>
           <a href="payment.html" class="flex items-center gap-1 px-3 py-2 text-foreground font-medium hover:text-primary transition-colors rounded-lg hover:bg-muted">Оплата</a>
@@ -105,10 +62,15 @@
         </div>
         <a href="contacts.html" class="flex items-center gap-1 px-3 py-2 text-foreground font-medium hover:text-primary transition-colors rounded-lg hover:bg-muted">Контакты</a>
       </nav>
-      <div class="hidden md:block relative desktop-search">
-        <button class="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors icon-btn" id="search-toggle-desktop"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
-        <div class="search-dropdown" id="search-dropdown"><form class="search-dropdown-inner" action="search.html"><input type="text" name="q" placeholder="Поиск товаров..." autocomplete="off"><button type="submit"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button></form></div>
-      </div>
+      <!-- Desktop inline search -->
+      <form class="hidden md:flex flex-1 max-w-md mx-2 lg:mx-4" action="search.html" method="get">
+        <div class="flex w-full bg-muted border border-border rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary/40">
+          <input type="text" name="search" placeholder="Поиск по сайту..." class="flex-1 border-0 bg-transparent outline-none h-11 px-3 text-base" autocomplete="off">
+          <button type="submit" class="gradient-primary text-primary-foreground h-11 px-4 shrink-0 inline-flex items-center justify-center">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+        </div>
+      </form>
       <div class="flex items-center gap-1 md:gap-4">
         <button class="md:hidden h-9 w-9 inline-flex items-center justify-center mobile-search-btn" id="search-toggle-mobile"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
         <a href="favorites.html"><button class="relative h-9 w-9 md:h-12 md:w-12 rounded-lg md:rounded-xl inline-flex items-center justify-center border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors icon-btn"><svg class="h-4 w-4 md:h-5 md:w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><span class="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs font-bold rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs icon-badge icon-badge-red favorites-counter" style="display:none">0</span></button></a>
@@ -120,17 +82,10 @@
     <div class="mobile-search" id="mobile-search"><form class="mobile-search-form relative" action="search.html"><input type="text" name="q" placeholder="Поиск товаров..." class="pr-10 bg-muted border-border" autocomplete="off"><button type="submit" class="absolute right-0 top-0 h-full px-3"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button></form></div>
     <div class="mobile-nav" id="mobile-nav">
       <div class="p-4 flex flex-col gap-2">
-        <div class="border-b border-border pb-4">
-          <button type="button" class="flex items-center justify-between w-full px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors" id="mobile-catalog-toggle"><span class="flex items-center gap-2"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>Каталог</span><svg class="h-4 w-4 transition-transform" id="mobile-catalog-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
-          <div class="mobile-catalog-items" id="mobile-catalog-items">
-            <a href="category.html?cat=odnoosnye">🚗 Одноосные прицепы</a>
-            <a href="category.html?cat=dvuhosnye">🚙 Двухосные прицепы</a>
-            <a href="category.html?cat=s-kryshkoy">📦 Прицепы с крышкой</a>
-            <a href="category.html?cat=lodki">🚤 Для лодок и катеров</a>
-            <a href="category.html?cat=moto">🏍️ Для мототехники</a>
-            <a href="catalog.html?cat=zapchasti">🔩 Запчасти</a>
-          </div>
-        </div>
+        <a href="catalog.html" class="flex items-center gap-2 px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          Каталог
+        </a>
         <a href="services.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">Услуги</a>
         <a href="payment.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">Оплата</a>
         <a href="about.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">О компании</a>
@@ -168,7 +123,12 @@
         <!-- Gallery -->
         <div class="space-y-3 md:space-y-4">
           <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted group" id="main-image-wrap">
-            <img src="images/trailer-1.jpg" alt="Прицеп ССТ-7132-мини" class="w-full h-full object-contain bg-muted p-2 transition-all duration-300" id="main-image">
+            <img src="images/trailer-1.jpg" alt="Прицеп ССТ-7132-мини" class="w-full h-full object-contain bg-muted p-2 transition-all duration-300 cursor-zoom-in" id="main-image" style="cursor:zoom-in">
+            <!-- Zoom hint -->
+            <div class="absolute bottom-4 right-4 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              Увеличить
+            </div>
             <!-- Badges -->
             <div class="absolute top-4 left-4 flex flex-col gap-2 z-10">
               <span class="gradient-accent text-accent-foreground font-bold inline-flex items-center px-3 py-1 rounded-full text-sm">-10%</span>
@@ -433,6 +393,22 @@
       </div>
     </div>
   </section>
+  <!-- Lightbox / Image zoom modal -->
+  <div id="image-lightbox" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;padding:1rem">
+    <button id="lightbox-close" aria-label="Закрыть" style="position:absolute;top:1rem;right:1rem;width:44px;height:44px;border-radius:9999px;background:rgba(255,255,255,0.15);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:2">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <button id="lightbox-prev" aria-label="Предыдущее" style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:9999px;background:rgba(255,255,255,0.15);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:2">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <button id="lightbox-next" aria-label="Следующее" style="position:absolute;right:1rem;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:9999px;background:rgba(255,255,255,0.15);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:2">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <div id="lightbox-scroll" style="width:100%;height:100%;overflow:auto;display:flex;align-items:center;justify-content:center">
+      <img id="lightbox-img" src="" alt="" style="max-width:100%;max-height:92vh;object-fit:contain;transition:transform 0.3s ease;cursor:zoom-in;transform:scale(1);transform-origin:center">
+    </div>
+    <div id="lightbox-hint" style="position:absolute;bottom:1.25rem;left:50%;transform:translateX(-50%);color:#fff;font-size:0.875rem;opacity:0.75;pointer-events:none">Клик для увеличения</div>
+  </div>
 </main>
 
 <!-- ==================== FOOTER ==================== -->
@@ -499,6 +475,48 @@
   thumbs.forEach(function(btn) {
     btn.addEventListener('click', function() { setImage(parseInt(this.dataset.idx)); });
   });
+
+  // ===== Lightbox with deep zoom =====
+  var lb = document.getElementById('image-lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  var lbHint = document.getElementById('lightbox-hint');
+  var lbScroll = document.getElementById('lightbox-scroll');
+  var zoomed = false;
+  function openLb(idx) {
+    if (typeof idx === 'number') current = (idx + images.length) % images.length;
+    lbImg.src = images[current];
+    lbImg.style.transform = 'scale(1)';
+    lbImg.style.cursor = 'zoom-in';
+    if (lbHint) lbHint.textContent = 'Клик для увеличения';
+    zoomed = false;
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    lb.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  function toggleZoom() {
+    zoomed = !zoomed;
+    lbImg.style.transform = zoomed ? 'scale(2.5)' : 'scale(1)';
+    lbImg.style.cursor = zoomed ? 'zoom-out' : 'zoom-in';
+    if (lbHint) lbHint.textContent = zoomed ? 'Клик чтобы уменьшить' : 'Клик для увеличения';
+    if (!zoomed && lbScroll) { lbScroll.scrollTop = 0; lbScroll.scrollLeft = 0; }
+  }
+  mainImg.style.cursor = 'zoom-in';
+  mainImg.addEventListener('click', function() { openLb(current); });
+  document.getElementById('lightbox-close').addEventListener('click', closeLb);
+  document.getElementById('lightbox-prev').addEventListener('click', function(e) { e.stopPropagation(); openLb(current - 1); });
+  document.getElementById('lightbox-next').addEventListener('click', function(e) { e.stopPropagation(); openLb(current + 1); });
+  lbImg.addEventListener('click', function(e) { e.stopPropagation(); toggleZoom(); });
+  lb.addEventListener('click', function(e) { if (e.target === lb || e.target === lbScroll) closeLb(); });
+  document.addEventListener('keydown', function(e) {
+    if (lb.style.display !== 'flex') return;
+    if (e.key === 'Escape') closeLb();
+    else if (e.key === 'ArrowLeft') openLb(current - 1);
+    else if (e.key === 'ArrowRight') openLb(current + 1);
+  });
+
 
   // Tabs
   var tabBtns = document.querySelectorAll('.tab-btn');
