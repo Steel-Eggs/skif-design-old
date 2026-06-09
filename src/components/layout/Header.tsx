@@ -362,43 +362,20 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="lg:hidden border-t border-border bg-card animate-fade-in max-h-[70vh] overflow-y-auto">
             <nav className="container py-4 flex flex-col gap-2">
-              {/* Catalog with accordion */}
-              <div className="border-b border-border pb-4">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIsMobileCatalogOpen(!isMobileCatalogOpen);
-                  }}
-                  className="flex items-center justify-between w-full px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                >
-                  <span className="flex items-center gap-2">
-                    <Menu className="h-5 w-5" />
-                    Каталог
-                  </span>
-                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isMobileCatalogOpen ? 'rotate-180' : ''}`} />
-                </button>
-                {isMobileCatalogOpen && (
-                  <div className="pl-4 mt-2 space-y-1 animate-fade-in">
-                    {catalogCategories.map((category) => (
-                      <Link
-                        key={category.name}
-                        to={category.href}
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                        onClick={() => {
-                          setIsMobileCatalogOpen(false);
-                          setIsMobileMenuOpen(false);
-                        }}
-                      >
-                        <span className="text-base">{category.icon}</span>
-                        {category.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-
+              <Link
+                to="/"
+                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Главная
+              </Link>
+              <Link
+                to="/catalog"
+                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Каталог
+              </Link>
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
@@ -409,8 +386,29 @@ const Header = () => {
                   {link.name}
                 </Link>
               ))}
+              <Link
+                to="/about"
+                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                О компании
+              </Link>
+              <Link
+                to="/news"
+                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Новости
+              </Link>
+              <Link
+                to="/contacts"
+                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Контакты
+              </Link>
               <div className="pt-4 border-t border-border mt-2">
-                <Button 
+                <Button
                   onClick={() => {
                     setIsCallbackModalOpen(true);
                     setIsMobileMenuOpen(false);
@@ -423,6 +421,7 @@ const Header = () => {
             </nav>
           </div>
         )}
+
       </div>
       
       {/* Callback Modal */}
