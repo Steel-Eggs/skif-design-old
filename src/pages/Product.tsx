@@ -123,6 +123,7 @@ const Product = () => {
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   const [isAnimating, setIsAnimating] = useState(false);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
+  const [zoomedIn, setZoomedIn] = useState(false);
   const [isCallbackOpen, setIsCallbackOpen] = useState(false);
   const [selectedAccessories, setSelectedAccessories] = useState<number[]>([]);
   
@@ -237,8 +238,10 @@ const Product = () => {
                     <img
                       src={product.images[currentImageIndex]}
                       alt={product.name}
-                      className="w-full h-full object-contain bg-muted p-2 transition-transform duration-500 group-hover:scale-105"
+                      onClick={() => { setZoomedIn(false); setIsZoomOpen(true); }}
+                      className="w-full h-full object-contain bg-muted p-2 transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"
                     />
+
                   </div>
                   
                   {/* Zoom button - always visible on mobile */}
@@ -581,36 +584,41 @@ const Product = () => {
       
       {/* Image zoom modal */}
       {isZoomOpen && (
-        <div 
-          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
-          onClick={() => setIsZoomOpen(false)}
+        <div
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 overflow-auto"
+          onClick={() => { setIsZoomOpen(false); setZoomedIn(false); }}
         >
           <button
-            onClick={() => setIsZoomOpen(false)}
-            className="absolute top-4 right-4 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+            onClick={(e) => { e.stopPropagation(); setIsZoomOpen(false); setZoomedIn(false); }}
+            className="fixed top-4 right-4 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors z-10"
           >
-            <X className="w-6 h-6" />
+            <X className="w-7 h-7" />
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); prevImage(); }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+            onClick={(e) => { e.stopPropagation(); prevImage(); setZoomedIn(false); }}
+            className="fixed left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors z-10"
           >
             <ChevronLeft className="w-8 h-8" />
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); nextImage(); }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+            onClick={(e) => { e.stopPropagation(); nextImage(); setZoomedIn(false); }}
+            className="fixed right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors z-10"
           >
             <ChevronRight className="w-8 h-8" />
           </button>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-white/10 text-white text-sm z-10 pointer-events-none">
+            {zoomedIn ? "Клик чтобы уменьшить" : "Клик для увеличения"}
+          </div>
           <img
             src={product.images[currentImageIndex]}
             alt={product.name}
-            className="max-w-full max-h-[90vh] object-contain"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => { e.stopPropagation(); setZoomedIn(z => !z); }}
+            style={{ transform: zoomedIn ? "scale(2.5)" : "scale(1)" }}
+            className={`max-w-full max-h-[92vh] object-contain transition-transform duration-300 origin-center ${zoomedIn ? "cursor-zoom-out" : "cursor-zoom-in"}`}
           />
         </div>
       )}
+
       
       {/* Callback modal */}
       <CallbackModal 
