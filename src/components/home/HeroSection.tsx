@@ -136,78 +136,76 @@ const HeroSection = () => {
           </aside>
 
           {/* SLIDER */}
-          <div className="lg:col-span-8 grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
-            <div className="space-y-6 text-center lg:text-left">
-              <div className="overflow-hidden">
-                <h1
-                  key={`title-${currentSlide}`}
-                  className="text-3xl md:text-4xl lg:text-5xl font-heading font-black leading-tight animate-slide-up"
-                >
-                  {currentSlideData.title}{" "}
-                  <span className="text-accent">{currentSlideData.highlight}</span>
-                </h1>
-              </div>
-
-              <div
-                key={`buttons-${currentSlide}`}
-                className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-fade-in-up"
+          <div className="lg:col-span-8 flex flex-col gap-6">
+            {/* Title */}
+            <div className="text-center lg:text-left overflow-hidden">
+              <h1
+                key={`title-${currentSlide}`}
+                className="text-3xl md:text-4xl lg:text-5xl font-heading font-black leading-tight animate-slide-up"
               >
-                <Link to={currentSlideData.buttonLink}>
-                  <Button size="lg" className="gradient-accent text-accent-foreground font-bold text-base px-6 hover:opacity-90 shadow-lg">
-                    {currentSlideData.buttonText}
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link to="/services">
-                  <Button size="lg" variant="outline" className="bg-background/10 border-2 border-background/30 text-primary-foreground font-bold text-base px-6 hover:bg-background/20 backdrop-blur-sm">
-                    Наши услуги
-                  </Button>
-                </Link>
-              </div>
+                {currentSlideData.title}{" "}
+                <span className="text-accent">{currentSlideData.highlight}</span>
+              </h1>
             </div>
 
             {/* Image */}
-            <div className="relative hidden lg:block">
-              <div className="relative">
-                <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-background/20 shadow-2xl relative">
-                  {slides.map((slide, index) => (
-                    <div
-                      key={slide.id}
-                      className={`absolute inset-0 transition-all duration-700 ease-out ${
-                        index === currentSlide
-                          ? 'opacity-100 scale-100 translate-x-0 z-10'
-                          : index === previousSlide
-                            ? 'opacity-0 scale-110 -translate-x-full z-0'
-                            : 'opacity-0 scale-95 translate-x-full z-0'
+            <div className="relative">
+              <div className="aspect-[16/10] rounded-2xl overflow-hidden border border-background/20 shadow-2xl relative">
+                {slides.map((slide, index) => (
+                  <div
+                    key={slide.id}
+                    className={`absolute inset-0 transition-all duration-700 ease-out ${
+                      index === currentSlide
+                        ? 'opacity-100 scale-100 translate-x-0 z-10'
+                        : index === previousSlide
+                          ? 'opacity-0 scale-110 -translate-x-full z-0'
+                          : 'opacity-0 scale-95 translate-x-full z-0'
+                    }`}
+                  >
+                    <img
+                      src={slide.image}
+                      alt={`${slide.title} ${slide.highlight}`}
+                      className={`w-full h-full object-cover transition-transform duration-[5000ms] ease-linear ${
+                        index === currentSlide && isAutoPlaying ? 'scale-110' : 'scale-100'
                       }`}
-                    >
-                      <img
-                        src={slide.image}
-                        alt={`${slide.title} ${slide.highlight}`}
-                        className={`w-full h-full object-cover transition-transform duration-[5000ms] ease-linear ${
-                          index === currentSlide && isAutoPlaying ? 'scale-110' : 'scale-100'
-                        }`}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  onClick={prevSlide}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all"
-                  aria-label="Предыдущий слайд"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                  onClick={nextSlide}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all"
-                  aria-label="Следующий слайд"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                  </div>
+                ))}
               </div>
+
+              <button
+                onClick={prevSlide}
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all"
+                aria-label="Предыдущий слайд"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all"
+                aria-label="Следующий слайд"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Buttons */}
+            <div
+              key={`buttons-${currentSlide}`}
+              className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-fade-in-up"
+            >
+              <Link to={currentSlideData.buttonLink}>
+                <Button size="lg" className="gradient-accent text-accent-foreground font-bold text-base px-6 hover:opacity-90 shadow-lg">
+                  {currentSlideData.buttonText}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link to="/services">
+                <Button size="lg" variant="outline" className="bg-background/10 border-2 border-background/30 text-primary-foreground font-bold text-base px-6 hover:bg-background/20 backdrop-blur-sm">
+                  Наши услуги
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
