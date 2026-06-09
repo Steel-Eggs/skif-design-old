@@ -91,26 +91,26 @@ const HeroSection = () => {
         }} />
       </div>
 
-      <div className="container relative py-8 md:py-12 lg:py-16">
-        <div className="grid gap-6 lg:gap-8 lg:grid-cols-12 items-stretch">
+      <div className="container relative py-6 md:py-8 lg:py-10">
+        <div className="grid gap-5 lg:gap-6 lg:grid-cols-12 items-stretch">
 
           {/* CATALOG */}
-          <aside className="lg:col-span-4 bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden">
-            <div className="px-5 py-4 gradient-primary text-primary-foreground">
-              <h2 className="text-xl md:text-2xl font-heading font-black">Каталог техники</h2>
-              <p className="text-sm opacity-90">Выберите категорию</p>
+          <aside className="lg:col-span-4 bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden flex flex-col">
+            <div className="px-5 py-3 gradient-primary text-primary-foreground">
+              <h2 className="text-lg md:text-xl font-heading font-black leading-tight">Каталог техники</h2>
+              <p className="text-xs opacity-90">Выберите категорию</p>
             </div>
 
             {/* Desktop: vertical list */}
-            <nav className="hidden lg:block divide-y divide-border">
+            <nav className="hidden lg:flex flex-col divide-y divide-border flex-1">
               {heroCategories.map((c) => (
                 <Link
                   key={c.name}
                   to={c.href}
-                  className="flex items-center gap-3 px-5 py-3 text-base font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
+                  className="flex items-center gap-3 px-5 py-[0.55rem] text-[0.95rem] font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
                 >
                   <span className="flex-1 leading-tight">{c.name}</span>
-                  <Arrow className="h-5 w-5 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                  <Arrow className="h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                 </Link>
               ))}
             </nav>
@@ -128,20 +128,20 @@ const HeroSection = () => {
               ))}
             </div>
 
-            <div className="p-4 border-t border-border bg-muted/50">
-              <Link to="/catalog" className="block text-center text-base font-bold text-primary hover:underline">
+            <div className="px-4 py-2 border-t border-border bg-muted/50">
+              <Link to="/catalog" className="block text-center text-sm font-bold text-primary hover:underline">
                 Весь каталог →
               </Link>
             </div>
           </aside>
 
           {/* SLIDER */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
+          <div className="lg:col-span-8 flex flex-col gap-4">
             {/* Title */}
             <div className="text-center lg:text-left overflow-hidden">
               <h1
                 key={`title-${currentSlide}`}
-                className="text-3xl md:text-4xl lg:text-5xl font-heading font-black leading-tight animate-slide-up"
+                className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-heading font-black leading-tight animate-slide-up"
               >
                 {currentSlideData.title}{" "}
                 <span className="text-accent">{currentSlideData.highlight}</span>
@@ -149,8 +149,8 @@ const HeroSection = () => {
             </div>
 
             {/* Image */}
-            <div className="relative">
-              <div className="aspect-[16/10] rounded-2xl overflow-hidden border border-background/20 shadow-2xl relative">
+            <div className="relative flex-1 min-h-0">
+              <div className="aspect-[16/9] lg:aspect-auto lg:h-full rounded-2xl overflow-hidden border border-background/20 shadow-2xl relative">
                 {slides.map((slide, index) => (
                   <div
                     key={slide.id}
@@ -176,39 +176,21 @@ const HeroSection = () => {
 
               <button
                 onClick={prevSlide}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all z-20"
                 aria-label="Предыдущий слайд"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all z-20"
                 aria-label="Следующий слайд"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
             </div>
 
-            {/* Buttons */}
-            <div
-              key={`buttons-${currentSlide}`}
-              className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-fade-in-up"
-            >
-              <Link to={currentSlideData.buttonLink}>
-                <Button size="lg" className="gradient-accent text-accent-foreground font-bold text-base px-6 hover:opacity-90 shadow-lg">
-                  {currentSlideData.buttonText}
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link to="/services">
-                <Button size="lg" variant="outline" className="bg-background/10 border-2 border-background/30 text-primary-foreground font-bold text-base px-6 hover:bg-background/20 backdrop-blur-sm">
-                  Наши услуги
-                </Button>
-              </Link>
-            </div>
-
-            {/* Slide dots */}
+            {/* Slide dots — directly under slider */}
             <div className="flex items-center justify-center lg:justify-start gap-2">
               {slides.map((slide, index) => (
                 <button
@@ -228,6 +210,24 @@ const HeroSection = () => {
                   aria-label={`Перейти к слайду ${index + 1}`}
                 />
               ))}
+            </div>
+
+            {/* Buttons */}
+            <div
+              key={`buttons-${currentSlide}`}
+              className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-fade-in-up"
+            >
+              <Link to={currentSlideData.buttonLink}>
+                <Button size="lg" className="gradient-accent text-accent-foreground font-bold text-base px-6 hover:opacity-90 shadow-lg">
+                  {currentSlideData.buttonText}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link to="/services">
+                <Button size="lg" variant="outline" className="bg-background/10 border-2 border-background/30 text-primary-foreground font-bold text-base px-6 hover:bg-background/20 backdrop-blur-sm">
+                  Наши услуги
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
