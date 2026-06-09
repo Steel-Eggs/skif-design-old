@@ -1,88 +1,64 @@
-import { useMemo } from "react";
-import { TrendingUp, Tag, Award, Trophy } from "lucide-react";
+import { TrendingUp, Tag, Award, Trophy, Sparkles } from "lucide-react";
 
-const MONTHS = [
-  "январе", "феврале", "марте", "апреле", "мае", "июне",
-  "июле", "августе", "сентябре", "октябре", "ноябре", "декабре",
-];
+/**
+ * Маркетинговая плашка товара.
+ *
+ * Текст и оформление задаются ВРУЧНУЮ через свойства товара в Битрикс:
+ *   — UF_MARKETING_TEXT  → text   (если пусто — плашка не выводится)
+ *   — UF_MARKETING_TONE  → tone   ("blue" | "amber" | "green" | "purple")
+ *   — UF_MARKETING_ICON  → icon   ("trending" | "tag" | "award" | "trophy" | "sparkles")
+ *
+ * Никакой авто-генерации больше нет — что админ написал, то и покажется.
+ */
 
-const STORAGE_KEY = "marketing-badge-by-product-v1";
-
-interface SessionData {
-  tipIndex: number;
-  count: number;
-  daysAgo: number;
-  discount: number;
-}
-
-const getSessionData = (productId: string | number): SessionData => {
-  const key = String(productId ?? "default");
-  let store: Record<string, SessionData> = {};
-  try {
-    const cached = sessionStorage.getItem(STORAGE_KEY);
-    if (cached) store = JSON.parse(cached) || {};
-  } catch {}
-  if (store[key]) return store[key];
-  const data: SessionData = {
-    tipIndex: Math.floor(Math.random() * 4),
-    count: 2 + Math.floor(Math.random() * 18),
-    daysAgo: 5 + Math.floor(Math.random() * 6),
-    discount: 5 + Math.floor(Math.random() * 11),
-  };
-  store[key] = data;
-  try {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(store));
-  } catch {}
-  return data;
+const TONES: Record<string, string> = {
+  blue: "bg-blue-100 text-blue-900 border-blue-300",
+  amber: "bg-amber-100 text-amber-950 border-amber-300",
+  green: "bg-green-100 text-green-900 border-green-300",
+  purple: "bg-purple-100 text-purple-900 border-purple-300",
 };
 
+const ICONS = {
+  trending: TrendingUp,
+  tag: Tag,
+  award: Award,
+  trophy: Trophy,
+  sparkles: Sparkles,
+} as const;
+
+export type MarketingBadgeTone = keyof typeof TONES;
+export type MarketingBadgeIcon = keyof typeof ICONS;
+
 interface MarketingBadgeProps {
-  productId?: number | string;
+  /** Текст из Битрикс. Если пусто/не задано — компонент ничего не рендерит. */
+  text?: string | null;
+  /** Цветовая тема плашки. */
+  tone?: MarketingBadgeTone;
+  /** Иконка слева от текста. */
+  icon?: MarketingBadgeIcon;
   variant?: "card" | "detail";
 }
 
-export const MarketingBadge = ({ productId = "default", variant = "card" }: MarketingBadgeProps) => {
-  const data = useMemo(() => {
-    const s = getSessionData(productId);
-    const now = new Date();
-    const month = MONTHS[now.getMonth()];
-    const year = now.getFullYear();
-    const lastYear = year - 1;
+export const MarketingBadge = ({
+  text,
+  tone = "blue",
+  icon = "trending",
+  variant = "card",
+}: MarketingBadgeProps) => {
+  const trimmed = (text ?? "").trim();
+  if (!trimmed) return null;
 
-    const soldDate = new Date();
-    soldDate.setDate(soldDate.getDate() - s.daysAgo);
-    const soldStr = soldDate.toLocaleDateString("ru-RU", { day: "numeric", month: "long" });
-
-    switch (s.tipIndex) {
-      case 0:
-        return { icon: TrendingUp, text: `Этот товар в ${month} ${year} купили уже ${s.count} раз`, tone: "blue" };
-      case 1:
-        return { icon: Tag, text: `Этот товар был продан ${soldStr} со скидкой ${s.discount}%`, tone: "amber" };
-      case 2:
-        return { icon: Award, text: "Этот товар — самый популярный среди наших клиентов!", tone: "green" };
-      default:
-        return { icon: Trophy, text: `Этот товар — был самым популярным в ${lastYear}!`, tone: "purple" };
-    }
-  }, [productId]);
-
-
-  const tones: Record<string, string> = {
-    blue: "bg-blue-100 text-blue-900 border-blue-300",
-    amber: "bg-amber-100 text-amber-950 border-amber-300",
-    green: "bg-green-100 text-green-900 border-green-300",
-    purple: "bg-purple-100 text-purple-900 border-purple-300",
-  };
-
-  const Icon = data.icon;
+  const Icon = ICONS[icon] ?? ICONS.trending;
+  const toneClass = TONES[tone] ?? TONES.blue;
 
   return (
     <div
-      className={`flex items-center gap-2 rounded-md border-2 px-3 py-2 shadow-sm ${tones[data.tone]} ${
+      className={`flex items-center gap-2 rounded-md border-2 px-3 py-2 shadow-sm ${toneClass} ${
         variant === "detail" ? "text-sm" : "text-xs sm:text-[13px]"
       } font-semibold leading-snug`}
     >
       <Icon className="shrink-0 h-4 w-4" />
-      <span>{data.text}</span>
+      <span>{trimmed}</span>
     </div>
   );
 };
