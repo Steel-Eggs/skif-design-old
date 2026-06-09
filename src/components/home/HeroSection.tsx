@@ -149,7 +149,7 @@ const HeroSection = () => {
             </div>
 
             {/* Badge */}
-            <div className="flex items-center justify-center lg:justify-start gap-2 text-sm font-semibold text-primary-foreground/90 bg-background/15 backdrop-blur-sm rounded-full px-4 py-1.5 w-fit border border-background/20">
+            <div className="flex items-center justify-center lg:justify-start gap-2 text-sm font-semibold text-primary-foreground/90 bg-background/15 backdrop-blur-sm rounded-full px-4 py-1.5 w-fit mx-auto lg:mx-0 border border-background/20">
               <Award className="h-4 w-4 text-accent" />
               <span>Более 15 лет на рынке</span>
             </div>
@@ -222,7 +222,7 @@ const HeroSection = () => {
             {/* Buttons */}
             <div
               key={`buttons-${currentSlide}`}
-              className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-fade-in-up"
+              className="flex flex-col sm:flex-row items-center lg:items-start gap-3 justify-center lg:justify-start animate-fade-in-up"
             >
               <Link to={currentSlideData.buttonLink}>
                 <Button size="lg" className="gradient-accent text-accent-foreground font-bold text-base px-6 hover:opacity-90 shadow-lg">
