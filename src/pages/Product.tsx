@@ -137,6 +137,15 @@ const Product = () => {
   const zoomScrollRef = useRef<HTMLDivElement | null>(null);
   const zoomStageRef = useRef<HTMLDivElement | null>(null);
   const zoomImgRef = useRef<HTMLImageElement | null>(null);
+  const zoomPanRef = useRef({
+    isPointerDown: false,
+    isDragging: false,
+    pointerId: null as number | null,
+    startX: 0,
+    startY: 0,
+    startScrollLeft: 0,
+    startScrollTop: 0,
+  });
   
   const { isFavorite, toggleFavorite } = useFavorites();
   const [isInFavorites, setIsInFavorites] = useState(false);
@@ -215,6 +224,7 @@ const Product = () => {
       if (!scroll || !stage || !img) return;
 
       if (!zoomedIn) {
+        scroll.style.touchAction = "auto";
         stage.style.width = "100%";
         stage.style.minHeight = "100%";
         stage.style.display = "flex";
@@ -237,6 +247,7 @@ const Product = () => {
       const zoomW = Math.max(Math.round(naturalW * fitScale * 2.5), viewportW);
       const zoomH = Math.max(Math.round(naturalH * fitScale * 2.5), viewportH);
 
+      scroll.style.touchAction = "none";
       stage.style.width = `${zoomW}px`;
       stage.style.minHeight = `${zoomH}px`;
       stage.style.display = "block";
@@ -254,6 +265,66 @@ const Product = () => {
     syncZoomLayout();
     window.addEventListener("resize", syncZoomLayout);
     return () => window.removeEventListener("resize", syncZoomLayout);
+  }, [isZoomOpen, zoomedIn, currentImageIndex]);
+
+  useEffect(() => {
+    const scroll = zoomScrollRef.current;
+    if (!scroll || !isZoomOpen || !zoomedIn) return;
+
+    const state = zoomPanRef.current;
+
+    const endPan = () => {
+      if (state.pointerId !== null && scroll.hasPointerCapture?.(state.pointerId)) {
+        scroll.releasePointerCapture(state.pointerId);
+      }
+      state.isPointerDown = false;
+      state.pointerId = null;
+      requestAnimationFrame(() => {
+        state.isDragging = false;
+      });
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      state.isPointerDown = true;
+      state.isDragging = false;
+      state.pointerId = event.pointerId;
+      state.startX = event.clientX;
+      state.startY = event.clientY;
+      state.startScrollLeft = scroll.scrollLeft;
+      state.startScrollTop = scroll.scrollTop;
+      scroll.setPointerCapture?.(event.pointerId);
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (!state.isPointerDown) return;
+      if (state.pointerId !== null && event.pointerId !== state.pointerId) return;
+      const deltaX = event.clientX - state.startX;
+      const deltaY = event.clientY - state.startY;
+
+      if (!state.isDragging && Math.hypot(deltaX, deltaY) > 6) {
+        state.isDragging = true;
+      }
+
+      if (!state.isDragging) return;
+      event.preventDefault();
+      scroll.scrollLeft = state.startScrollLeft - deltaX;
+      scroll.scrollTop = state.startScrollTop - deltaY;
+    };
+
+    scroll.addEventListener("pointerdown", onPointerDown);
+    scroll.addEventListener("pointermove", onPointerMove, { passive: false });
+    scroll.addEventListener("pointerup", endPan);
+    scroll.addEventListener("pointercancel", endPan);
+    scroll.addEventListener("pointerleave", endPan);
+
+    return () => {
+      scroll.removeEventListener("pointerdown", onPointerDown);
+      scroll.removeEventListener("pointermove", onPointerMove);
+      scroll.removeEventListener("pointerup", endPan);
+      scroll.removeEventListener("pointercancel", endPan);
+      scroll.removeEventListener("pointerleave", endPan);
+    };
   }, [isZoomOpen, zoomedIn, currentImageIndex]);
 
   return (
@@ -678,7 +749,7 @@ const Product = () => {
           </div>
           <div
             ref={zoomScrollRef}
-            className="w-full h-full overflow-auto"
+            className={`w-full h-full overflow-auto ${zoomedIn ? "touch-none cursor-grab active:cursor-grabbing" : ""}`}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
                 setIsZoomOpen(false);
@@ -694,7 +765,12 @@ const Product = () => {
                 ref={zoomImgRef}
                 src={product.images[currentImageIndex]}
                 alt={product.name}
-                onClick={(e) => { e.stopPropagation(); setZoomedIn(z => !z); }}
+                draggable={false}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (zoomPanRef.current.isDragging) return;
+                  setZoomedIn(z => !z);
+                }}
                 className={`${zoomedIn ? "cursor-zoom-out" : "cursor-zoom-in"} block object-contain`}
               />
             </div>
