@@ -186,6 +186,11 @@ html {
 .floating-feedback-btn:hover { transform:scale(1.1); }
 .floating-feedback-btn svg { width:1.5rem; height:1.5rem; }
 
+/* Disable legacy price notice popup in static HTML pages */
+#price-notification-overlay {
+  display: none !important;
+}
+
 /* Cookie consent */
 .cookie-consent { position:fixed; bottom:1rem; left:1rem; right:1rem; z-index:100; opacity:0; visibility:hidden; transform:translateY(20px); transition:opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease; }
 .cookie-consent.active { opacity:1; visibility:visible; transform:translateY(0); }
