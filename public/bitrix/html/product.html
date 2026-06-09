@@ -486,6 +486,14 @@
   var lbStage = document.getElementById('lightbox-stage');
   var zoomed = false;
   var zoomScale = 2.5;
+  var panState = {
+    isPointerDown: false,
+    isDragging: false,
+    startX: 0,
+    startY: 0,
+    startScrollLeft: 0,
+    startScrollTop: 0
+  };
   function resetZoomLayout() {
     zoomed = false;
     lbImg.style.width = '';
@@ -556,12 +564,50 @@
     if (zoomed) applyZoomLayout();
     else resetZoomLayout();
   }
+  function endPan() {
+    panState.isPointerDown = false;
+    requestAnimationFrame(function() {
+      panState.isDragging = false;
+    });
+  }
+  if (lbScroll) {
+    lbScroll.addEventListener('pointerdown', function(e) {
+      if (!zoomed) return;
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      panState.isPointerDown = true;
+      panState.isDragging = false;
+      panState.startX = e.clientX;
+      panState.startY = e.clientY;
+      panState.startScrollLeft = lbScroll.scrollLeft;
+      panState.startScrollTop = lbScroll.scrollTop;
+    });
+    lbScroll.addEventListener('pointermove', function(e) {
+      if (!panState.isPointerDown || !zoomed) return;
+      var deltaX = e.clientX - panState.startX;
+      var deltaY = e.clientY - panState.startY;
+      if (!panState.isDragging && Math.hypot(deltaX, deltaY) > 6) {
+        panState.isDragging = true;
+      }
+      if (!panState.isDragging) return;
+      e.preventDefault();
+      lbScroll.scrollLeft = panState.startScrollLeft - deltaX;
+      lbScroll.scrollTop = panState.startScrollTop - deltaY;
+    }, { passive: false });
+    lbScroll.addEventListener('pointerup', endPan);
+    lbScroll.addEventListener('pointercancel', endPan);
+    lbScroll.addEventListener('pointerleave', endPan);
+  }
   mainImg.style.cursor = 'zoom-in';
   mainImg.addEventListener('click', function() { openLb(current); });
   document.getElementById('lightbox-close').addEventListener('click', closeLb);
   document.getElementById('lightbox-prev').addEventListener('click', function(e) { e.stopPropagation(); openLb(current - 1); });
   document.getElementById('lightbox-next').addEventListener('click', function(e) { e.stopPropagation(); openLb(current + 1); });
-  lbImg.addEventListener('click', function(e) { e.stopPropagation(); toggleZoom(); });
+  lbImg.addEventListener('dragstart', function(e) { e.preventDefault(); });
+  lbImg.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (panState.isDragging) return;
+    toggleZoom();
+  });
   lbImg.addEventListener('load', syncZoomLayout);
   lb.addEventListener('click', function(e) { if (e.target === lb || e.target === lbScroll) closeLb(); });
   window.addEventListener('resize', syncZoomLayout);
