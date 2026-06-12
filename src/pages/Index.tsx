@@ -22,11 +22,11 @@ const Index = () => {
       <main className="overflow-x-hidden">
         <HeroSection />
         <PopularProductsSection />
+        <VideoShowcaseSection />
         <CategoriesSection />
         <PartsSection />
         <ServicesSection />
         <RentSection />
-        <VideoShowcaseSection />
         <NewsSection />
         <PartnersSection />
         <ReviewsSection />
