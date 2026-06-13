@@ -456,15 +456,12 @@
   var counter = document.getElementById('gallery-counter');
   var thumbs = document.querySelectorAll('.thumb-btn');
 
+  // Preload all gallery images for instant switching
+  var preloaded = images.map(function(src) { var im = new Image(); im.decoding = 'async'; im.src = src; return im; });
+
   function setImage(idx) {
     current = (idx + images.length) % images.length;
-    mainImg.style.opacity = '0';
-    mainImg.style.transform = 'scale(0.97)';
-    setTimeout(function() {
-      mainImg.src = images[current];
-      mainImg.style.opacity = '1';
-      mainImg.style.transform = 'scale(1)';
-    }, 200);
+    mainImg.src = images[current];
     counter.textContent = (current + 1) + ' / ' + images.length;
     thumbs.forEach(function(t, i) {
       t.classList.toggle('border-primary', i === current);
