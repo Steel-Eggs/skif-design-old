@@ -570,9 +570,13 @@ document.addEventListener('DOMContentLoaded', function () {
       var image = this.getAttribute('data-product-image') || '';
       addToCart(id, name, price, image);
 
-      // Fly-to-cart animation from the card image
+      // Fly-to-cart animation from the nearest image
       var card = this.closest('.product-grid-item, .product-card, article, [class*="product"]');
       var cardImg = card ? card.querySelector('img') : null;
+      if (!cardImg) {
+        // Product detail page: use the main gallery image
+        cardImg = document.querySelector('.product-gallery__main img, .product-main img, main img');
+      }
       flyToCart(cardImg);
 
       // Visual feedback
