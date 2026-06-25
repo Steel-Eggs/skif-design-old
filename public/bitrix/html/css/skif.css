@@ -478,60 +478,56 @@ html {
   }
 }
 
-/* Hide "Подробнее" overlay — whole card is now clickable */
-.product-card-overlay { display: none !important; }
-.product-grid-item { cursor: pointer; }
-
 /* ============================================
    Compact product cards (2 per row on mobile)
    ============================================ */
 .compact-cards .product-grid-item .product-card-overlay { display: none !important; }
 @media (max-width: 1023px) {
-  /* Hide category text label in compact cards on mobile/tablet (none in current markup, future-proof) */
-  .compact-cards .product-grid-item .product-card-category { display: none; }
-  /* Smaller badges */
-  .compact-cards .product-grid-item .product-badge,
-  .compact-cards .product-grid-item [class*="gradient-accent"][class*="font-bold"],
-  .compact-cards .product-grid-item [class*="bg-destructive"][class*="font-bold"],
-  .compact-cards .product-grid-item [class*="gradient-secondary"][class*="font-bold"] {
-    font-size: 0.7rem !important;
-    padding: 0.2rem 0.5rem !important;
+  .compact-cards .product-grid-item .card-body {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0.75rem !important;
   }
+  /* Hide category text label */
+  .compact-cards .product-grid-item .card-body > span.text-xs.text-muted-foreground,
+  .compact-cards .product-grid-item .card-body > span.uppercase {
+    display: none !important;
+  }
+  /* Order: title, price, stock, button */
+  .compact-cards .product-grid-item .card-body > h3 { order: 1; font-size: 0.95rem !important; line-height: 1.2 !important; margin-top: 0 !important; margin-bottom: 0.4rem !important; }
+  .compact-cards .product-grid-item .card-body > .mb-3 { order: 2; margin-bottom: 0.5rem !important; }
+  .compact-cards .product-grid-item .card-body > .mt-2 { order: 3; margin-top: 0 !important; margin-bottom: 0.5rem !important; }
+  .compact-cards .product-grid-item .card-body > .flex.items-center.gap-2 { order: 4; margin-top: auto !important; }
+
+  /* Smaller badges */
+  .compact-cards .product-grid-item .gradient-accent.text-accent-foreground.font-bold,
+  .compact-cards .product-grid-item .gradient-primary.text-primary-foreground.font-bold,
+  .compact-cards .product-grid-item .bg-destructive.text-destructive-foreground.font-bold,
+  .compact-cards .product-grid-item .gradient-secondary {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.55rem !important;
+  }
+  /* Square image, slightly larger */
   .compact-cards .product-grid-item .card-img,
   .compact-cards .product-grid-item .relative.aspect-\[4\/3\] {
     aspect-ratio: 1 / 1;
   }
-  .compact-cards .product-grid-item .card-img img,
-  .compact-cards .product-grid-item .aspect-\[4\/3\] img {
+  .compact-cards .product-grid-item .card-img img {
     object-fit: cover !important;
     padding: 0 !important;
   }
-  /* Smaller stock pill, above button */
-  .compact-cards .product-grid-item .card-body,
-  .compact-cards .product-grid-item .p-4 {
-    padding: 0.75rem !important;
+  /* Smaller stock pill */
+  .compact-cards .product-grid-item .mt-2 .rounded-full,
+  .compact-cards .product-grid-item .rounded-full.bg-secondary\/10,
+  .compact-cards .product-grid-item .rounded-full.bg-muted {
+    font-size: 0.72rem !important;
+    padding: 0.15rem 0.55rem !important;
   }
-  .compact-cards .product-grid-item .card-body > .mt-3,
-  .compact-cards .product-grid-item > div > .p-4 > .mt-3 {
-    order: -1;
-    margin-top: 0 !important;
-    margin-bottom: 0.5rem !important;
-  }
-  .compact-cards .product-grid-item .card-body,
-  .compact-cards .product-grid-item .p-4.sm\:p-5,
-  .compact-cards .product-grid-item .p-4 {
-    display: flex;
-    flex-direction: column;
-  }
-  .compact-cards .product-grid-item [class*="rounded-full"][class*="bg-secondary/10"],
-  .compact-cards .product-grid-item [class*="rounded-full"][class*="bg-muted"] {
-    font-size: 0.7rem !important;
-    padding: 0.2rem 0.5rem !important;
-  }
-  /* Bigger Add-to-cart button, but constrained to card width */
+  /* Bigger Add-to-cart button */
   .compact-cards .product-grid-item [data-add-to-cart] {
-    height: 2.75rem !important;
+    height: 2.85rem !important;
     font-size: 0.95rem !important;
+    font-weight: 700 !important;
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100% !important;
@@ -539,16 +535,28 @@ html {
     padding-right: 0.5rem !important;
     box-sizing: border-box !important;
   }
-  .compact-cards .product-grid-item [data-add-to-cart] > * {
-    min-width: 0;
-  }
+  .compact-cards .product-grid-item [data-add-to-cart] > * { min-width: 0; }
+  /* Price scale */
+  .compact-cards .product-grid-item .card-body .text-xl,
+  .compact-cards .product-grid-item .card-body .sm\:text-2xl { font-size: 1.05rem !important; }
 }
 
-/* Ensure main header reaches right edge on mobile (sometimes container width clips) */
+/* Hide "Подробнее" overlay — whole card is now clickable */
+.product-card-overlay { display: none !important; }
+.product-grid-item { cursor: pointer; }
+
+/* Ensure main header reaches right edge on mobile */
 @media (max-width: 767px) {
   header .container {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    max-width: 100%;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    max-width: 100% !important;
   }
+  header .container > div,
+  header .container { gap: 0.25rem !important; }
+  header .icon-btn { height: 2.5rem !important; width: 2.5rem !important; }
+  header .mobile-menu-btn,
+  header #mobile-menu-btn { height: 2.75rem !important; width: 2.75rem !important; }
+  header img[alt="СКИФ"] { height: 3.25rem !important; }
 }
+
