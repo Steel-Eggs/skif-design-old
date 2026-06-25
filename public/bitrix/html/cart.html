@@ -64,7 +64,7 @@
   <div class="bg-card border-b border-border shadow-sm">
     <div class="container flex items-center justify-between py-2 md:py-3 gap-2 md:gap-3">
       <a href="index.html" class="flex items-center shrink-0">
-        <img src="images/logo-new.png" alt="СКИФ" class="h-14 md:h-14 w-auto">
+        <img src="images/logo-new.png" alt="СКИФ" class="h-16 md:h-14 w-auto">
       </a>
       <nav class="hidden lg:flex items-center gap-0.5 desktop-nav">
         <div class="flex items-center gap-1 ml-2">
@@ -111,7 +111,7 @@
           </button>
         </a>
         <button class="hidden lg:flex gradient-accent text-accent-foreground font-semibold text-sm hover:opacity-90 transition-opacity h-10 px-4 rounded-lg items-center header-callback-btn" data-open-callback>Заказать звонок</button>
-        <button class="lg:hidden h-11 w-11 inline-flex items-center justify-center mobile-menu-btn" id="mobile-menu-btn">
+        <button class="lg:hidden h-12 w-12 inline-flex items-center justify-center mobile-menu-btn" id="mobile-menu-btn">
           <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
         </button>
       </div>
@@ -124,18 +124,42 @@
     </div>
     <div class="mobile-nav" id="mobile-nav">
       <div class="p-4 flex flex-col gap-2">
-        <a href="catalog.html" class="flex items-center gap-2 px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          Каталог
-        </a>
+        <button id="mobile-catalog-toggle" class="flex items-center justify-between gap-2 px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors w-full text-left">
+          <span class="flex items-center gap-2"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>Каталог</span>
+          <svg class="h-4 w-4 transition-transform" id="mobile-catalog-chev" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="mobile-catalog-items" id="mobile-catalog-items">
+          <a href="category.html?cat=sale" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🏷️</span><span>Распродажа</span></a>
+          <a href="category.html?cat=odnoosnye" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🚗</span><span>Одноосные прицепы</span></a>
+          <a href="category.html?cat=dvuhosnye" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🚙</span><span>Двухосные прицепы</span></a>
+          <a href="category.html?cat=s-kryshkoy" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>📦</span><span>Прицепы с крышкой</span></a>
+          <a href="category.html?cat=platforma" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>📐</span><span>Прицепы платформа</span></a>
+          <a href="category.html?cat=gruzy" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>⚖️</span><span>Прицепы для грузов</span></a>
+          <a href="category.html?cat=furgony" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🚐</span><span>Прицепы фургоны</span></a>
+          <a href="category.html?cat=kommercheskie" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🏪</span><span>Коммерческие прицепы</span></a>
+          <a href="category.html?cat=moto" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🏍️</span><span>Прицепы для мототехники</span></a>
+          <a href="category.html?cat=lodki" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🚤</span><span>Прицепы для лодок и катеров</span></a>
+          <a href="category.html?cat=elektrostancii" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>⚡</span><span>Прицепы для электростанций</span></a>
+          <a href="category.html?cat=evakuatory" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🚨</span><span>Прицепы эвакуаторы</span></a>
+          <a href="category.html?cat=spectehnika" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🔧</span><span>Прицепы для спецтехники</span></a>
+          <a href="category.html?cat=bytovki" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🏠</span><span>Бытовки на колёсах</span></a>
+          <a href="category.html?cat=proekty" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>📋</span><span>Наши проекты</span></a>
+          <a href="category.html?cat=bu" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>♻️</span><span>Прицепы Б/У</span></a>
+          <a href="category.html?cat=prokat" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🔄</span><span>Прицепы в прокат</span></a>
+          <a href="category.html?cat=proizvoditeli" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🏭</span><span>По производителям</span></a>
+          <a href="category.html?cat=zapchasti" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🔩</span><span>Запчасти и аксессуары</span></a>
+          <a href="category.html?cat=boksy" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🧳</span><span>Боксы и багажники</span></a>
+          <a href="category.html?cat=snegohody" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>❄️</span><span>Снегоходы и Вездеходы</span></a>
+          <a href="category.html?cat=motobuksirovschiki" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🛷</span><span>Мотобуксировщики</span></a>
+          <a href="category.html?cat=zapchasti-moto" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🔧</span><span>Запчасти для мотобуксировщиков</span></a>
+          <a href="category.html?cat=rybalka" class="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"><span>🎣</span><span>Товары для рыбалки</span></a>
+        </div>
         <a href="services.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">Услуги</a>
         <a href="payment.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">Оплата</a>
         <a href="about.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">О компании</a>
         <a href="news.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">Новости</a>
         <a href="contacts.html" class="block px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors">Контакты</a>
-        <div class="pt-4 border-t border-border mt-2">
-          <button class="w-full gradient-accent text-accent-foreground font-semibold h-10 rounded-lg" data-open-callback>Заказать звонок</button>
-        </div>
+        <div class="pt-4 border-t border-border mt-2"><button class="w-full gradient-accent text-accent-foreground font-semibold h-10 rounded-lg" data-open-callback>Заказать звонок</button></div>
       </div>
     </div>
   </div>

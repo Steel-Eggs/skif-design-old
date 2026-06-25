@@ -246,14 +246,14 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
   }
 
   return (
-    <Link to={`/product/${product.id}`} className="block">
+    <Link to={`/product/${product.id}`} className="block cursor-pointer">
       <Card 
         className="group overflow-hidden hover:shadow-xl transition-all duration-300 animate-fade-in h-full"
         style={{ animationDelay: `${Math.min(index, 7) * 0.05}s` }}
       >
         <CardContent className="p-0">
           {/* Image */}
-          <div className="relative aspect-[4/3] bg-muted overflow-hidden">
+          <div className="relative aspect-square xl:aspect-[4/3] bg-muted overflow-hidden">
             <img 
               ref={imgRef}
               src={productImage} 
@@ -262,20 +262,20 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
             />
             
             {/* Badges */}
-            <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
+            <div className="absolute top-2 left-2 xl:top-3 xl:left-3 flex flex-col gap-1 xl:gap-2 z-10">
               {isHit && (
-                <Badge className="gradient-accent text-accent-foreground font-bold text-sm px-3 py-1.5">
-                  <Flame className="h-4 w-4 mr-1" />
+                <Badge className="gradient-accent text-accent-foreground font-bold text-[10px] xl:text-sm px-1.5 py-0.5 xl:px-3 xl:py-1.5">
+                  <Flame className="h-3 w-3 xl:h-4 xl:w-4 mr-0.5 xl:mr-1" />
                   Хит
                 </Badge>
               )}
               {isNew && (
-                <Badge className="gradient-secondary text-secondary-foreground font-bold text-sm px-3 py-1.5">
+                <Badge className="gradient-secondary text-secondary-foreground font-bold text-[10px] xl:text-sm px-1.5 py-0.5 xl:px-3 xl:py-1.5">
                   Новинка
                 </Badge>
               )}
               {product.oldPrice && (
-                <Badge variant="destructive" className="font-bold text-sm px-3 py-1.5">
+                <Badge variant="destructive" className="font-bold text-[10px] xl:text-sm px-1.5 py-0.5 xl:px-3 xl:py-1.5">
                   -{discountPercent}%
                 </Badge>
               )}
@@ -283,34 +283,35 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
 
             {/* Wishlist */}
             <button 
-              className={`absolute top-3 right-3 w-10 h-10 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-300 z-20 ${
+              className={`absolute top-2 right-2 xl:top-3 xl:right-3 w-9 h-9 xl:w-10 xl:h-10 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-300 z-20 ${
                 isInFavorites 
                   ? 'bg-destructive text-destructive-foreground opacity-100' 
                   : 'bg-card/90 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground'
               }`}
               onClick={handleToggleFavorite}
             >
-              <Heart className={`h-5 w-5 ${isInFavorites ? 'fill-current' : ''}`} />
+              <Heart className={`h-4 w-4 xl:h-5 xl:w-5 ${isInFavorites ? 'fill-current' : ''}`} />
             </button>
           </div>
 
           {/* Content */}
-          <div className="p-4 sm:p-5">
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          <div className="p-3 xl:p-5 flex flex-col">
+            {/* Category text only on xl (3-per-row) */}
+            <span className="hidden xl:inline text-xs font-medium text-muted-foreground uppercase tracking-wider">
               {category}
             </span>
             
-            <h3 className="font-heading font-bold text-foreground mt-1 mb-2 line-clamp-2 group-hover:text-primary transition-colors text-sm sm:text-base">
+            <h3 className="font-heading font-bold text-foreground xl:mt-1 mb-2 line-clamp-2 group-hover:text-primary transition-colors text-sm xl:text-base">
               {product.name}
             </h3>
             
-            <div className="mb-3">
+            <div className="mb-2 xl:mb-3">
               <div className="flex items-baseline gap-2 flex-wrap">
-                <span className="text-xl sm:text-2xl font-heading font-bold text-foreground">
+                <span className="text-lg xl:text-2xl font-heading font-bold text-foreground">
                   {formatPrice(product.price)} ₽
                 </span>
                 {product.oldPrice && (
-                  <span className="text-xs sm:text-sm text-muted-foreground line-through">
+                  <span className="text-xs xl:text-sm text-muted-foreground line-through">
                     {formatPrice(product.oldPrice)} ₽
                   </span>
                 )}
@@ -321,10 +322,19 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
                 </span>
               )}
             </div>
-            
-            <div className="flex items-center gap-3">
+
+            {/* Stock pill — above button on small, below button on xl */}
+            <div className="order-1 xl:order-3 mb-2 xl:mb-0 xl:mt-3">
+              {inStock ? (
+                <span className="inline-flex items-center px-2 py-0.5 xl:px-3 xl:py-1.5 rounded-full bg-secondary/10 text-secondary text-[11px] xl:text-base font-semibold">✓ В наличии</span>
+              ) : (
+                <span className="inline-flex items-center px-2 py-0.5 xl:px-3 xl:py-1.5 rounded-full bg-muted text-muted-foreground text-[11px] xl:text-base font-semibold">Под заказ</span>
+              )}
+            </div>
+
+            <div className="order-2 flex items-center gap-3">
               <Button 
-                className={`flex-1 font-semibold transition-all duration-300 ${
+                className={`flex-1 font-semibold transition-all duration-300 h-12 xl:h-10 text-base xl:text-sm ${
                   addedToCart 
                     ? 'bg-secondary text-secondary-foreground scale-95' 
                     : inStock 
@@ -346,14 +356,6 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
                   </>
                 )}
               </Button>
-            </div>
-            
-            <div className="mt-3">
-              {inStock ? (
-                <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-secondary/10 text-secondary text-base font-semibold">✓ В наличии</span>
-              ) : (
-                <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-muted text-muted-foreground text-base font-semibold">Под заказ</span>
-              )}
             </div>
           </div>
         </CardContent>
