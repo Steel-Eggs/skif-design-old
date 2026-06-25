@@ -283,30 +283,30 @@ const Header = () => {
 
 
           {/* Actions */}
-          <div className="flex items-center gap-1 md:gap-4">
+          <div className="flex items-center gap-1.5 md:gap-4">
             <Button 
               variant="ghost" 
               size="icon" 
-              className="md:hidden h-10 w-10"
+              className="md:hidden h-12 w-12"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-6 w-6" />
             </Button>
             <Link to="/favorites">
-              <Button variant="outline" size="icon" className="relative h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl">
-                <Heart className="h-5 w-5" />
+              <Button variant="outline" size="icon" className="relative h-12 w-12 md:h-12 md:w-12 rounded-xl">
+                <Heart className="h-6 w-6 md:h-5 md:w-5" />
                 {displayFavCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs font-bold rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
+                  <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                     {displayFavCount}
                   </span>
                 )}
               </Button>
             </Link>
             <Link to="/cart" data-cart-icon>
-              <Button variant="outline" size="icon" className="relative h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl">
-                <ShoppingCart className="h-5 w-5" />
+              <Button variant="outline" size="icon" className="relative h-12 w-12 md:h-12 md:w-12 rounded-xl">
+                <ShoppingCart className="h-6 w-6 md:h-5 md:w-5" />
                 {displayCartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs font-bold rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
+                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                     {displayCartCount}
                   </span>
                 )}
@@ -317,16 +317,6 @@ const Header = () => {
               className="hidden lg:flex gradient-accent text-accent-foreground font-semibold text-sm hover:opacity-90 transition-opacity h-10 px-4 rounded-lg"
             >
               Заказать звонок
-            </Button>
-
-            {/* Mobile menu button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden h-11 w-11"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
             </Button>
           </div>
         </div>
