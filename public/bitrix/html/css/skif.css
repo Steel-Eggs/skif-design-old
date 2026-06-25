@@ -481,3 +481,65 @@ html {
 /* Hide "Подробнее" overlay — whole card is now clickable */
 .product-card-overlay { display: none !important; }
 .product-grid-item { cursor: pointer; }
+
+/* ============================================
+   Compact product cards (2 per row on mobile)
+   ============================================ */
+.compact-cards .product-grid-item .product-card-overlay { display: none !important; }
+@media (max-width: 1023px) {
+  /* Hide category text label in compact cards on mobile/tablet (none in current markup, future-proof) */
+  .compact-cards .product-grid-item .product-card-category { display: none; }
+  /* Smaller badges */
+  .compact-cards .product-grid-item .product-badge,
+  .compact-cards .product-grid-item [class*="gradient-accent"][class*="font-bold"],
+  .compact-cards .product-grid-item [class*="bg-destructive"][class*="font-bold"],
+  .compact-cards .product-grid-item [class*="gradient-secondary"][class*="font-bold"] {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.5rem !important;
+  }
+  .compact-cards .product-grid-item .card-img,
+  .compact-cards .product-grid-item .relative.aspect-\[4\/3\] {
+    aspect-ratio: 1 / 1;
+  }
+  .compact-cards .product-grid-item .card-img img,
+  .compact-cards .product-grid-item .aspect-\[4\/3\] img {
+    object-fit: cover !important;
+    padding: 0 !important;
+  }
+  /* Smaller stock pill, above button */
+  .compact-cards .product-grid-item .card-body,
+  .compact-cards .product-grid-item .p-4 {
+    padding: 0.75rem !important;
+  }
+  .compact-cards .product-grid-item .card-body > .mt-3,
+  .compact-cards .product-grid-item > div > .p-4 > .mt-3 {
+    order: -1;
+    margin-top: 0 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .compact-cards .product-grid-item .card-body,
+  .compact-cards .product-grid-item .p-4.sm\:p-5,
+  .compact-cards .product-grid-item .p-4 {
+    display: flex;
+    flex-direction: column;
+  }
+  .compact-cards .product-grid-item [class*="rounded-full"][class*="bg-secondary/10"],
+  .compact-cards .product-grid-item [class*="rounded-full"][class*="bg-muted"] {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.5rem !important;
+  }
+  /* Bigger Add-to-cart button */
+  .compact-cards .product-grid-item [data-add-to-cart] {
+    height: 2.75rem !important;
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Ensure main header reaches right edge on mobile (sometimes container width clips) */
+@media (max-width: 767px) {
+  header .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    max-width: 100%;
+  }
+}
