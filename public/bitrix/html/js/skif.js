@@ -587,8 +587,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Whole-card click → open product
-  document.querySelectorAll('.product-grid-item').forEach(function (card) {
+  // Whole-card click → open product (works for .product-grid-item and .product-card)
+  document.querySelectorAll('.product-grid-item, .product-card').forEach(function (card) {
+    var hasLink = card.querySelector('a[href^="product.html"]');
+    if (!hasLink) return;
     card.style.cursor = 'pointer';
     card.addEventListener('click', function (e) {
       if (e.target.closest('button, a, [data-add-to-cart], [data-toggle-favorite]')) return;
