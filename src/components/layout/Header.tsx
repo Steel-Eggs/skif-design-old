@@ -200,10 +200,10 @@ const Header = () => {
 
       {/* Main header */}
       <div className="bg-card border-b border-border shadow-sm">
-        <div className="container flex items-center justify-between py-3 md:py-3 gap-2 md:gap-3">
+        <div className="container flex items-center justify-between py-3 md:py-3 gap-2 md:gap-3 px-3 md:px-4">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0">
-            <img src={logo} alt="СКИФ" className="h-14 md:h-14 w-auto" />
+            <img src={logo} alt="СКИФ" className="h-16 md:h-14 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
