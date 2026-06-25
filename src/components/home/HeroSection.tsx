@@ -103,18 +103,17 @@ const HeroSection = () => {
             <h2 className="text-lg font-heading font-black leading-tight">Каталог техники</h2>
             <p className="text-xs opacity-90">Выберите категорию</p>
           </div>
-          <nav className="flex flex-col divide-y divide-border">
+          <div className="grid grid-cols-2 gap-px bg-border">
             {heroCategories.map((c) => (
               <Link
                 key={c.name}
                 to={c.href}
-                className="flex items-center gap-3 px-5 py-3 text-[0.95rem] font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
+                className="flex items-center justify-center text-center p-3 bg-card text-foreground hover:bg-primary hover:text-primary-foreground transition-colors min-h-[68px]"
               >
-                <span className="flex-1 leading-tight">{c.name}</span>
-                <Arrow className="h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                <span className="text-[0.85rem] font-semibold leading-tight">{c.name}</span>
               </Link>
             ))}
-          </nav>
+          </div>
           <div className="px-4 py-2 border-t border-border bg-muted/50">
             <Link to="/catalog" className="block text-center text-sm font-bold text-primary hover:underline">
               Весь каталог →
@@ -139,7 +138,7 @@ const HeroSection = () => {
                   <Link
                     key={c.name}
                     to={c.href}
-                    className="flex items-center gap-3 px-5 py-[0.7rem] text-[0.95rem] font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
+                    className="flex items-center gap-3 px-5 py-3 text-[1.05rem] font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
                   >
                     <span className="flex-1 leading-tight">{c.name}</span>
                     <Arrow className="h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
