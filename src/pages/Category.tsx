@@ -283,11 +283,10 @@ const Category = () => {
       <Header />
       
       <main className="flex-1">
-        {/* Hero section — compact like original */}
-        <section className={`py-12 md:py-20 bg-gradient-to-br ${category.color} relative overflow-hidden`}>
+        {/* Compact hero — minimal space */}
+        <section className={`py-4 md:py-8 bg-gradient-to-br ${category.color} relative overflow-hidden`}>
           <div className="container relative z-10 px-4">
-            {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-white/70 text-sm mb-6 flex-wrap">
+            <nav className="flex items-center gap-2 text-white/70 text-xs md:text-sm mb-2 md:mb-3 flex-wrap">
               <Link to="/" className="hover:text-white transition-colors">Главная</Link>
               <span>/</span>
               <Link to="/catalog" className="hover:text-white transition-colors">Каталог</Link>
@@ -295,28 +294,27 @@ const Category = () => {
               <span className="text-white font-medium">{category.name}</span>
             </nav>
 
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <div>
-                {/* Small icon */}
-                <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-5">
-                  <IconComponent className="w-8 h-8 text-white" />
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="hidden md:flex w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm items-center justify-center shrink-0">
+                  <IconComponent className="w-6 h-6 text-white" />
                 </div>
-                <h1 className="text-3xl md:text-5xl font-heading font-bold text-white mb-3">
-                  {category.name}
-                </h1>
-                <p className="text-white/80 text-lg mb-4">{category.description}</p>
-                <span className="inline-flex text-sm text-white/80 bg-white/15 backdrop-blur px-4 py-2 rounded-full">
-                  {allProducts.length} товаров в наличии
-                </span>
+                <div className="min-w-0">
+                  <h1 className="text-xl md:text-3xl font-heading font-bold text-white leading-tight">
+                    {category.name}
+                  </h1>
+                  <span className="text-xs md:text-sm text-white/80">
+                    {allProducts.length} товаров в наличии
+                  </span>
+                </div>
               </div>
 
-              {/* Quick links to related categories */}
-              <div className="flex flex-wrap gap-2">
-                {relatedCategories.map(rc => (
+              <div className="hidden lg:flex flex-wrap gap-2">
+                {relatedCategories.slice(0, 4).map(rc => (
                   <Link
                     key={rc.slug}
                     to={`/category/${rc.slug}`}
-                    className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
+                    className="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
                   >
                     {rc.label}
                   </Link>
@@ -328,10 +326,9 @@ const Category = () => {
 
         {/* Sticky toolbar */}
         <div className="sticky top-[65px] md:top-[73px] z-40 bg-card border-b border-border shadow-sm">
-          <div className="container px-4 py-3">
+          <div className="container px-4 py-2">
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-2">
-                {/* View toggle */}
                 <div className="flex items-center border border-border rounded-xl overflow-hidden">
                   <button
                     onClick={() => setViewMode('grid')}
@@ -353,7 +350,6 @@ const Category = () => {
                 </span>
               </div>
 
-              {/* Sort — native select like original */}
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
@@ -369,11 +365,9 @@ const Category = () => {
           </div>
         </div>
 
-        {/* Products section — full width, no sidebar */}
-        <section className="py-8 md:py-10">
+        <section className="py-6 md:py-10">
           <div className="container px-4">
-            {/* Products grid */}
-            <div className={`grid gap-5 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5' : 'grid-cols-1'}`}>
+            <div className={`grid gap-3 sm:gap-5 ${viewMode === 'grid' ? 'grid-cols-2 sm:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1'}`}>
               {paginatedProducts.map((product, index) => (
                 <ProductCard
                   key={product.id}

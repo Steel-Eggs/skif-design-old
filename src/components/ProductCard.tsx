@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Heart, Flame, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -46,11 +46,57 @@ export const getProductImage = (productId: number): string => {
   return productImages[productId % productImages.length];
 };
 
+// Fly to cart animation
+export const flyToCart = (sourceImg: HTMLImageElement | null) => {
+  if (!sourceImg) return;
+  const cartIcon = document.querySelector('[data-cart-icon]') as HTMLElement | null;
+  if (!cartIcon) return;
+
+  const srcRect = sourceImg.getBoundingClientRect();
+  const dstRect = cartIcon.getBoundingClientRect();
+
+  const clone = sourceImg.cloneNode(true) as HTMLImageElement;
+  clone.style.position = 'fixed';
+  clone.style.left = srcRect.left + 'px';
+  clone.style.top = srcRect.top + 'px';
+  clone.style.width = srcRect.width + 'px';
+  clone.style.height = srcRect.height + 'px';
+  clone.style.objectFit = 'contain';
+  clone.style.zIndex = '9999';
+  clone.style.pointerEvents = 'none';
+  clone.style.borderRadius = '12px';
+  clone.style.transition = 'all 700ms cubic-bezier(0.5, -0.3, 0.7, 0.9)';
+  clone.style.opacity = '0.95';
+  document.body.appendChild(clone);
+
+  // Force reflow
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  clone.offsetWidth;
+
+  const dx = dstRect.left + dstRect.width / 2 - (srcRect.left + srcRect.width / 2);
+  const dy = dstRect.top + dstRect.height / 2 - (srcRect.top + srcRect.height / 2);
+  clone.style.transform = `translate(${dx}px, ${dy}px) scale(0.1)`;
+  clone.style.opacity = '0.3';
+
+  setTimeout(() => {
+    clone.remove();
+    cartIcon.animate(
+      [
+        { transform: 'scale(1)' },
+        { transform: 'scale(1.3)' },
+        { transform: 'scale(1)' },
+      ],
+      { duration: 400, easing: 'ease-out' }
+    );
+  }, 700);
+};
+
 const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps) => {
   const [addedToCart, setAddedToCart] = useState(false);
   const { isFavorite, toggleFavorite } = useFavorites();
   const { addToCart } = useCart();
   const [isInFavorites, setIsInFavorites] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
   
   useEffect(() => {
     setIsInFavorites(isFavorite(product.id));
@@ -79,6 +125,8 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
     e.preventDefault();
     e.stopPropagation();
     
+    flyToCart(imgRef.current);
+
     addToCart({
       id: product.id,
       name: product.name,
@@ -101,234 +149,216 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
 
   if (viewMode === 'list') {
     return (
+      <Link to={`/product/${product.id}`} className="block">
+        <Card 
+          className="group overflow-hidden hover:shadow-xl transition-all duration-300 animate-fade-in"
+          style={{ animationDelay: `${Math.min(index, 7) * 0.05}s` }}
+        >
+          <CardContent className="p-0 flex flex-col sm:flex-row">
+            {/* Image */}
+            <div className="relative w-full sm:w-48 md:w-64 aspect-[4/3] sm:aspect-auto sm:h-auto bg-muted overflow-hidden shrink-0">
+              <img 
+                ref={imgRef}
+                src={productImage} 
+                alt={product.name}
+                className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+              />
+              
+              {/* Badges */}
+              <div className="absolute top-2 left-2 flex flex-col gap-1.5">
+                {isHit && (
+                  <Badge className="gradient-accent text-accent-foreground font-bold text-sm px-3 py-1.5">
+                    <Flame className="h-4 w-4 mr-1" />
+                    Хит
+                  </Badge>
+                )}
+                {isNew && (
+                  <Badge className="gradient-secondary text-secondary-foreground font-bold text-sm px-3 py-1.5">
+                    Новинка
+                  </Badge>
+                )}
+                {product.oldPrice && (
+                  <Badge variant="destructive" className="font-bold text-sm px-3 py-1.5">
+                    -{discountPercent}%
+                  </Badge>
+                )}
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 p-4 flex flex-col justify-center min-w-0">
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                {category}
+              </span>
+              
+              <h3 className="font-heading font-bold text-foreground mt-1 mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                {product.name}
+              </h3>
+
+              <div className="flex items-baseline gap-2 mb-2 flex-wrap">
+                <span className="text-xl font-heading font-bold text-foreground">
+                  {formatPrice(product.price)} ₽
+                </span>
+                {product.oldPrice && (
+                  <span className="text-sm text-muted-foreground line-through">
+                    {formatPrice(product.oldPrice)} ₽
+                  </span>
+                )}
+              </div>
+
+              {product.oldPrice && (
+                <span className="text-xs text-destructive font-medium mb-2">
+                  Выгода {formatPrice(savings)} ₽
+                </span>
+              )}
+              
+              <div className="flex items-center gap-2 mt-auto">
+                <Button 
+                  size="sm"
+                  className={`font-semibold transition-all duration-300 ${
+                    addedToCart 
+                      ? 'bg-secondary text-secondary-foreground scale-95' 
+                      : 'gradient-primary hover:opacity-90'
+                  }`}
+                  onClick={handleAddToCart}
+                >
+                  {addedToCart ? (
+                    <>
+                      <Check className="h-4 w-4 animate-bounce" />
+                      Добавлено!
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="h-4 w-4" />
+                      В корзину
+                    </>
+                  )}
+                </Button>
+                <span className={`text-sm font-medium ${inStock ? 'text-secondary' : 'text-muted-foreground'}`}>
+                  {inStock ? '✓ В наличии' : 'Под заказ'}
+                </span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
+    );
+  }
+
+  return (
+    <Link to={`/product/${product.id}`} className="block">
       <Card 
-        className="group overflow-hidden hover:shadow-xl transition-all duration-300 animate-fade-in"
+        className="group overflow-hidden hover:shadow-xl transition-all duration-300 animate-fade-in h-full"
         style={{ animationDelay: `${Math.min(index, 7) * 0.05}s` }}
       >
-        <CardContent className="p-0 flex flex-col sm:flex-row">
+        <CardContent className="p-0">
           {/* Image */}
-          <div className="relative w-full sm:w-48 md:w-64 aspect-[4/3] sm:aspect-auto sm:h-auto bg-muted overflow-hidden shrink-0">
+          <div className="relative aspect-[4/3] bg-muted overflow-hidden">
             <img 
+              ref={imgRef}
               src={productImage} 
               alt={product.name}
               className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
             />
             
             {/* Badges */}
-            <div className="absolute top-2 left-2 flex flex-col gap-1">
+            <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
               {isHit && (
-                <Badge className="gradient-accent text-accent-foreground font-bold text-sm px-2.5 py-1">
+                <Badge className="gradient-accent text-accent-foreground font-bold text-sm px-3 py-1.5">
                   <Flame className="h-4 w-4 mr-1" />
                   Хит
                 </Badge>
               )}
               {isNew && (
-                <Badge className="gradient-secondary text-secondary-foreground font-bold text-sm px-2.5 py-1">
+                <Badge className="gradient-secondary text-secondary-foreground font-bold text-sm px-3 py-1.5">
                   Новинка
                 </Badge>
               )}
               {product.oldPrice && (
-                <Badge variant="destructive" className="font-bold text-sm px-2.5 py-1">
+                <Badge variant="destructive" className="font-bold text-sm px-3 py-1.5">
                   -{discountPercent}%
                 </Badge>
               )}
             </div>
+
+            {/* Wishlist */}
+            <button 
+              className={`absolute top-3 right-3 w-10 h-10 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-300 z-20 ${
+                isInFavorites 
+                  ? 'bg-destructive text-destructive-foreground opacity-100' 
+                  : 'bg-card/90 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground'
+              }`}
+              onClick={handleToggleFavorite}
+            >
+              <Heart className={`h-5 w-5 ${isInFavorites ? 'fill-current' : ''}`} />
+            </button>
           </div>
 
-
           {/* Content */}
-          <div className="flex-1 p-4 flex flex-col justify-center min-w-0">
+          <div className="p-4 sm:p-5">
             <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
               {category}
             </span>
             
-            <h3 className="font-heading font-bold text-foreground mt-1 mb-2 group-hover:text-primary transition-colors line-clamp-2">
-              <Link to={`/product/${product.id}`}>
-                {product.name}
-              </Link>
+            <h3 className="font-heading font-bold text-foreground mt-1 mb-2 line-clamp-2 group-hover:text-primary transition-colors text-sm sm:text-base">
+              {product.name}
             </h3>
             
-
-            <div className="flex items-baseline gap-2 mb-2 flex-wrap">
-              <span className="text-xl font-heading font-bold text-foreground">
-                {formatPrice(product.price)} ₽
-              </span>
+            <div className="mb-3">
+              <div className="flex items-baseline gap-2 flex-wrap">
+                <span className="text-xl sm:text-2xl font-heading font-bold text-foreground">
+                  {formatPrice(product.price)} ₽
+                </span>
+                {product.oldPrice && (
+                  <span className="text-xs sm:text-sm text-muted-foreground line-through">
+                    {formatPrice(product.oldPrice)} ₽
+                  </span>
+                )}
+              </div>
               {product.oldPrice && (
-                <span className="text-sm text-muted-foreground line-through">
-                  {formatPrice(product.oldPrice)} ₽
+                <span className="text-xs text-destructive font-medium">
+                  Выгода {formatPrice(savings)} ₽
                 </span>
               )}
             </div>
-
-            {product.oldPrice && (
-              <span className="text-xs text-destructive font-medium mb-2">
-                Выгода {formatPrice(savings)} ₽
-              </span>
-            )}
             
-            <div className="flex items-center gap-2 mt-auto">
+            <div className="flex items-center gap-3">
               <Button 
-                size="sm"
-                className={`font-semibold transition-all duration-300 ${
+                className={`flex-1 font-semibold transition-all duration-300 ${
                   addedToCart 
                     ? 'bg-secondary text-secondary-foreground scale-95' 
-                    : 'gradient-primary hover:opacity-90'
+                    : inStock 
+                      ? 'gradient-primary hover:opacity-90' 
+                      : ''
                 }`}
+                disabled={!inStock}
                 onClick={handleAddToCart}
               >
                 {addedToCart ? (
                   <>
-                    <Check className="h-4 w-4 animate-bounce" />
+                    <Check className="h-5 w-5 animate-bounce" />
                     Добавлено!
                   </>
                 ) : (
                   <>
-                    <ShoppingCart className="h-4 w-4" />
+                    <ShoppingCart className="h-5 w-5" />
                     В корзину
                   </>
                 )}
               </Button>
-              <span className={`text-sm font-medium ${inStock ? 'text-secondary' : 'text-muted-foreground'}`}>
-                {inStock ? '✓ В наличии' : 'Под заказ'}
-              </span>
+            </div>
+            
+            <div className="mt-3">
+              {inStock ? (
+                <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-secondary/10 text-secondary text-base font-semibold">✓ В наличии</span>
+              ) : (
+                <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-muted text-muted-foreground text-base font-semibold">Под заказ</span>
+              )}
             </div>
           </div>
         </CardContent>
       </Card>
-    );
-  }
-
-  return (
-    <Card 
-      className="group overflow-hidden hover:shadow-xl transition-all duration-300 animate-fade-in"
-      style={{ animationDelay: `${Math.min(index, 7) * 0.05}s` }}
-    >
-      <CardContent className="p-0">
-        {/* Image */}
-        <div className="relative aspect-[4/3] bg-muted overflow-hidden">
-          <img 
-            src={productImage} 
-            alt={product.name}
-            className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
-          />
-          
-          {/* Badges */}
-          <div className="absolute top-3 left-3 flex flex-col gap-2">
-            {isHit && (
-              <Badge className="gradient-accent text-accent-foreground font-bold text-sm px-3 py-1.5">
-                <Flame className="h-4 w-4 mr-1" />
-                Хит
-              </Badge>
-            )}
-            {isNew && (
-              <Badge className="gradient-secondary text-secondary-foreground font-bold text-sm px-3 py-1.5">
-                Новинка
-              </Badge>
-            )}
-            {product.oldPrice && (
-              <Badge variant="destructive" className="font-bold text-sm px-3 py-1.5">
-                -{discountPercent}%
-              </Badge>
-            )}
-          </div>
-
-          
-          {/* Wishlist - higher z-index to be above overlay */}
-          <button 
-            className={`absolute top-3 right-3 w-10 h-10 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-300 z-20 ${
-              isInFavorites 
-                ? 'bg-destructive text-destructive-foreground opacity-100' 
-                : 'bg-card/90 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground'
-            }`}
-            onClick={handleToggleFavorite}
-          >
-            <Heart className={`h-5 w-5 ${isInFavorites ? 'fill-current' : ''}`} />
-          </button>
-          
-          {/* Quick view overlay - pointer-events-none on container, only button clickable */}
-          <div className="absolute inset-0 bg-foreground/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-            <Link to={`/product/${product.id}`} className="pointer-events-auto">
-              <Button variant="secondary" className="font-semibold">
-                Подробнее
-              </Button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="p-4 sm:p-5">
-          {/* Category */}
-          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-            {category}
-          </span>
-          
-          {/* Name */}
-          <h3 className="font-heading font-bold text-foreground mt-1 mb-2 line-clamp-2 group-hover:text-primary transition-colors text-sm sm:text-base">
-            <Link to={`/product/${product.id}`}>
-              {product.name}
-            </Link>
-          </h3>
-          
-          
-          {/* Price section */}
-          <div className="mb-3">
-            <div className="flex items-baseline gap-2 flex-wrap">
-              <span className="text-xl sm:text-2xl font-heading font-bold text-foreground">
-                {formatPrice(product.price)} ₽
-              </span>
-              {product.oldPrice && (
-                <span className="text-xs sm:text-sm text-muted-foreground line-through">
-                  {formatPrice(product.oldPrice)} ₽
-                </span>
-              )}
-            </div>
-            {/* Savings info */}
-            {product.oldPrice && (
-              <span className="text-xs text-destructive font-medium">
-                Выгода {formatPrice(savings)} ₽
-              </span>
-            )}
-          </div>
-          
-          {/* Actions */}
-          <div className="flex items-center gap-3">
-            <Button 
-              className={`flex-1 font-semibold transition-all duration-300 ${
-                addedToCart 
-                  ? 'bg-secondary text-secondary-foreground scale-95' 
-                  : inStock 
-                    ? 'gradient-primary hover:opacity-90' 
-                    : ''
-              }`}
-              disabled={!inStock}
-              onClick={handleAddToCart}
-            >
-              {addedToCart ? (
-                <>
-                  <Check className="h-5 w-5 animate-bounce" />
-                  Добавлено!
-                </>
-              ) : (
-                <>
-                  <ShoppingCart className="h-5 w-5" />
-                  В корзину
-                </>
-              )}
-            </Button>
-          </div>
-          
-          {/* Stock status */}
-          <div className="mt-3">
-            {inStock ? (
-              <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-secondary/10 text-secondary text-base font-semibold">✓ В наличии</span>
-            ) : (
-              <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-muted text-muted-foreground text-base font-semibold">Под заказ</span>
-            )}
-          </div>
-
-        </div>
-      </CardContent>
-    </Card>
+    </Link>
   );
 };
 

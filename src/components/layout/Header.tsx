@@ -200,10 +200,10 @@ const Header = () => {
 
       {/* Main header */}
       <div className="bg-card border-b border-border shadow-sm">
-        <div className="container flex items-center justify-between py-2 md:py-3 gap-2 md:gap-3">
+        <div className="container flex items-center justify-between py-3 md:py-3 gap-2 md:gap-3">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0">
-            <img src={logo} alt="СКИФ" className="h-10 md:h-14 w-auto" />
+            <img src={logo} alt="СКИФ" className="h-14 md:h-14 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -283,30 +283,30 @@ const Header = () => {
 
 
           {/* Actions */}
-          <div className="flex items-center gap-1 md:gap-4">
+          <div className="flex items-center gap-1.5 md:gap-4">
             <Button 
               variant="ghost" 
               size="icon" 
-              className="md:hidden h-9 w-9"
+              className="md:hidden h-11 w-11"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-6 w-6" />
             </Button>
             <Link to="/favorites">
-              <Button variant="outline" size="icon" className="relative h-9 w-9 md:h-12 md:w-12 rounded-lg md:rounded-xl">
-                <Heart className="h-4 w-4 md:h-5 md:w-5" />
+              <Button variant="outline" size="icon" className="relative h-11 w-11 md:h-12 md:w-12 rounded-lg md:rounded-xl">
+                <Heart className="h-5 w-5 md:h-5 md:w-5" />
                 {displayFavCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs font-bold rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
+                  <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs font-bold rounded-full h-5 w-5 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
                     {displayFavCount}
                   </span>
                 )}
               </Button>
             </Link>
-            <Link to="/cart">
-              <Button variant="outline" size="icon" className="relative h-9 w-9 md:h-12 md:w-12 rounded-lg md:rounded-xl">
-                <ShoppingCart className="h-4 w-4 md:h-5 md:w-5" />
+            <Link to="/cart" data-cart-icon>
+              <Button variant="outline" size="icon" className="relative h-11 w-11 md:h-12 md:w-12 rounded-lg md:rounded-xl">
+                <ShoppingCart className="h-5 w-5 md:h-5 md:w-5" />
                 {displayCartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs font-bold rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
+                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs font-bold rounded-full h-5 w-5 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
                     {displayCartCount}
                   </span>
                 )}
@@ -323,10 +323,10 @@ const Header = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden h-9 w-9"
+              className="lg:hidden h-11 w-11"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
         </div>

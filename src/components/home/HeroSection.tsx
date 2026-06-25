@@ -91,7 +91,16 @@ const HeroSection = () => {
         }} />
       </div>
 
-      <div className="container relative pt-6 md:pt-8 lg:pt-10 pb-24 md:pb-28 lg:pb-32">
+      {/* Mobile-only: just H1 */}
+      <div className="md:hidden container relative pt-8 pb-10 text-center">
+        <h1 className="text-3xl font-heading font-black leading-tight">
+          {currentSlideData.title}{" "}
+          <span className="text-accent">{currentSlideData.highlight}</span>
+        </h1>
+      </div>
+
+      {/* Desktop/tablet hero */}
+      <div className="hidden md:block container relative pt-6 md:pt-8 lg:pt-10 pb-24 md:pb-28 lg:pb-32">
         <div className="grid gap-5 lg:gap-6 lg:grid-cols-12 items-stretch">
 
           {/* CATALOG */}
@@ -101,7 +110,6 @@ const HeroSection = () => {
               <p className="text-xs opacity-90">Выберите категорию</p>
             </div>
 
-            {/* Desktop: vertical list */}
             <nav className="hidden lg:flex flex-col divide-y divide-border flex-1">
               {heroCategories.map((c) => (
                   <Link
@@ -115,7 +123,6 @@ const HeroSection = () => {
               ))}
             </nav>
 
-            {/* Mobile: 2-col tile grid */}
             <div className="lg:hidden grid grid-cols-2 gap-px bg-border">
               {heroCategories.slice(0, 10).map((c) => (
                 <Link
@@ -135,9 +142,7 @@ const HeroSection = () => {
             </div>
           </aside>
 
-          {/* SLIDER */}
           <div className="lg:col-span-8 flex flex-col gap-3">
-            {/* Title */}
             <div className="text-center lg:text-left overflow-hidden mb-6">
               <h1
                 key={`title-${currentSlide}`}
@@ -148,16 +153,13 @@ const HeroSection = () => {
               </h1>
             </div>
 
-            {/* Badge */}
             <div className="flex items-center justify-center lg:justify-start gap-2 text-sm font-semibold text-primary-foreground/90 bg-background/15 backdrop-blur-sm rounded-full px-4 py-1.5 w-fit mx-auto lg:mx-0 border border-background/20">
               <Award className="h-4 w-4 text-accent" />
               <span>Более 15 лет на рынке</span>
             </div>
 
-            {/* Image */}
             <div className="relative">
               <div className="aspect-[16/9] lg:aspect-[16/8] xl:aspect-[16/7] rounded-2xl overflow-hidden border border-background/20 shadow-2xl relative">
-
                 {slides.map((slide, index) => (
                   <div
                     key={slide.id}
@@ -197,7 +199,6 @@ const HeroSection = () => {
               </button>
             </div>
 
-            {/* Slide dots — directly under slider */}
             <div className="flex items-center justify-center lg:justify-start gap-2">
               {slides.map((slide, index) => (
                 <button
@@ -219,7 +220,6 @@ const HeroSection = () => {
               ))}
             </div>
 
-            {/* Buttons */}
             <div
               key={`buttons-${currentSlide}`}
               className="flex flex-col sm:flex-row items-center lg:items-start gap-3 justify-center lg:justify-start animate-fade-in-up"
