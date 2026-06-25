@@ -323,10 +323,10 @@ const Header = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden h-11 w-11"
+              className="lg:hidden h-12 w-12"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
             </Button>
           </div>
         </div>
