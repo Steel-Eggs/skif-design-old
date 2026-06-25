@@ -332,9 +332,9 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
               )}
             </div>
 
-            <div className="order-2 flex items-center gap-3">
+            <div className="order-2 flex items-center gap-3 w-full">
               <Button 
-                className={`flex-1 font-semibold transition-all duration-300 h-12 xl:h-10 text-base xl:text-sm ${
+                className={`w-full min-w-0 px-2 xl:px-4 font-semibold transition-all duration-300 h-12 xl:h-10 text-base xl:text-sm ${
                   addedToCart 
                     ? 'bg-secondary text-secondary-foreground scale-95' 
                     : inStock 
