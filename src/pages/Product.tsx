@@ -14,6 +14,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import CallbackModal from "@/components/CallbackModal";
 import MarketingBadge from "@/components/MarketingBadge";
 import { useFavorites, dispatchFavoritesUpdate, FAVORITES_UPDATED_EVENT } from "@/hooks/useFavorites";
+import { useCart } from "@/hooks/useCart";
+import { flyToCart } from "@/components/ProductCard";
 import trailerUserHorizontal from "@/assets/products/trailer-user-horizontal.jpg";
 import trailerUserVertical from "@/assets/products/trailer-user-vertical-collage.jpg";
 
@@ -137,6 +139,21 @@ const Product = () => {
   const zoomScrollRef = useRef<HTMLDivElement | null>(null);
   const zoomStageRef = useRef<HTMLDivElement | null>(null);
   const zoomImgRef = useRef<HTMLImageElement | null>(null);
+  const mainImgRef = useRef<HTMLImageElement | null>(null);
+  const { addToCart } = useCart();
+  const [addedToCart, setAddedToCart] = useState(false);
+
+  const handleAddToCart = () => {
+    flyToCart(mainImgRef.current);
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0],
+    });
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 1500);
+  };
   const zoomPanRef = useRef({
     isPointerDown: false,
     isDragging: false,
@@ -369,6 +386,7 @@ const Product = () => {
                     }`}
                   >
                     <img
+                      ref={mainImgRef}
                       src={product.images[currentImageIndex]}
                       alt={product.name}
                       onClick={() => { setZoomedIn(false); setIsZoomOpen(true); }}
@@ -513,9 +531,9 @@ const Product = () => {
                   
                   {/* Action buttons */}
                   <div className="flex flex-col gap-2 md:gap-3">
-                    <Button size="lg" className="w-full h-10 md:h-14 gradient-accent text-sm md:text-lg font-bold gap-2">
+                    <Button size="lg" onClick={handleAddToCart} className={`w-full h-10 md:h-14 text-sm md:text-lg font-bold gap-2 ${addedToCart ? 'bg-secondary text-secondary-foreground' : 'gradient-accent'}`}>
                       <ShoppingCart className="w-4 h-4 md:w-5 md:h-5" />
-                      В корзину
+                      {addedToCart ? 'Добавлено!' : 'В корзину'}
                     </Button>
                     <Button 
                       size="lg" 
