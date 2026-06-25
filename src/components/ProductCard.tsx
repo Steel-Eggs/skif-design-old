@@ -212,7 +212,7 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
                 </span>
               )}
               
-              <div className="flex items-center gap-2 mt-auto">
+              <div className="flex items-center gap-3 mt-2">
                 <Button 
                   size="sm"
                   className={`font-semibold transition-all duration-300 ${
