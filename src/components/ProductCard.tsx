@@ -186,7 +186,7 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
             </div>
 
             {/* Content */}
-            <div className="flex-1 p-4 flex flex-col justify-center min-w-0">
+            <div className="flex-1 p-4 flex flex-col justify-center min-w-0 gap-2">
               <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 {category}
               </span>
