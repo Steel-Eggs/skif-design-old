@@ -91,12 +91,36 @@ const HeroSection = () => {
         }} />
       </div>
 
-      {/* Mobile-only: just H1 */}
-      <div className="md:hidden container relative pt-8 pb-10 text-center">
-        <h1 className="text-3xl font-heading font-black leading-tight">
+      {/* Mobile-only: H1 + catalog menu */}
+      <div className="md:hidden container relative pt-6 pb-8">
+        <h1 className="text-3xl font-heading font-black leading-tight text-center mb-5">
           {currentSlideData.title}{" "}
           <span className="text-accent">{currentSlideData.highlight}</span>
         </h1>
+
+        <aside className="bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden">
+          <div className="px-5 py-3 gradient-primary text-primary-foreground">
+            <h2 className="text-lg font-heading font-black leading-tight">Каталог техники</h2>
+            <p className="text-xs opacity-90">Выберите категорию</p>
+          </div>
+          <nav className="flex flex-col divide-y divide-border">
+            {heroCategories.map((c) => (
+              <Link
+                key={c.name}
+                to={c.href}
+                className="flex items-center gap-3 px-5 py-3 text-[0.95rem] font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
+              >
+                <span className="flex-1 leading-tight">{c.name}</span>
+                <Arrow className="h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+              </Link>
+            ))}
+          </nav>
+          <div className="px-4 py-2 border-t border-border bg-muted/50">
+            <Link to="/catalog" className="block text-center text-sm font-bold text-primary hover:underline">
+              Весь каталог →
+            </Link>
+          </div>
+        </aside>
       </div>
 
       {/* Desktop/tablet hero */}

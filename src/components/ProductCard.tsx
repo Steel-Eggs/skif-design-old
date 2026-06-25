@@ -186,7 +186,7 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
             </div>
 
             {/* Content */}
-            <div className="flex-1 p-4 flex flex-col justify-center min-w-0">
+            <div className="flex-1 p-4 flex flex-col justify-center min-w-0 gap-2">
               <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 {category}
               </span>
@@ -212,7 +212,7 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
                 </span>
               )}
               
-              <div className="flex items-center gap-2 mt-auto">
+              <div className="flex items-center gap-3 mt-2">
                 <Button 
                   size="sm"
                   className={`font-semibold transition-all duration-300 ${
