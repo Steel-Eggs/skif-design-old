@@ -369,13 +369,38 @@ const Header = () => {
               >
                 Главная
               </Link>
-              <Link
-                to="/catalog"
-                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Каталог
-              </Link>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setIsMobileCatalogOpen(!isMobileCatalogOpen)}
+                  className="w-full flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                >
+                  <span>Каталог</span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${isMobileCatalogOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isMobileCatalogOpen && (
+                  <div className="pl-4 mt-1 flex flex-col gap-0.5">
+                    <Link
+                      to="/catalog"
+                      className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Все категории
+                    </Link>
+                    {catalogCategories.map((cat) => (
+                      <Link
+                        key={cat.href}
+                        to={cat.href}
+                        className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <span>{cat.icon}</span>
+                        <span>{cat.name}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
