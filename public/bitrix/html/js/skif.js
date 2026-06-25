@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
      ============================================ */
   const mobileCatalogToggle = document.getElementById('mobile-catalog-toggle');
   const mobileCatalogItems = document.getElementById('mobile-catalog-items');
-  const mobileCatalogArrow = document.getElementById('mobile-catalog-arrow');
+  const mobileCatalogArrow = document.getElementById('mobile-catalog-arrow') || document.getElementById('mobile-catalog-chev');
 
   if (mobileCatalogToggle && mobileCatalogItems) {
     mobileCatalogToggle.addEventListener('click', function (e) {
