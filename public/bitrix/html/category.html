@@ -64,6 +64,8 @@
       .list-mode .product-grid-item .card-img img { min-height: auto; }
     }
   </style>
+<style id="fouc-fix">html{visibility:hidden;opacity:0}</style>
+<script>addEventListener("load",function(){requestAnimationFrame(function(){var s=document.getElementById("fouc-fix");if(s)s.remove();document.documentElement.style.visibility="";document.documentElement.style.opacity=""});});</script>
 </head>
 <body class="min-h-screen overflow-x-hidden bg-background text-foreground font-sans antialiased">
 
