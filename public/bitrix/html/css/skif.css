@@ -477,3 +477,7 @@ html {
     border: 1px solid hsl(var(--accent) / 0.35);
   }
 }
+
+/* Hide "Подробнее" overlay — whole card is now clickable */
+.product-card-overlay { display: none !important; }
+.product-grid-item { cursor: pointer; }

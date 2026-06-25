@@ -291,3 +291,7 @@ img {
 @media (min-width: 1025px) {
   .hidden-desktop { display: none !important; }
 }
+
+/* Hide "Подробнее" overlay — whole card is now clickable */
+.product-card-overlay { display: none !important; }
+.product-grid-item { cursor: pointer; }
