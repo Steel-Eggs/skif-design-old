@@ -200,10 +200,10 @@ const Header = () => {
 
       {/* Main header */}
       <div className="bg-card border-b border-border shadow-sm">
-        <div className="container flex items-center justify-between py-3 md:py-3 gap-1 md:gap-3 px-2 md:px-4">
+        <div className="container flex items-center justify-between py-3 md:py-3 gap-2 md:gap-3 px-3 md:px-4">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0">
-            <img src={logo} alt="СКИФ" className="h-14 md:h-14 w-auto" />
+            <img src={logo} alt="СКИФ" className="h-16 md:h-14 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -283,30 +283,30 @@ const Header = () => {
 
 
           {/* Actions */}
-          <div className="flex items-center gap-1 md:gap-4">
+          <div className="flex items-center gap-1.5 md:gap-4">
             <Button 
               variant="ghost" 
               size="icon" 
-              className="md:hidden h-10 w-10"
+              className="md:hidden h-12 w-12"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-6 w-6" />
             </Button>
             <Link to="/favorites">
-              <Button variant="outline" size="icon" className="relative h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl">
-                <Heart className="h-5 w-5" />
+              <Button variant="outline" size="icon" className="relative h-12 w-12 md:h-12 md:w-12 rounded-xl">
+                <Heart className="h-6 w-6 md:h-5 md:w-5" />
                 {displayFavCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs font-bold rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
+                  <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                     {displayFavCount}
                   </span>
                 )}
               </Button>
             </Link>
             <Link to="/cart" data-cart-icon>
-              <Button variant="outline" size="icon" className="relative h-10 w-10 md:h-12 md:w-12 rounded-lg md:rounded-xl">
-                <ShoppingCart className="h-5 w-5" />
+              <Button variant="outline" size="icon" className="relative h-12 w-12 md:h-12 md:w-12 rounded-xl">
+                <ShoppingCart className="h-6 w-6 md:h-5 md:w-5" />
                 {displayCartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs font-bold rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
+                  <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                     {displayCartCount}
                   </span>
                 )}
@@ -317,16 +317,6 @@ const Header = () => {
               className="hidden lg:flex gradient-accent text-accent-foreground font-semibold text-sm hover:opacity-90 transition-opacity h-10 px-4 rounded-lg"
             >
               Заказать звонок
-            </Button>
-
-            {/* Mobile menu button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden h-11 w-11"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
             </Button>
           </div>
         </div>
@@ -358,94 +348,6 @@ const Header = () => {
           </div>
         )}
 
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-border bg-card animate-fade-in max-h-[70vh] overflow-y-auto">
-            <nav className="container py-4 flex flex-col gap-2">
-              <Link
-                to="/"
-                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Главная
-              </Link>
-              <div>
-                <button
-                  type="button"
-                  onClick={() => setIsMobileCatalogOpen(!isMobileCatalogOpen)}
-                  className="w-full flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                >
-                  <span>Каталог</span>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${isMobileCatalogOpen ? 'rotate-180' : ''}`} />
-                </button>
-                {isMobileCatalogOpen && (
-                  <div className="pl-4 mt-1 flex flex-col gap-0.5">
-                    <Link
-                      to="/catalog"
-                      className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Все категории
-                    </Link>
-                    {catalogCategories.map((cat) => (
-                      <Link
-                        key={cat.href}
-                        to={cat.href}
-                        className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:text-primary hover:bg-muted rounded-md"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        <span>{cat.icon}</span>
-                        <span>{cat.name}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <Link
-                to="/about"
-                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                О компании
-              </Link>
-              <Link
-                to="/news"
-                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Новости
-              </Link>
-              <Link
-                to="/contacts"
-                className="flex items-center justify-between px-4 py-3 text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Контакты
-              </Link>
-              <div className="pt-4 border-t border-border mt-2">
-                <Button
-                  onClick={() => {
-                    setIsCallbackModalOpen(true);
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full gradient-accent text-accent-foreground font-semibold"
-                >
-                  Заказать звонок
-                </Button>
-              </div>
-            </nav>
-          </div>
-        )}
 
       </div>
       

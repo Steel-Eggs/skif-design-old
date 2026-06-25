@@ -64,6 +64,8 @@
       .list-mode .product-grid-item .card-img img { min-height: auto; }
     }
   </style>
+<style id="fouc-fix">html{visibility:hidden;opacity:0}</style>
+<script>addEventListener("load",function(){requestAnimationFrame(function(){var s=document.getElementById("fouc-fix");if(s)s.remove();document.documentElement.style.visibility="";document.documentElement.style.opacity=""});});</script>
 </head>
 <body class="min-h-screen overflow-x-hidden bg-background text-foreground font-sans antialiased">
 
@@ -397,7 +399,7 @@
       gridBtn.classList.remove('bg-primary','text-primary-foreground');
       listBtn.classList.add('bg-primary','text-primary-foreground');
     } else {
-      grid.className = 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5';
+      grid.className = 'grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-5 view-grid compact-cards';
       listBtn.classList.remove('bg-primary','text-primary-foreground');
       gridBtn.classList.add('bg-primary','text-primary-foreground');
     }

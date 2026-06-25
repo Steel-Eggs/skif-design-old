@@ -497,7 +497,9 @@ html {
   .compact-cards .product-grid-item .card-body > h3 { order: 1; font-size: 0.95rem !important; line-height: 1.2 !important; margin-top: 0 !important; margin-bottom: 0.4rem !important; }
   .compact-cards .product-grid-item .card-body > .mb-3 { order: 2; margin-bottom: 0.5rem !important; }
   .compact-cards .product-grid-item .card-body > .mt-2 { order: 3; margin-top: 0 !important; margin-bottom: 0.5rem !important; }
-  .compact-cards .product-grid-item .card-body > .flex.items-center.gap-2 { order: 4; margin-top: auto !important; }
+  .compact-cards .product-grid-item .card-body > .flex.items-center.gap-2,
+  .compact-cards .product-grid-item .card-body > [data-add-to-cart],
+  .compact-cards .product-grid-item .card-body > button { order: 4; margin-top: auto !important; }
 
   /* Smaller badges */
   .compact-cards .product-grid-item .gradient-accent.text-accent-foreground.font-bold,
@@ -545,18 +547,23 @@ html {
 .product-card-overlay { display: none !important; }
 .product-grid-item { cursor: pointer; }
 
+/* Hide mobile burger menu everywhere — replaced by hero catalog menu */
+.mobile-menu-btn, #mobile-menu-btn, .mobile-nav { display: none !important; }
+
 /* Ensure main header reaches right edge on mobile */
 @media (max-width: 767px) {
   header .container {
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
     max-width: 100% !important;
   }
   header .container > div,
-  header .container { gap: 0.25rem !important; }
-  header .icon-btn { height: 2.5rem !important; width: 2.5rem !important; }
-  header .mobile-menu-btn,
-  header #mobile-menu-btn { height: 2.75rem !important; width: 2.75rem !important; }
-  header img[alt="СКИФ"] { height: 3.25rem !important; }
+  header .container { gap: 0.5rem !important; }
+  header .icon-btn { height: 3rem !important; width: 3rem !important; border-radius: 0.75rem !important; }
+  header .icon-btn svg { width: 1.5rem !important; height: 1.5rem !important; }
+  header .mobile-search-btn { height: 3rem !important; width: 3rem !important; }
+  header .mobile-search-btn svg { width: 1.5rem !important; height: 1.5rem !important; }
+  header img[alt="СКИФ"] { height: 4rem !important; }
 }
+
 
