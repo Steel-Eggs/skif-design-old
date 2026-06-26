@@ -1,50 +1,117 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight, ChevronRight as Arrow, Award } from "lucide-react";
+import {
+  ArrowRight, ChevronLeft, ChevronRight, Award, ChevronDown,
+  Tag, Car, Truck, Package, Layers, Weight, Caravan, Building2,
+  Bike, Ship, Zap, AlertTriangle, Wrench, Home, RefreshCw,
+  Factory, Box, Snowflake, Gauge, Cog, Fish, type LucideIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import trailerImage1 from "@/assets/products/trailer-1.jpg";
 import trailerImage2 from "@/assets/products/trailer-2.jpg";
 import trailerImage3 from "@/assets/products/trailer-3.jpg";
 
 const slides = [
-  {
-    id: 1,
-    title: "Автомобильные прицепы",
-    highlight: "СКИФ",
-    image: trailerImage1,
-    buttonText: "В каталог",
-    buttonLink: "/catalog",
-  },
-  {
-    id: 2,
-    title: "Прицепы для лодок",
-    highlight: "и катеров",
-    image: trailerImage2,
-    buttonText: "Смотреть",
-    buttonLink: "/catalog/lodki",
-  },
-  {
-    id: 3,
-    title: "Прицепы для",
-    highlight: "мототехники",
-    image: trailerImage3,
-    buttonText: "Подробнее",
-    buttonLink: "/catalog/moto",
-  },
+  { id: 1, title: "Автомобильные прицепы", highlight: "СКИФ", image: trailerImage1, buttonText: "В каталог", buttonLink: "/catalog" },
+  { id: 2, title: "Прицепы для лодок", highlight: "и катеров", image: trailerImage2, buttonText: "Смотреть", buttonLink: "/catalog/lodki" },
+  { id: 3, title: "Прицепы для", highlight: "мототехники", image: trailerImage3, buttonText: "Подробнее", buttonLink: "/catalog/moto" },
 ];
 
-const heroCategories = [
-  { name: "Распродажа", href: "/catalog/sale" },
-  { name: "Одноосные прицепы", href: "/catalog/odnoosnye" },
-  { name: "Двухосные прицепы", href: "/catalog/dvuhosnye" },
-  { name: "Прицепы платформа", href: "/catalog/platforma" },
-  { name: "Прицепы с крышкой", href: "/catalog/s-kryshkoy" },
-  { name: "Прицепы фургоны", href: "/catalog/furgony" },
-  { name: "Для лодок и катеров", href: "/catalog/lodki" },
-  { name: "Для мототехники", href: "/catalog/moto" },
-  { name: "Снегоходы и вездеходы", href: "/catalog/snegohody" },
-  { name: "Бытовки на колёсах", href: "/catalog/bytovki" },
-  { name: "Запчасти и аксессуары", href: "/catalog/zapchasti" },
+type SubCat = { id: string; name: string; children?: SubCat[] };
+type Cat = {
+  id: string; name: string; href: string; icon: LucideIcon;
+  badge?: { label: string; tone: "danger" | "accent" };
+  children?: SubCat[];
+};
+
+const sub = (parent: string, id: string) => `/catalog/${parent}?sub=${id}`;
+
+const heroCategories: Cat[] = [
+  { id: "sale", name: "Распродажа", href: "/catalog/sale", icon: Tag, badge: { label: "-30%", tone: "danger" } },
+  {
+    id: "odnoosnye", name: "Одноосные прицепы", href: "/catalog/odnoosnye", icon: Car,
+    children: [
+      { id: "do-750", name: "До 750 кг" },
+      { id: "750-1500", name: "750 – 1500 кг" },
+      { id: "1500+", name: "От 1500 кг" },
+    ],
+  },
+  {
+    id: "dvuhosnye", name: "Двухосные прицепы", href: "/catalog/dvuhosnye", icon: Truck,
+    children: [
+      { id: "do-1500", name: "До 1500 кг" },
+      { id: "1500-2500", name: "1500 – 2500 кг" },
+      { id: "2500+", name: "От 2500 кг" },
+    ],
+  },
+  { id: "platforma", name: "Прицепы платформа", href: "/catalog/platforma", icon: Layers },
+  {
+    id: "s-kryshkoy", name: "Прицепы с крышкой", href: "/catalog/s-kryshkoy", icon: Package,
+    children: [
+      { id: "abs", name: "Крышка ABS" },
+      { id: "alu", name: "Алюминиевая" },
+      { id: "tent", name: "Тент" },
+    ],
+  },
+  { id: "gruzy", name: "Прицепы для грузов", href: "/catalog/gruzy", icon: Weight },
+  { id: "furgony", name: "Прицепы фургоны", href: "/catalog/furgony", icon: Caravan },
+  { id: "kommercheskie", name: "Коммерческие", href: "/catalog/kommercheskie", icon: Building2 },
+  {
+    id: "lodki", name: "Для лодок и катеров", href: "/catalog/lodki", icon: Ship,
+    badge: { label: "Хит", tone: "accent" },
+    children: [
+      { id: "pvh", name: "Для ПВХ лодок" },
+      { id: "katera-6", name: "Для катеров до 6 м" },
+      { id: "katera-6plus", name: "Для катеров 6 м+" },
+      { id: "gidro", name: "Для гидроциклов" },
+    ],
+  },
+  {
+    id: "moto", name: "Для мототехники", href: "/catalog/moto", icon: Bike,
+    badge: { label: "Хит", tone: "accent" },
+    children: [
+      { id: "1-moto", name: "Для 1 мотоцикла" },
+      { id: "2-moto", name: "Для 2 мотоциклов" },
+      {
+        id: "kvadro", name: "Для квадроциклов",
+        children: [
+          { id: "kvadro-light", name: "Лёгкие" },
+          { id: "kvadro-heavy", name: "Тяжёлые" },
+        ],
+      },
+    ],
+  },
+  { id: "elektrostancii", name: "Для электростанций", href: "/catalog/elektrostancii", icon: Zap },
+  { id: "evakuatory", name: "Эвакуаторы", href: "/catalog/evakuatory", icon: AlertTriangle },
+  { id: "spectehnika", name: "Для спецтехники", href: "/catalog/spectehnika", icon: Wrench },
+  { id: "bytovki", name: "Бытовки на колёсах", href: "/catalog/bytovki", icon: Home },
+  {
+    id: "snegohody", name: "Снегоходы и вездеходы", href: "/catalog/snegohody", icon: Snowflake,
+    children: [
+      { id: "1-sneg", name: "Для 1 снегохода" },
+      { id: "2-sneg", name: "Для 2 снегоходов" },
+    ],
+  },
+  { id: "motobuksirovschiki", name: "Мотобуксировщики", href: "/catalog/motobuksirovschiki", icon: Gauge },
+  { id: "bu", name: "Прицепы Б/У", href: "/catalog/bu", icon: RefreshCw },
+  { id: "prokat", name: "Прицепы в прокат", href: "/catalog/prokat", icon: RefreshCw },
+  { id: "proizvoditeli", name: "По производителям", href: "/catalog/proizvoditeli", icon: Factory },
+  {
+    id: "zapchasti", name: "Запчасти и аксессуары", href: "/catalog/zapchasti", icon: Cog,
+    children: [
+      { id: "tormoza", name: "Тормозные системы" },
+      { id: "elektrika", name: "Электрика" },
+      {
+        id: "podveska", name: "Подвеска",
+        children: [
+          { id: "ressory", name: "Рессоры" },
+          { id: "amort", name: "Амортизаторы" },
+        ],
+      },
+    ],
+  },
+  { id: "boksy", name: "Боксы и багажники", href: "/catalog/boksy", icon: Box },
+  { id: "rybalka", name: "Товары для рыбалки", href: "/catalog/rybalka", icon: Fish },
 ];
 
 const HeroSection = () => {
@@ -52,6 +119,10 @@ const HeroSection = () => {
   const [previousSlide, setPreviousSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  const toggle = (id: string) =>
+    setExpanded((s) => ({ ...s, [id]: !s[id] }));
 
   const changeSlide = useCallback((newIndex: number) => {
     if (isAnimating) return;
@@ -63,9 +134,7 @@ const HeroSection = () => {
 
   useEffect(() => {
     if (!isAutoPlaying) return;
-    const interval = setInterval(() => {
-      changeSlide((currentSlide + 1) % slides.length);
-    }, 5000);
+    const interval = setInterval(() => changeSlide((currentSlide + 1) % slides.length), 5000);
     return () => clearInterval(interval);
   }, [isAutoPlaying, currentSlide, changeSlide]);
 
@@ -83,6 +152,114 @@ const HeroSection = () => {
 
   const currentSlideData = slides[currentSlide];
 
+  /* ---------- Renderers ---------- */
+
+  const SubItem = ({ parent, item, depth }: { parent: string; item: SubCat; depth: number }) => {
+    const key = `${parent}/${item.id}`;
+    const isOpen = !!expanded[key];
+    const hasChildren = !!item.children?.length;
+    const pad = depth === 1 ? "pl-14" : "pl-20";
+    return (
+      <div>
+        <div className={`flex items-center group rounded-md hover:bg-muted/70 ${pad} pr-2`}>
+          <Link
+            to={sub(parent, item.id)}
+            className="flex-1 py-1.5 text-[0.875rem] text-foreground/85 hover:text-primary leading-snug"
+          >
+            {item.name}
+          </Link>
+          {hasChildren && (
+            <button
+              type="button"
+              onClick={() => toggle(key)}
+              aria-label={isOpen ? "Свернуть" : "Развернуть"}
+              className="shrink-0 h-7 w-7 rounded-md hover:bg-muted flex items-center justify-center text-muted-foreground"
+            >
+              <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+            </button>
+          )}
+        </div>
+        {hasChildren && isOpen && (
+          <div className="space-y-0.5">
+            {item.children!.map((c) => (
+              <SubItem key={c.id} parent={parent} item={c} depth={depth + 1} />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const CategoryRow = ({ cat, compact = false }: { cat: Cat; compact?: boolean }) => {
+    const Icon = cat.icon;
+    const isOpen = !!expanded[cat.id];
+    const hasChildren = !!cat.children?.length;
+    const chipSize = compact ? "w-8 h-8" : "w-9 h-9";
+    const iconSize = compact ? "h-4 w-4" : "h-[18px] w-[18px]";
+    const padY = compact ? "py-1.5" : "py-2";
+    const text = compact ? "text-[0.95rem]" : "text-[1rem]";
+    return (
+      <div>
+        <div className="flex items-center gap-2 rounded-lg hover:bg-muted/70 group transition-colors pr-1">
+          <Link
+            to={cat.href}
+            className={`flex-1 flex items-center gap-3 pl-2 ${padY} min-w-0`}
+          >
+            <span className={`${chipSize} shrink-0 rounded-lg bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary flex items-center justify-center transition-colors`}>
+              <Icon className={iconSize} strokeWidth={1.75} />
+            </span>
+            <span className={`flex-1 min-w-0 font-semibold ${text} text-foreground leading-tight truncate`}>
+              {cat.name}
+            </span>
+            {cat.badge && (
+              <span className={`shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                cat.badge.tone === "danger"
+                  ? "bg-destructive text-destructive-foreground"
+                  : "bg-accent text-accent-foreground"
+              }`}>
+                {cat.badge.label}
+              </span>
+            )}
+          </Link>
+          {hasChildren ? (
+            <button
+              type="button"
+              onClick={() => toggle(cat.id)}
+              aria-label={isOpen ? "Свернуть" : "Развернуть"}
+              className="shrink-0 h-8 w-8 rounded-md hover:bg-muted text-muted-foreground flex items-center justify-center"
+            >
+              <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+            </button>
+          ) : (
+            <span className="shrink-0 w-8" />
+          )}
+        </div>
+        {hasChildren && isOpen && (
+          <div className="mt-0.5 mb-1 space-y-0.5">
+            {cat.children!.map((c) => (
+              <SubItem key={c.id} parent={cat.id} item={c} depth={1} />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const asideHeader = (
+    <div className="px-5 py-3 gradient-primary text-primary-foreground">
+      <h2 className="text-lg md:text-xl font-heading font-black leading-tight">Каталог техники</h2>
+      <p className="text-xs opacity-90">Выберите категорию</p>
+    </div>
+  );
+
+  const asideFooter = (
+    <div className="px-4 py-2 border-t border-border bg-muted/50">
+      <Link to="/catalog" className="block text-center text-sm font-bold text-primary hover:underline">
+        Весь каталог →
+      </Link>
+    </div>
+  );
+
   return (
     <section className="relative overflow-hidden gradient-hero text-primary-foreground">
       <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -91,34 +268,20 @@ const HeroSection = () => {
         }} />
       </div>
 
-      {/* Mobile-only: H1 + catalog menu */}
+      {/* Mobile: H1 + catalog */}
       <div className="md:hidden container relative pt-6 pb-8">
         <h1 className="text-3xl font-heading font-black leading-tight text-center mb-5">
-          {currentSlideData.title}{" "}
-          <span className="text-accent">{currentSlideData.highlight}</span>
+          {currentSlideData.title} <span className="text-accent">{currentSlideData.highlight}</span>
         </h1>
 
         <aside className="bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden">
-          <div className="px-5 py-3 gradient-primary text-primary-foreground">
-            <h2 className="text-lg font-heading font-black leading-tight">Каталог техники</h2>
-            <p className="text-xs opacity-90">Выберите категорию</p>
-          </div>
-          <div className="grid grid-cols-2 gap-px bg-border">
-            {heroCategories.map((c) => (
-              <Link
-                key={c.name}
-                to={c.href}
-                className="flex items-center justify-center text-center p-3 bg-card text-foreground hover:bg-primary hover:text-primary-foreground transition-colors min-h-[68px]"
-              >
-                <span className="text-[0.85rem] font-semibold leading-tight">{c.name}</span>
-              </Link>
-            ))}
-          </div>
-          <div className="px-4 py-2 border-t border-border bg-muted/50">
-            <Link to="/catalog" className="block text-center text-sm font-bold text-primary hover:underline">
-              Весь каталог →
-            </Link>
-          </div>
+          {asideHeader}
+          <nav className="p-2 max-h-[60vh] overflow-y-auto scrollbar-thin">
+            <div className="space-y-0.5">
+              {heroCategories.map((c) => <CategoryRow key={c.id} cat={c} compact />)}
+            </div>
+          </nav>
+          {asideFooter}
         </aside>
       </div>
 
@@ -126,53 +289,20 @@ const HeroSection = () => {
       <div className="hidden md:block container relative pt-6 md:pt-8 lg:pt-10 pb-24 md:pb-28 lg:pb-32">
         <div className="grid gap-5 lg:gap-6 lg:grid-cols-12 items-stretch">
 
-          {/* CATALOG */}
           <aside className="lg:col-span-4 bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden flex flex-col">
-            <div className="px-5 py-3 gradient-primary text-primary-foreground">
-              <h2 className="text-lg md:text-xl font-heading font-black leading-tight">Каталог техники</h2>
-              <p className="text-xs opacity-90">Выберите категорию</p>
-            </div>
-
-            <nav className="hidden lg:flex flex-col divide-y divide-border flex-1">
-              {heroCategories.map((c) => (
-                  <Link
-                    key={c.name}
-                    to={c.href}
-                    className="flex items-center gap-3 px-5 py-3 text-[1.05rem] font-semibold text-foreground hover:bg-primary hover:text-primary-foreground transition-colors group"
-                  >
-                    <span className="flex-1 leading-tight">{c.name}</span>
-                    <Arrow className="h-4 w-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                  </Link>
-              ))}
+            {asideHeader}
+            <nav className="p-2 flex-1 max-h-[520px] overflow-y-auto scrollbar-thin">
+              <div className="space-y-0.5">
+                {heroCategories.map((c) => <CategoryRow key={c.id} cat={c} />)}
+              </div>
             </nav>
-
-            <div className="lg:hidden grid grid-cols-2 gap-px bg-border">
-              {heroCategories.slice(0, 10).map((c) => (
-                <Link
-                  key={c.name}
-                  to={c.href}
-                  className="flex items-center justify-center text-center p-4 bg-card text-foreground hover:bg-primary hover:text-primary-foreground transition-colors min-h-[72px]"
-                >
-                  <span className="text-sm font-semibold leading-tight">{c.name}</span>
-                </Link>
-              ))}
-            </div>
-
-            <div className="px-4 py-2 border-t border-border bg-muted/50">
-              <Link to="/catalog" className="block text-center text-sm font-bold text-primary hover:underline">
-                Весь каталог →
-              </Link>
-            </div>
+            {asideFooter}
           </aside>
 
           <div className="lg:col-span-8 flex flex-col gap-3">
             <div className="text-center lg:text-left overflow-hidden mb-6">
-              <h1
-                key={`title-${currentSlide}`}
-                className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-black leading-tight animate-slide-up"
-              >
-                {currentSlideData.title}{" "}
-                <span className="text-accent">{currentSlideData.highlight}</span>
+              <h1 key={`title-${currentSlide}`} className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-black leading-tight animate-slide-up">
+                {currentSlideData.title} <span className="text-accent">{currentSlideData.highlight}</span>
               </h1>
             </div>
 
@@ -184,69 +314,41 @@ const HeroSection = () => {
             <div className="relative">
               <div className="aspect-[16/9] lg:aspect-[16/8] xl:aspect-[16/7] rounded-2xl overflow-hidden border border-background/20 shadow-2xl relative">
                 {slides.map((slide, index) => (
-                  <div
-                    key={slide.id}
-                    className={`absolute inset-0 transition-all duration-700 ease-out ${
-                      index === currentSlide
-                        ? 'opacity-100 scale-100 translate-x-0 z-10'
-                        : index === previousSlide
-                          ? 'opacity-0 scale-110 -translate-x-full z-0'
-                          : 'opacity-0 scale-95 translate-x-full z-0'
-                    }`}
-                  >
-                    <img
-                      src={slide.image}
-                      alt={`${slide.title} ${slide.highlight}`}
-                      className={`w-full h-full object-cover transition-transform duration-[5000ms] ease-linear ${
-                        index === currentSlide && isAutoPlaying ? 'scale-110' : 'scale-100'
-                      }`}
-                    />
+                  <div key={slide.id} className={`absolute inset-0 transition-all duration-700 ease-out ${
+                    index === currentSlide ? 'opacity-100 scale-100 translate-x-0 z-10'
+                      : index === previousSlide ? 'opacity-0 scale-110 -translate-x-full z-0'
+                      : 'opacity-0 scale-95 translate-x-full z-0'
+                  }`}>
+                    <img src={slide.image} alt={`${slide.title} ${slide.highlight}`}
+                      className={`w-full h-full object-cover transition-transform duration-[5000ms] ease-linear ${index === currentSlide && isAutoPlaying ? 'scale-110' : 'scale-100'}`} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                   </div>
                 ))}
               </div>
 
-              <button
-                onClick={prevSlide}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all z-20"
-                aria-label="Предыдущий слайд"
-              >
+              <button onClick={prevSlide} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all z-20" aria-label="Предыдущий слайд">
                 <ChevronLeft className="h-5 w-5" />
               </button>
-              <button
-                onClick={nextSlide}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all z-20"
-                aria-label="Следующий слайд"
-              >
+              <button onClick={nextSlide} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center text-primary-foreground hover:bg-background/40 transition-all z-20" aria-label="Следующий слайд">
                 <ChevronRight className="h-5 w-5" />
               </button>
             </div>
 
             <div className="flex items-center justify-center lg:justify-start gap-2">
               {slides.map((slide, index) => (
-                <button
-                  key={slide.id}
-                  onClick={() => {
-                    if (index !== currentSlide) {
-                      changeSlide(index);
-                      setIsAutoPlaying(false);
-                      setTimeout(() => setIsAutoPlaying(true), 10000);
-                    }
-                  }}
-                  className={`h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide
-                      ? 'w-8 bg-accent'
-                      : 'w-3 bg-primary-foreground/40 hover:bg-primary-foreground/60'
-                  }`}
-                  aria-label={`Перейти к слайду ${index + 1}`}
-                />
+                <button key={slide.id} onClick={() => {
+                  if (index !== currentSlide) {
+                    changeSlide(index);
+                    setIsAutoPlaying(false);
+                    setTimeout(() => setIsAutoPlaying(true), 10000);
+                  }
+                }} className={`h-3 rounded-full transition-all duration-300 ${
+                  index === currentSlide ? 'w-8 bg-accent' : 'w-3 bg-primary-foreground/40 hover:bg-primary-foreground/60'
+                }`} aria-label={`Перейти к слайду ${index + 1}`} />
               ))}
             </div>
 
-            <div
-              key={`buttons-${currentSlide}`}
-              className="flex flex-col sm:flex-row items-center lg:items-start gap-3 justify-center lg:justify-start animate-fade-in-up"
-            >
+            <div key={`buttons-${currentSlide}`} className="flex flex-col sm:flex-row items-center lg:items-start gap-3 justify-center lg:justify-start animate-fade-in-up">
               <Link to={currentSlideData.buttonLink}>
                 <Button size="lg" className="gradient-accent text-accent-foreground font-bold text-base px-6 hover:opacity-90 shadow-lg">
                   {currentSlideData.buttonText}
