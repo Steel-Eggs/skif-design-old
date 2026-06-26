@@ -970,7 +970,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!btn) return;
         e.preventDefault();
         e.stopPropagation();
-        var panel = btn.parentElement.parentElement.querySelector(':scope > .hero-cat-subs');
+        var panel = btn.parentElement && btn.parentElement.nextElementSibling;
+        if (!panel || !panel.classList.contains('hero-cat-subs')) return;
+
         if (!panel) return;
         var open = panel.classList.toggle('hidden') === false;
         btn.classList.toggle('open', open);
