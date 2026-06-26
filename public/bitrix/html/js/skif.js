@@ -846,4 +846,138 @@ document.addEventListener('DOMContentLoaded', function () {
     node.innerHTML = '';
     node.appendChild(iframe);
   }
+
+  /* ============================================
+     N. HERO CATALOG — icons + collapsible subs
+     ============================================ */
+  (function () {
+    var hosts = document.querySelectorAll('[data-hero-catalog]');
+    if (!hosts.length) return;
+
+    var I = {
+      tag: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>',
+      car: '<path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/>',
+      truck: '<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
+      package: '<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
+      layers: '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>',
+      weight: '<circle cx="12" cy="5" r="3"/><path d="M6.5 8a2 2 0 0 0-1.905 1.46L2.1 18.5A2 2 0 0 0 4 21h16a2 2 0 0 0 1.925-2.54L19.4 9.5A2 2 0 0 0 17.5 8Z"/>',
+      caravan: '<path d="M2 17V7a2 2 0 0 1 2-2h13.5a2 2 0 0 1 1.6.8L22 10v7a2 2 0 0 1-2 2"/><circle cx="8" cy="19" r="2"/><path d="M10 19h8"/><path d="M2 17h2"/>',
+      building: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/>',
+      bike: '<circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/>',
+      ship: '<path d="M12 10.189V14"/><path d="M12 2v3"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-8.188-3.639a2 2 0 0 0-1.624 0L3 14a11.6 11.6 0 0 0 2.81 7.76"/><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
+      zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+      alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+      wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+      home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+      refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+      factory: '<path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/>',
+      box: '<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/>',
+      snow: '<line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/>',
+      gauge: '<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
+      cog: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+      fish: '<path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z"/><path d="M18 12v.5"/><path d="M16 17.93a9.77 9.77 0 0 1 0-11.86"/><path d="M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33"/><path d="M10.46 7.26C10.2 5.88 9.17 4.24 8 3h5.8a2 2 0 0 1 1.98 1.67l.23 1.4"/><path d="m16.01 17.93-.23 1.4A2 2 0 0 1 13.8 21H9.5a5.96 5.96 0 0 0 1.49-3.98"/>'
+    };
+    function svg(name) {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">' + (I[name] || I.tag) + '</svg>';
+    }
+    var CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+
+    var CATS = [
+      { id:'sale', name:'Распродажа', icon:'tag', badge:{label:'-30%',tone:'danger'} },
+      { id:'odnoosnye', name:'Одноосные прицепы', icon:'car', children:[
+        {id:'do-750',name:'До 750 кг'},{id:'750-1500',name:'750 – 1500 кг'},{id:'1500+',name:'От 1500 кг'} ]},
+      { id:'dvuhosnye', name:'Двухосные прицепы', icon:'truck', children:[
+        {id:'do-1500',name:'До 1500 кг'},{id:'1500-2500',name:'1500 – 2500 кг'},{id:'2500+',name:'От 2500 кг'} ]},
+      { id:'platforma', name:'Прицепы платформа', icon:'layers' },
+      { id:'s-kryshkoy', name:'Прицепы с крышкой', icon:'package', children:[
+        {id:'abs',name:'Крышка ABS'},{id:'alu',name:'Алюминиевая'},{id:'tent',name:'Тент'} ]},
+      { id:'gruzy', name:'Прицепы для грузов', icon:'weight' },
+      { id:'furgony', name:'Прицепы фургоны', icon:'caravan' },
+      { id:'kommercheskie', name:'Коммерческие', icon:'building' },
+      { id:'lodki', name:'Для лодок и катеров', icon:'ship', badge:{label:'Хит',tone:'accent'}, children:[
+        {id:'pvh',name:'Для ПВХ лодок'},{id:'katera-6',name:'Для катеров до 6 м'},
+        {id:'katera-6plus',name:'Для катеров 6 м+'},{id:'gidro',name:'Для гидроциклов'} ]},
+      { id:'moto', name:'Для мототехники', icon:'bike', badge:{label:'Хит',tone:'accent'}, children:[
+        {id:'1-moto',name:'Для 1 мотоцикла'},{id:'2-moto',name:'Для 2 мотоциклов'},
+        {id:'kvadro',name:'Для квадроциклов', children:[
+          {id:'kvadro-light',name:'Лёгкие'},{id:'kvadro-heavy',name:'Тяжёлые'} ]} ]},
+      { id:'elektrostancii', name:'Для электростанций', icon:'zap' },
+      { id:'evakuatory', name:'Эвакуаторы', icon:'alert' },
+      { id:'spectehnika', name:'Для спецтехники', icon:'wrench' },
+      { id:'bytovki', name:'Бытовки на колёсах', icon:'home' },
+      { id:'snegohody', name:'Снегоходы и вездеходы', icon:'snow', children:[
+        {id:'1-sneg',name:'Для 1 снегохода'},{id:'2-sneg',name:'Для 2 снегоходов'} ]},
+      { id:'motobuksirovschiki', name:'Мотобуксировщики', icon:'gauge' },
+      { id:'bu', name:'Прицепы Б/У', icon:'refresh' },
+      { id:'prokat', name:'Прицепы в прокат', icon:'refresh' },
+      { id:'proizvoditeli', name:'По производителям', icon:'factory' },
+      { id:'zapchasti', name:'Запчасти и аксессуары', icon:'cog', children:[
+        {id:'tormoza',name:'Тормозные системы'},{id:'elektrika',name:'Электрика'},
+        {id:'podveska',name:'Подвеска', children:[
+          {id:'ressory',name:'Рессоры'},{id:'amort',name:'Амортизаторы'} ]} ]},
+      { id:'boksy', name:'Боксы и багажники', icon:'box' },
+      { id:'rybalka', name:'Товары для рыбалки', icon:'fish' }
+    ];
+
+    function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];}); }
+
+    function renderSub(parentId, item, lvl) {
+      var href = 'category.html?cat=' + encodeURIComponent(parentId) + '&sub=' + encodeURIComponent(item.id);
+      var hasKids = item.children && item.children.length;
+      var inner = '<div class="hero-sub-row lvl' + lvl + '">' +
+        '<a class="hero-sub-link" href="' + href + '">' + escapeHtml(item.name) + '</a>' +
+        (hasKids ? '<button type="button" class="hero-sub-toggle" data-toggle-sub aria-label="Развернуть">' + CHEV + '</button>' : '') +
+        '</div>';
+      if (hasKids) {
+        inner += '<div class="hero-cat-subs hidden">';
+        for (var i = 0; i < item.children.length; i++) inner += renderSub(parentId, item.children[i], lvl + 1);
+        inner += '</div>';
+      }
+      return inner;
+    }
+
+    function renderCat(cat, compact) {
+      var href = 'category.html?cat=' + encodeURIComponent(cat.id);
+      var hasKids = cat.children && cat.children.length;
+      var html = '<div class="hero-cat-wrap' + (compact ? ' hero-cat-compact' : '') + '">' +
+        '<div class="hero-cat-row">' +
+          '<a class="hero-cat-link" href="' + href + '">' +
+            '<span class="hero-cat-chip">' + svg(cat.icon) + '</span>' +
+            '<span class="hero-cat-name">' + escapeHtml(cat.name) + '</span>' +
+            (cat.badge ? '<span class="hero-cat-badge ' + cat.badge.tone + '">' + escapeHtml(cat.badge.label) + '</span>' : '') +
+          '</a>' +
+          (hasKids
+            ? '<button type="button" class="hero-cat-toggle" data-toggle-cat aria-label="Развернуть">' + CHEV + '</button>'
+            : '<span class="hero-cat-toggle-spacer"></span>') +
+        '</div>';
+      if (hasKids) {
+        html += '<div class="hero-cat-subs hidden">';
+        for (var i = 0; i < cat.children.length; i++) html += renderSub(cat.id, cat.children[i], 1);
+        html += '</div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    hosts.forEach(function (host) {
+      var compact = host.getAttribute('data-hero-catalog') === 'mobile';
+      var out = '';
+      for (var i = 0; i < CATS.length; i++) out += renderCat(CATS[i], compact);
+      host.innerHTML = out;
+
+      host.addEventListener('click', function (e) {
+        var btn = e.target.closest && e.target.closest('[data-toggle-cat],[data-toggle-sub]');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        var panel = btn.parentElement && btn.parentElement.nextElementSibling;
+        if (!panel || !panel.classList.contains('hero-cat-subs')) return;
+
+        if (!panel) return;
+        var open = panel.classList.toggle('hidden') === false;
+        btn.classList.toggle('open', open);
+      });
+    });
+  })();
 });
+

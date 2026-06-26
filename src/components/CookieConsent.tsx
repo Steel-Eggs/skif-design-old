@@ -1,6 +1,5 @@
 import React, { useState, useEffect, forwardRef } from "react";
-import { Button } from "@/components/ui/button";
-import { X, Truck } from "lucide-react";
+import { X, Cookie } from "lucide-react";
 
 const CookieConsent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -8,7 +7,6 @@ const CookieConsent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
   useEffect(() => {
     const consent = localStorage.getItem("cookie-consent");
     if (!consent) {
-      // Show with a small delay for better UX
       const timer = setTimeout(() => setIsVisible(true), 1000);
       return () => clearTimeout(timer);
     }
@@ -27,54 +25,29 @@ const CookieConsent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
   if (!isVisible) return null;
 
   return (
-    <div ref={ref} className="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 animate-fade-in">
-      <div className="bg-card border-2 border-primary/20 rounded-2xl shadow-2xl p-5 relative">
-        {/* Close button */}
+    <div
+      ref={ref}
+      className="fixed bottom-2 left-2 right-2 md:left-1/2 md:right-auto md:-translate-x-1/2 md:bottom-4 md:max-w-2xl z-50 animate-fade-in"
+    >
+      <div className="flex items-center gap-2 md:gap-3 bg-card/95 backdrop-blur border border-border rounded-full shadow-2xl pl-3 pr-2 md:pl-4 md:pr-3 h-12 md:h-14">
+        <Cookie className="h-5 w-5 text-primary shrink-0" />
+        <p className="flex-1 min-w-0 text-xs md:text-sm text-foreground truncate">
+          <span className="md:hidden">Мы используем cookies для улучшения сайта.</span>
+          <span className="hidden md:inline">Мы используем cookies для улучшения работы сайта и подбора лучших прицепов.</span>
+        </p>
+        <button
+          onClick={handleAccept}
+          className="shrink-0 h-8 md:h-9 px-3 md:px-4 rounded-full gradient-primary text-primary-foreground text-xs md:text-sm font-semibold hover:opacity-90"
+        >
+          Принять
+        </button>
         <button
           onClick={handleClose}
-          className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors"
+          aria-label="Закрыть"
+          className="shrink-0 h-8 w-8 md:h-9 md:w-9 rounded-full text-muted-foreground hover:bg-muted flex items-center justify-center"
         >
-          <X className="h-5 w-5" />
+          <X className="h-4 w-4" />
         </button>
-
-        {/* Content */}
-        <div className="flex gap-4 items-start">
-          {/* Trailer icon */}
-          <div className="shrink-0 w-14 h-14 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center shadow-lg">
-            <Truck className="h-7 w-7 text-primary-foreground" />
-          </div>
-
-          <div className="flex-1 pr-4">
-            <h4 className="font-heading font-bold text-foreground mb-1.5">
-              🍪 Мы используем cookies
-            </h4>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              Для улучшения работы сайта и подбора лучших прицепов для вас мы собираем данные о посещениях.
-            </p>
-
-            <div className="flex gap-3">
-              <Button 
-                onClick={handleAccept}
-                className="gradient-primary text-primary-foreground font-semibold px-6"
-              >
-                Принять
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={handleClose}
-                className="text-muted-foreground"
-              >
-                Отклонить
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Decorative trailer wheels */}
-        <div className="absolute -bottom-2 left-8 flex gap-1">
-          <div className="w-3 h-3 rounded-full bg-primary/30" />
-          <div className="w-3 h-3 rounded-full bg-primary/30" />
-        </div>
       </div>
     </div>
   );
