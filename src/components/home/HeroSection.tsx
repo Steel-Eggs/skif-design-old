@@ -211,7 +211,7 @@ const HeroSection = () => {
     );
   };
 
-  const CategoryRow = ({ cat, compact = false }: { cat: Cat; compact?: boolean }) => {
+  const CategoryRow = ({ cat, compact = false, hoverFlyout = false }: { cat: Cat; compact?: boolean; hoverFlyout?: boolean }) => {
     const Icon = cat.icon;
     const isOpen = !!expanded[cat.id];
     const hasChildren = !!cat.children?.length;
@@ -219,13 +219,21 @@ const HeroSection = () => {
     const iconSize = compact ? "h-4 w-4" : "h-[18px] w-[18px]";
     const padY = compact ? "py-1.5" : "py-2";
     const text = compact ? "text-[0.95rem]" : "text-[1rem]";
+
+    const rowProps = hoverFlyout
+      ? {
+          onMouseEnter: (e: React.MouseEvent<HTMLDivElement>) => openPopup(cat, e.currentTarget),
+          onMouseLeave: scheduleHide,
+        }
+      : {};
+
     return (
       <div>
-        <div className="flex items-center gap-2 rounded-lg hover:bg-muted/70 group transition-colors pr-1">
-          <Link
-            to={cat.href}
-            className={`flex-1 flex items-center gap-3 pl-2 ${padY} min-w-0`}
-          >
+        <div
+          {...rowProps}
+          className={`flex items-center gap-2 rounded-lg hover:bg-muted/70 group transition-colors pr-1 ${popup?.cat.id === cat.id ? "bg-muted/70" : ""}`}
+        >
+          <Link to={cat.href} className={`flex-1 flex items-center gap-3 pl-2 ${padY} min-w-0`}>
             <span className={`${chipSize} shrink-0 rounded-lg bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary flex items-center justify-center transition-colors`}>
               <Icon className={iconSize} strokeWidth={1.75} />
             </span>
@@ -243,19 +251,25 @@ const HeroSection = () => {
             )}
           </Link>
           {hasChildren ? (
-            <button
-              type="button"
-              onClick={() => toggle(cat.id)}
-              aria-label={isOpen ? "Свернуть" : "Развернуть"}
-              className="shrink-0 h-8 w-8 rounded-md hover:bg-muted text-muted-foreground flex items-center justify-center"
-            >
-              <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
-            </button>
+            hoverFlyout ? (
+              <span className="shrink-0 h-8 w-8 text-muted-foreground flex items-center justify-center">
+                <ChevronRight className="h-4 w-4" />
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={() => toggle(cat.id)}
+                aria-label={isOpen ? "Свернуть" : "Развернуть"}
+                className="shrink-0 h-8 w-8 rounded-md hover:bg-muted text-muted-foreground flex items-center justify-center"
+              >
+                <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+              </button>
+            )
           ) : (
             <span className="shrink-0 w-8" />
           )}
         </div>
-        {hasChildren && isOpen && (
+        {!hoverFlyout && hasChildren && isOpen && (
           <div className="mt-0.5 mb-1 space-y-0.5">
             {cat.children!.map((c) => (
               <SubItem key={c.id} parent={cat.id} item={c} depth={1} />
@@ -265,6 +279,36 @@ const HeroSection = () => {
       </div>
     );
   };
+
+  /* Popup flyout for desktop hover */
+  const PopupItem = ({ parent, item }: { parent: string; item: SubCat }) => {
+    const hasKids = !!item.children?.length;
+    return (
+      <div>
+        <Link
+          to={sub(parent, item.id)}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-[1rem] font-semibold text-foreground hover:bg-muted/70 hover:text-primary leading-tight"
+        >
+          <span className="flex-1 min-w-0 truncate">{item.name}</span>
+          {hasKids && <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />}
+        </Link>
+        {hasKids && (
+          <div className="ml-3 pl-3 border-l border-border space-y-0.5 mb-1">
+            {item.children!.map((c) => (
+              <Link
+                key={c.id}
+                to={sub(parent, c.id)}
+                className="block px-3 py-1.5 rounded-md text-[0.95rem] text-foreground/85 hover:bg-muted/70 hover:text-primary leading-tight"
+              >
+                {c.name}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
 
   const asideHeader = (
     <div className="px-5 py-3 gradient-primary text-primary-foreground">
