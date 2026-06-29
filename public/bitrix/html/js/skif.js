@@ -833,8 +833,13 @@ document.addEventListener('DOMContentLoaded', function () {
   var nodes = document.querySelectorAll('.vk-video-embed[data-vk-video]');
   for (var i = 0; i < nodes.length; i++) {
     var node = nodes[i];
-    var src = buildEmbed(node.getAttribute('data-vk-video'));
-    if (!src) continue;
+    var rawUrl = node.getAttribute('data-vk-video');
+    var src = buildEmbed(rawUrl);
+    if (!src) {
+      var wrapper = node.closest('#video-section');
+      if (wrapper) wrapper.style.display = 'none';
+      continue;
+    }
     var title = node.getAttribute('data-vk-title') || 'VK Видео';
     var iframe = document.createElement('iframe');
     iframe.src = src;

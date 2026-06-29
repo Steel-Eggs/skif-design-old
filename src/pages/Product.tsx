@@ -709,29 +709,31 @@ const Product = () => {
               </TabsContent>
             </Tabs>
 
-            {/* Video block — рендерится ниже описания, всегда виден */}
-            <div className="mt-10 md:mt-12">
-              <Card className="border-2">
-                <CardContent className="p-6 md:p-8">
-                  <h3 className="text-xl font-heading font-bold text-foreground mb-6">
-                    {product.videoTitle}
-                  </h3>
-                  <div className="relative w-full rounded-xl overflow-hidden bg-black" style={{ paddingBottom: "56.25%" }}>
-                    <iframe
-                      src={product.videoUrl}
-                      title={product.videoTitle}
-                      className="absolute inset-0 w-full h-full border-0"
-                      allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
-                      allowFullScreen
-                      frameBorder={0}
-                    />
-                  </div>
-                  <p className="text-muted-foreground mt-4">
-                    Посмотрите подробный видеообзор данной модели прицепа от наших экспертов.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+            {/* Video block — только если есть videoUrl */}
+            {product.videoUrl && (
+              <div className="mt-10 md:mt-12">
+                <Card className="border-2">
+                  <CardContent className="p-6 md:p-8">
+                    <h3 className="text-xl font-heading font-bold text-foreground mb-6">
+                      {product.videoTitle}
+                    </h3>
+                    <div className="relative w-full rounded-xl overflow-hidden" style={{ paddingBottom: "56.25%" }}>
+                      <iframe
+                        src={product.videoUrl}
+                        title={product.videoTitle}
+                        className="absolute inset-0 w-full h-full border-0"
+                        allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                        allowFullScreen
+                        frameBorder={0}
+                      />
+                    </div>
+                    <p className="text-muted-foreground mt-4">
+                      Посмотрите подробный видеообзор данной модели прицепа от наших экспертов.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </div>
         </section>
       </main>
