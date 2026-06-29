@@ -121,9 +121,29 @@ const HeroSection = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [popup, setPopup] = useState<{ cat: Cat; top: number; left: number } | null>(null);
+  const hideTimer = useRef<number | null>(null);
 
   const toggle = (id: string) =>
     setExpanded((s) => ({ ...s, [id]: !s[id] }));
+
+  const cancelHide = () => {
+    if (hideTimer.current) { window.clearTimeout(hideTimer.current); hideTimer.current = null; }
+  };
+  const scheduleHide = () => {
+    cancelHide();
+    hideTimer.current = window.setTimeout(() => setPopup(null), 180);
+  };
+  const openPopup = (cat: Cat, el: HTMLElement) => {
+    if (!cat.children?.length) return;
+    cancelHide();
+    const r = el.getBoundingClientRect();
+    const w = 320;
+    let left = r.right + 8;
+    if (left + w > window.innerWidth - 8) left = Math.max(8, r.left - w - 8);
+    setPopup({ cat, top: r.top, left });
+  };
+
 
   const changeSlide = useCallback((newIndex: number) => {
     if (isAnimating) return;
