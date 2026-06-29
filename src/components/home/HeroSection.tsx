@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
+import { createPortal } from "react-dom";
 import {
   ArrowRight, ChevronLeft, ChevronRight, Award, ChevronDown,
   Tag, Car, Truck, Package, Layers, Weight, Caravan, Building2,
@@ -120,9 +121,29 @@ const HeroSection = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [popup, setPopup] = useState<{ cat: Cat; top: number; left: number } | null>(null);
+  const hideTimer = useRef<number | null>(null);
 
   const toggle = (id: string) =>
     setExpanded((s) => ({ ...s, [id]: !s[id] }));
+
+  const cancelHide = () => {
+    if (hideTimer.current) { window.clearTimeout(hideTimer.current); hideTimer.current = null; }
+  };
+  const scheduleHide = () => {
+    cancelHide();
+    hideTimer.current = window.setTimeout(() => setPopup(null), 180);
+  };
+  const openPopup = (cat: Cat, el: HTMLElement) => {
+    if (!cat.children?.length) return;
+    cancelHide();
+    const r = el.getBoundingClientRect();
+    const w = 320;
+    let left = r.right + 8;
+    if (left + w > window.innerWidth - 8) left = Math.max(8, r.left - w - 8);
+    setPopup({ cat, top: r.top, left });
+  };
+
 
   const changeSlide = useCallback((newIndex: number) => {
     if (isAnimating) return;
@@ -190,7 +211,7 @@ const HeroSection = () => {
     );
   };
 
-  const CategoryRow = ({ cat, compact = false }: { cat: Cat; compact?: boolean }) => {
+  const CategoryRow = ({ cat, compact = false, hoverFlyout = false }: { cat: Cat; compact?: boolean; hoverFlyout?: boolean }) => {
     const Icon = cat.icon;
     const isOpen = !!expanded[cat.id];
     const hasChildren = !!cat.children?.length;
@@ -198,13 +219,21 @@ const HeroSection = () => {
     const iconSize = compact ? "h-4 w-4" : "h-[18px] w-[18px]";
     const padY = compact ? "py-1.5" : "py-2";
     const text = compact ? "text-[0.95rem]" : "text-[1rem]";
+
+    const rowProps = hoverFlyout
+      ? {
+          onMouseEnter: (e: React.MouseEvent<HTMLDivElement>) => openPopup(cat, e.currentTarget),
+          onMouseLeave: scheduleHide,
+        }
+      : {};
+
     return (
       <div>
-        <div className="flex items-center gap-2 rounded-lg hover:bg-muted/70 group transition-colors pr-1">
-          <Link
-            to={cat.href}
-            className={`flex-1 flex items-center gap-3 pl-2 ${padY} min-w-0`}
-          >
+        <div
+          {...rowProps}
+          className={`flex items-center gap-2 rounded-lg hover:bg-muted/70 group transition-colors pr-1 ${popup?.cat.id === cat.id ? "bg-muted/70" : ""}`}
+        >
+          <Link to={cat.href} className={`flex-1 flex items-center gap-3 pl-2 ${padY} min-w-0`}>
             <span className={`${chipSize} shrink-0 rounded-lg bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary flex items-center justify-center transition-colors`}>
               <Icon className={iconSize} strokeWidth={1.75} />
             </span>
@@ -222,19 +251,25 @@ const HeroSection = () => {
             )}
           </Link>
           {hasChildren ? (
-            <button
-              type="button"
-              onClick={() => toggle(cat.id)}
-              aria-label={isOpen ? "Свернуть" : "Развернуть"}
-              className="shrink-0 h-8 w-8 rounded-md hover:bg-muted text-muted-foreground flex items-center justify-center"
-            >
-              <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
-            </button>
+            hoverFlyout ? (
+              <span className="shrink-0 h-8 w-8 text-muted-foreground flex items-center justify-center">
+                <ChevronRight className="h-4 w-4" />
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={() => toggle(cat.id)}
+                aria-label={isOpen ? "Свернуть" : "Развернуть"}
+                className="shrink-0 h-8 w-8 rounded-md hover:bg-muted text-muted-foreground flex items-center justify-center"
+              >
+                <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+              </button>
+            )
           ) : (
             <span className="shrink-0 w-8" />
           )}
         </div>
-        {hasChildren && isOpen && (
+        {!hoverFlyout && hasChildren && isOpen && (
           <div className="mt-0.5 mb-1 space-y-0.5">
             {cat.children!.map((c) => (
               <SubItem key={c.id} parent={cat.id} item={c} depth={1} />
@@ -244,6 +279,36 @@ const HeroSection = () => {
       </div>
     );
   };
+
+  /* Popup flyout for desktop hover */
+  const PopupItem = ({ parent, item }: { parent: string; item: SubCat }) => {
+    const hasKids = !!item.children?.length;
+    return (
+      <div>
+        <Link
+          to={sub(parent, item.id)}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-[1rem] font-semibold text-foreground hover:bg-muted/70 hover:text-primary leading-tight"
+        >
+          <span className="flex-1 min-w-0 truncate">{item.name}</span>
+          {hasKids && <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />}
+        </Link>
+        {hasKids && (
+          <div className="ml-3 pl-3 border-l border-border space-y-0.5 mb-1">
+            {item.children!.map((c) => (
+              <Link
+                key={c.id}
+                to={sub(parent, c.id)}
+                className="block px-3 py-1.5 rounded-md text-[0.95rem] text-foreground/85 hover:bg-muted/70 hover:text-primary leading-tight"
+              >
+                {c.name}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
 
   const asideHeader = (
     <div className="px-5 py-3 gradient-primary text-primary-foreground">
@@ -291,9 +356,10 @@ const HeroSection = () => {
 
           <aside className="lg:col-span-4 bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden flex flex-col">
             {asideHeader}
-            <nav className="p-2 flex-1 max-h-[520px] overflow-y-auto scrollbar-thin">
+            <nav className="p-2 flex-1 min-h-0 overflow-y-auto scrollbar-thin">
               <div className="space-y-0.5">
-                {heroCategories.map((c) => <CategoryRow key={c.id} cat={c} />)}
+                {heroCategories.map((c) => <CategoryRow key={c.id} cat={c} hoverFlyout />)}
+
               </div>
             </nav>
             {asideFooter}
@@ -370,7 +436,27 @@ const HeroSection = () => {
           <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))" />
         </svg>
       </div>
+
+      {popup && typeof document !== "undefined" && createPortal(
+        <div
+          onMouseEnter={cancelHide}
+          onMouseLeave={scheduleHide}
+          style={{ position: "fixed", top: popup.top, left: popup.left, width: 320, maxHeight: "70vh" }}
+          className="z-[60] bg-card text-card-foreground rounded-xl shadow-2xl border border-border p-2 overflow-y-auto scrollbar-thin animate-fade-in"
+        >
+          <div className="px-3 py-2 text-xs font-bold uppercase tracking-wide text-muted-foreground border-b border-border mb-1">
+            {popup.cat.name}
+          </div>
+          <div className="space-y-0.5">
+            {popup.cat.children!.map((c) => (
+              <PopupItem key={c.id} parent={popup.cat.id} item={c} />
+            ))}
+          </div>
+        </div>,
+        document.body
+      )}
     </section>
+
   );
 };
 

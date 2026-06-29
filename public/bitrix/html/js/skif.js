@@ -936,10 +936,12 @@ document.addEventListener('DOMContentLoaded', function () {
       return inner;
     }
 
+    var CHEV_RIGHT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>';
+
     function renderCat(cat, compact) {
       var href = 'category.html?cat=' + encodeURIComponent(cat.id);
       var hasKids = cat.children && cat.children.length;
-      var html = '<div class="hero-cat-wrap' + (compact ? ' hero-cat-compact' : '') + '">' +
+      var html = '<div class="hero-cat-wrap' + (compact ? ' hero-cat-compact' : '') + '" data-cat-id="' + cat.id + '">' +
         '<div class="hero-cat-row">' +
           '<a class="hero-cat-link" href="' + href + '">' +
             '<span class="hero-cat-chip">' + svg(cat.icon) + '</span>' +
@@ -947,10 +949,12 @@ document.addEventListener('DOMContentLoaded', function () {
             (cat.badge ? '<span class="hero-cat-badge ' + cat.badge.tone + '">' + escapeHtml(cat.badge.label) + '</span>' : '') +
           '</a>' +
           (hasKids
-            ? '<button type="button" class="hero-cat-toggle" data-toggle-cat aria-label="Развернуть">' + CHEV + '</button>'
+            ? (compact
+                ? '<button type="button" class="hero-cat-toggle" data-toggle-cat aria-label="Развернуть">' + CHEV + '</button>'
+                : '<span class="hero-cat-toggle" aria-hidden="true" style="cursor:default">' + CHEV_RIGHT + '</span>')
             : '<span class="hero-cat-toggle-spacer"></span>') +
         '</div>';
-      if (hasKids) {
+      if (hasKids && compact) {
         html += '<div class="hero-cat-subs hidden">';
         for (var i = 0; i < cat.children.length; i++) html += renderSub(cat.id, cat.children[i], 1);
         html += '</div>';
@@ -959,25 +963,110 @@ document.addEventListener('DOMContentLoaded', function () {
       return html;
     }
 
+    // Shared popup for desktop flyout
+    var popup = null;
+    var popupHideTimer = null;
+    var activeRow = null;
+    function ensurePopup() {
+      if (popup) return popup;
+      popup = document.createElement('div');
+      popup.className = 'hero-cat-popup scrollbar-thin';
+      popup.style.display = 'none';
+      popup.addEventListener('mouseenter', cancelHide);
+      popup.addEventListener('mouseleave', scheduleHide);
+      document.body.appendChild(popup);
+      return popup;
+    }
+    function cancelHide() { if (popupHideTimer) { clearTimeout(popupHideTimer); popupHideTimer = null; } }
+    function scheduleHide() {
+      cancelHide();
+      popupHideTimer = setTimeout(function () {
+        if (popup) popup.style.display = 'none';
+        if (activeRow) { activeRow.classList.remove('is-active'); activeRow = null; }
+      }, 180);
+    }
+    function buildPopupHtml(cat) {
+      var html = '<div class="hero-cat-popup-title">' + escapeHtml(cat.name) + '</div>';
+      for (var i = 0; i < cat.children.length; i++) {
+        var c = cat.children[i];
+        var hasKids = c.children && c.children.length;
+        var href = 'category.html?cat=' + encodeURIComponent(cat.id) + '&sub=' + encodeURIComponent(c.id);
+        html += '<div><a class="hero-popup-link" href="' + href + '">' +
+          '<span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escapeHtml(c.name) + '</span>' +
+          (hasKids ? '<span class="chev">' + CHEV_RIGHT + '</span>' : '') +
+          '</a>';
+        if (hasKids) {
+          html += '<div class="hero-popup-sub">';
+          for (var j = 0; j < c.children.length; j++) {
+            var d = c.children[j];
+            var href2 = 'category.html?cat=' + encodeURIComponent(cat.id) + '&sub=' + encodeURIComponent(d.id);
+            html += '<a href="' + href2 + '">' + escapeHtml(d.name) + '</a>';
+          }
+          html += '</div>';
+        }
+        html += '</div>';
+      }
+      return html;
+    }
+    function showPopupFor(cat, rowEl) {
+      cancelHide();
+      if (activeRow && activeRow !== rowEl) activeRow.classList.remove('is-active');
+      activeRow = rowEl;
+      rowEl.classList.add('is-active');
+      var p = ensurePopup();
+      p.innerHTML = buildPopupHtml(cat);
+      var r = rowEl.getBoundingClientRect();
+      var w = 320;
+      var left = r.right + 8;
+      if (left + w > window.innerWidth - 8) left = Math.max(8, r.left - w - 8);
+      p.style.top = r.top + 'px';
+      p.style.left = left + 'px';
+      p.style.display = 'block';
+    }
+
     hosts.forEach(function (host) {
       var compact = host.getAttribute('data-hero-catalog') === 'mobile';
       var out = '';
       for (var i = 0; i < CATS.length; i++) out += renderCat(CATS[i], compact);
       host.innerHTML = out;
 
-      host.addEventListener('click', function (e) {
-        var btn = e.target.closest && e.target.closest('[data-toggle-cat],[data-toggle-sub]');
-        if (!btn) return;
-        e.preventDefault();
-        e.stopPropagation();
-        var panel = btn.parentElement && btn.parentElement.nextElementSibling;
-        if (!panel || !panel.classList.contains('hero-cat-subs')) return;
-
-        if (!panel) return;
-        var open = panel.classList.toggle('hidden') === false;
-        btn.classList.toggle('open', open);
-      });
+      if (compact) {
+        host.addEventListener('click', function (e) {
+          var btn = e.target.closest && e.target.closest('[data-toggle-cat],[data-toggle-sub]');
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var panel = btn.parentElement && btn.parentElement.nextElementSibling;
+          if (!panel || !panel.classList.contains('hero-cat-subs')) return;
+          var open = panel.classList.toggle('hidden') === false;
+          btn.classList.toggle('open', open);
+        });
+      } else {
+        // Desktop: hover flyout
+        var catById = {};
+        for (var k = 0; k < CATS.length; k++) catById[CATS[k].id] = CATS[k];
+        host.addEventListener('mouseover', function (e) {
+          var wrap = e.target.closest && e.target.closest('.hero-cat-wrap');
+          if (!wrap || !host.contains(wrap)) return;
+          var cat = catById[wrap.getAttribute('data-cat-id')];
+          if (!cat || !cat.children || !cat.children.length) {
+            // hide popup if hovering an item without kids
+            scheduleHide();
+            return;
+          }
+          var row = wrap.querySelector('.hero-cat-row');
+          if (!row) return;
+          if (activeRow === row && popup && popup.style.display === 'block') { cancelHide(); return; }
+          showPopupFor(cat, row);
+        });
+        host.addEventListener('mouseleave', scheduleHide);
+        window.addEventListener('scroll', function () {
+          if (popup) popup.style.display = 'none';
+          if (activeRow) { activeRow.classList.remove('is-active'); activeRow = null; }
+        }, true);
+      }
     });
   })();
 });
+
 
