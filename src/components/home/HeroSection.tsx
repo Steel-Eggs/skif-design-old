@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
+import { createPortal } from "react-dom";
 import {
   ArrowRight, ChevronLeft, ChevronRight, Award, ChevronDown,
   Tag, Car, Truck, Package, Layers, Weight, Caravan, Building2,
