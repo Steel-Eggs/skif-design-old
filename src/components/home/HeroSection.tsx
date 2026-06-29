@@ -436,7 +436,27 @@ const HeroSection = () => {
           <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))" />
         </svg>
       </div>
+
+      {popup && typeof document !== "undefined" && createPortal(
+        <div
+          onMouseEnter={cancelHide}
+          onMouseLeave={scheduleHide}
+          style={{ position: "fixed", top: popup.top, left: popup.left, width: 320, maxHeight: "70vh" }}
+          className="z-[60] bg-card text-card-foreground rounded-xl shadow-2xl border border-border p-2 overflow-y-auto scrollbar-thin animate-fade-in"
+        >
+          <div className="px-3 py-2 text-xs font-bold uppercase tracking-wide text-muted-foreground border-b border-border mb-1">
+            {popup.cat.name}
+          </div>
+          <div className="space-y-0.5">
+            {popup.cat.children!.map((c) => (
+              <PopupItem key={c.id} parent={popup.cat.id} item={c} />
+            ))}
+          </div>
+        </div>,
+        document.body
+      )}
     </section>
+
   );
 };
 
