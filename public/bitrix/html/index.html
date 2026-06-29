@@ -242,18 +242,20 @@
       <div class="grid gap-5 lg:gap-6 lg:grid-cols-12 items-stretch">
 
         <!-- CATALOG ASIDE -->
-        <aside class="lg:col-span-4 bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden flex flex-col">
-          <div class="px-5 py-3 gradient-primary text-primary-foreground">
-            <h2 class="text-lg md:text-xl font-heading font-black leading-tight">Каталог техники</h2>
-            <p class="text-xs opacity-90">Выберите категорию</p>
-          </div>
+        <div class="lg:col-span-4 lg:relative">
+          <aside class="bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden flex flex-col lg:absolute lg:inset-0">
+            <div class="px-5 py-3 gradient-primary text-primary-foreground">
+              <h2 class="text-lg md:text-xl font-heading font-black leading-tight">Каталог техники</h2>
+              <p class="text-xs opacity-90">Выберите категорию</p>
+            </div>
 
-          <nav class="p-2 flex-1 min-h-0 overflow-y-auto scrollbar-thin" id="hero-catalog-desktop" data-hero-catalog="desktop"></nav>
+            <nav class="p-2 flex-1 min-h-0 overflow-y-auto scrollbar-thin" id="hero-catalog-desktop" data-hero-catalog="desktop"></nav>
 
-          <div class="px-4 py-2 border-t border-border bg-muted/50">
-            <a href="catalog.html" class="block text-center text-sm font-bold text-primary hover:underline">Весь каталог →</a>
-          </div>
-        </aside>
+            <div class="px-4 py-2 border-t border-border bg-muted/50">
+              <a href="catalog.html" class="block text-center text-sm font-bold text-primary hover:underline">Весь каталог →</a>
+            </div>
+          </aside>
+        </div>
 
 
         <!-- SLIDER COLUMN -->

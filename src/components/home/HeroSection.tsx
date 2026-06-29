@@ -354,16 +354,17 @@ const HeroSection = () => {
       <div className="hidden md:block container relative pt-6 md:pt-8 lg:pt-10 pb-24 md:pb-28 lg:pb-32">
         <div className="grid gap-5 lg:gap-6 lg:grid-cols-12 items-stretch">
 
-          <aside className="lg:col-span-4 bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden flex flex-col">
-            {asideHeader}
-            <nav className="p-2 flex-1 min-h-0 overflow-y-auto scrollbar-thin">
-              <div className="space-y-0.5">
-                {heroCategories.map((c) => <CategoryRow key={c.id} cat={c} hoverFlyout />)}
-
-              </div>
-            </nav>
-            {asideFooter}
-          </aside>
+          <div className="lg:col-span-4 lg:relative">
+            <aside className="bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden flex flex-col lg:absolute lg:inset-0">
+              {asideHeader}
+              <nav className="p-2 flex-1 min-h-0 overflow-y-auto scrollbar-thin">
+                <div className="space-y-0.5">
+                  {heroCategories.map((c) => <CategoryRow key={c.id} cat={c} hoverFlyout />)}
+                </div>
+              </nav>
+              {asideFooter}
+            </aside>
+          </div>
 
           <div className="lg:col-span-8 flex flex-col gap-3">
             <div className="text-center lg:text-left overflow-hidden mb-6">
