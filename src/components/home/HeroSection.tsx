@@ -356,9 +356,10 @@ const HeroSection = () => {
 
           <aside className="lg:col-span-4 bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden flex flex-col">
             {asideHeader}
-            <nav className="p-2 flex-1 max-h-[520px] overflow-y-auto scrollbar-thin">
+            <nav className="p-2 flex-1 min-h-0 overflow-y-auto scrollbar-thin">
               <div className="space-y-0.5">
-                {heroCategories.map((c) => <CategoryRow key={c.id} cat={c} />)}
+                {heroCategories.map((c) => <CategoryRow key={c.id} cat={c} hoverFlyout />)}
+
               </div>
             </nav>
             {asideFooter}
