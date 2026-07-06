@@ -591,17 +591,48 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Whole-card click → open product (works for .product-grid-item and .product-card)
-  document.querySelectorAll('.product-grid-item, .product-card').forEach(function (card) {
-    var hasLink = card.querySelector('a[href^="product.html"]');
-    if (!hasLink) return;
-    card.style.cursor = 'pointer';
-    card.addEventListener('click', function (e) {
-      if (e.target.closest('button, a, [data-add-to-cart], [data-toggle-favorite]')) return;
-      var link = card.querySelector('a[href^="product.html"]');
-      if (link) window.location.href = link.getAttribute('href');
+  // Whole-card click → open product. Auto-detects any card that contains
+  // both a product link and an add-to-cart button, so it works for the
+  // main catalog, "Похожие товары" blocks, and homepage hits alike.
+  (function () {
+    var candidates = document.querySelectorAll(
+      '.product-grid-item, .product-card, [data-product-card]'
+    );
+    var cards = Array.prototype.slice.call(candidates);
+
+    // Also pick up related-products blocks that don't carry a marker class.
+    document.querySelectorAll('a[href^="product.html"]').forEach(function (link) {
+      var card = link.closest(
+        '.group, article, [class*="rounded-2xl"], [class*="rounded-xl"]'
+      );
+      if (card && cards.indexOf(card) === -1 && card.querySelector('[data-add-to-cart]')) {
+        cards.push(card);
+      }
     });
-  });
+
+    cards.forEach(function (card) {
+      var link = card.querySelector('a[href^="product.html"]');
+      if (!link || card.dataset.cardClickBound === '1') return;
+      card.dataset.cardClickBound = '1';
+      card.style.cursor = 'pointer';
+      card.style.touchAction = 'manipulation';
+
+      function go(e) {
+        if (e.target.closest('button, a, [data-add-to-cart], [data-toggle-favorite]')) return;
+        e.preventDefault();
+        window.location.href = link.getAttribute('href');
+      }
+
+      card.addEventListener('click', go);
+      // On touch devices, fire immediately on first tap to bypass the
+      // hover-emulation delay that made users tap twice.
+      card.addEventListener('touchend', function (e) {
+        if (e.target.closest('button, a, [data-add-to-cart], [data-toggle-favorite]')) return;
+        e.preventDefault();
+        window.location.href = link.getAttribute('href');
+      }, { passive: false });
+    });
+  })();
 
   /* ============================================
      11. ИЗБРАННОЕ (localStorage)
