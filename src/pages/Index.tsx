@@ -12,7 +12,6 @@ import PartnersSection from "@/components/home/PartnersSection";
 import ReviewsSection from "@/components/home/ReviewsSection";
 import SeoSection from "@/components/home/SeoSection";
 import ContactsSection from "@/components/home/ContactsSection";
-import FeedbackButton from "@/components/FeedbackButton";
 import MaxPopup from "@/components/MaxPopup";
 
 const Index = () => {
@@ -34,7 +33,6 @@ const Index = () => {
         <ContactsSection />
       </main>
       <Footer />
-      <FeedbackButton />
       <MaxPopup />
     </div>
   );

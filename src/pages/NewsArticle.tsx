@@ -14,7 +14,6 @@ import {
   Tag,
   ChevronRight
 } from "lucide-react";
-import FeedbackButton from "@/components/FeedbackButton";
 
 import news1Image from "@/assets/news/news-1.jpg";
 import news2Image from "@/assets/news/news-2.jpg";
@@ -323,7 +322,6 @@ const NewsArticle = () => {
       </main>
 
       <Footer />
-      <FeedbackButton />
     </div>
   );
 };

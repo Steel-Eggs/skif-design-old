@@ -17,7 +17,6 @@ import {
   Users,
   AlertCircle
 } from "lucide-react";
-import FeedbackButton from "@/components/FeedbackButton";
 
 const paymentMethods = [
   {
@@ -268,7 +267,6 @@ const Payment = () => {
       </main>
 
       <Footer />
-      <FeedbackButton />
     </div>
   );
 };

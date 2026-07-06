@@ -13,7 +13,6 @@ import {
   Search,
   Tag
 } from "lucide-react";
-import FeedbackButton from "@/components/FeedbackButton";
 
 import news1Image from "@/assets/news/news-1.jpg";
 import news2Image from "@/assets/news/news-2.jpg";
@@ -306,7 +305,6 @@ const News = () => {
       </main>
 
       <Footer />
-      <FeedbackButton />
     </div>
   );
 };

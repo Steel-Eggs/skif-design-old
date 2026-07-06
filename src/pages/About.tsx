@@ -22,7 +22,6 @@ import {
   ThumbsUp,
   Clock
 } from "lucide-react";
-import FeedbackButton from "@/components/FeedbackButton";
 
 import mzsaLogo from "@/assets/partners/mzsa.png";
 import sstLogo from "@/assets/partners/sst.png";
@@ -422,7 +421,6 @@ const About = () => {
       </main>
 
       <Footer />
-      <FeedbackButton />
     </div>
   );
 };
