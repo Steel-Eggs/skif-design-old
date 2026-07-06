@@ -327,8 +327,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return '';
   }
 
-  // Legacy fallback: append ?product=<slug> only to bare product.html links
-  // (all statically-authored links now use catalog/<slug>.html directly).
+  // Legacy fallback: rewrite bare "product.html" links to "catalog/<slug>.html"
+  // (all statically-authored product links already use that pattern).
   document.querySelectorAll('a[href^="product.html"]').forEach(function (link) {
     var productName = getProductNameFromLink(link);
     var productSlug = normalizeProductSlug(productName);
@@ -338,10 +338,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var hashIndex = href.indexOf('#');
     var hash = hashIndex >= 0 ? href.slice(hashIndex) : '';
     var cleanHref = hashIndex >= 0 ? href.slice(0, hashIndex) : href;
-    var parts = cleanHref.split('?');
-    var params = new URLSearchParams(parts[1] || '');
-    if (!params.get('product')) params.set('product', productSlug);
-    link.setAttribute('href', 'catalog/' + productSlug + '.html' + (params.toString() && params.get('product') === productSlug && params.toString().split('&').length === 1 ? '' : (params.toString() ? '?' + params.toString() : '')) + hash);
+    var qIndex = cleanHref.indexOf('?');
+    var qs = qIndex >= 0 ? cleanHref.slice(qIndex + 1) : '';
+    var newHref = 'catalog/' + productSlug + '.html';
+    if (qs) newHref += '?' + qs;
+    link.setAttribute('href', newHref + hash);
   });
 
   /* ============================================
