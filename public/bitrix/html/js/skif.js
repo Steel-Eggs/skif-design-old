@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   /* Make entire product card clickable (превью, изображение, пустая область) */
-  document.querySelectorAll('.product-card').forEach(function (card) {
+  document.querySelectorAll('.product-card, .product-grid-item').forEach(function (card) {
     var titleLink = card.querySelector('a[href^="product.html"]');
     if (!titleLink) return;
     card.style.cursor = 'pointer';
