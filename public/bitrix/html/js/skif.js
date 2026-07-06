@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var heading = card.querySelector('h1, h2, h3, h4');
       if (heading && isUsefulProductText(heading.textContent)) return heading.textContent;
 
-      var titleLink = card.querySelector('a[href^="product.html"]:not(.product-card-overlay a)');
+      var titleLink = card.querySelector('a[href^="catalog/"]:not(.product-card-overlay a), a[href^="product.html"]:not(.product-card-overlay a)');
       if (titleLink && isUsefulProductText(titleLink.textContent)) return titleLink.textContent;
 
       var image = card.querySelector('img[alt]');
@@ -327,6 +327,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return '';
   }
 
+  // Legacy fallback: append ?product=<slug> only to bare product.html links
+  // (all statically-authored links now use catalog/<slug>.html directly).
   document.querySelectorAll('a[href^="product.html"]').forEach(function (link) {
     var productName = getProductNameFromLink(link);
     var productSlug = normalizeProductSlug(productName);
@@ -337,10 +339,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var hash = hashIndex >= 0 ? href.slice(hashIndex) : '';
     var cleanHref = hashIndex >= 0 ? href.slice(0, hashIndex) : href;
     var parts = cleanHref.split('?');
-    var base = parts[0] || 'product.html';
     var params = new URLSearchParams(parts[1] || '');
     if (!params.get('product')) params.set('product', productSlug);
-    link.setAttribute('href', base + '?' + params.toString() + hash);
+    link.setAttribute('href', 'catalog/' + productSlug + '.html' + (params.toString() && params.get('product') === productSlug && params.toString().split('&').length === 1 ? '' : (params.toString() ? '?' + params.toString() : '')) + hash);
   });
 
   /* ============================================
