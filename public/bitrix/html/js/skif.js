@@ -601,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var cards = Array.prototype.slice.call(candidates);
 
     // Also pick up related-products blocks that don't carry a marker class.
-    document.querySelectorAll('a[href^="product.html"]').forEach(function (link) {
+    document.querySelectorAll('a[href^="catalog/"], a[href^="product.html"]').forEach(function (link) {
       var card = link.closest(
         '.group, article, [class*="rounded-2xl"], [class*="rounded-xl"]'
       );
@@ -611,7 +611,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     cards.forEach(function (card) {
-      var link = card.querySelector('a[href^="product.html"]');
+      var link = card.querySelector('a[href^="catalog/"], a[href^="product.html"]');
       if (!link || card.dataset.cardClickBound === '1') return;
       card.dataset.cardClickBound = '1';
       card.style.cursor = 'pointer';
