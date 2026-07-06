@@ -619,21 +619,29 @@ document.addEventListener('DOMContentLoaded', function () {
       card.style.cursor = 'pointer';
       card.style.touchAction = 'manipulation';
 
+      function shouldSkip(target) {
+        // Only skip for interactive controls, NOT for the product link itself
+        // (otherwise iOS "sticky hover" makes users tap twice on the image).
+        return !!target.closest('button, [data-add-to-cart], [data-toggle-favorite], [data-add-to-favorites]');
+      }
+
       function go(e) {
-        if (e.target.closest('button, a, [data-add-to-cart], [data-toggle-favorite]')) return;
+        if (shouldSkip(e.target)) return;
         e.preventDefault();
         window.location.href = link.getAttribute('href');
       }
 
       card.addEventListener('click', go);
-      // On touch devices, fire immediately on first tap to bypass the
-      // hover-emulation delay that made users tap twice.
+      // On touch devices, navigate on touchend to bypass the ~300ms
+      // iOS hover-emulation delay ("first tap reveals hover, second tap
+      // clicks"). preventDefault stops the subsequent synthetic click.
       card.addEventListener('touchend', function (e) {
-        if (e.target.closest('button, a, [data-add-to-cart], [data-toggle-favorite]')) return;
+        if (shouldSkip(e.target)) return;
         e.preventDefault();
         window.location.href = link.getAttribute('href');
       }, { passive: false });
     });
+
   })();
 
   /* ============================================
