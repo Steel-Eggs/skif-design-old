@@ -343,17 +343,6 @@ document.addEventListener('DOMContentLoaded', function () {
     link.setAttribute('href', base + '?' + params.toString() + hash);
   });
 
-  /* Make entire product card clickable (превью, изображение, пустая область) */
-  document.querySelectorAll('.product-card, .product-grid-item').forEach(function (card) {
-    var titleLink = card.querySelector('a[href^="product.html"]');
-    if (!titleLink) return;
-    card.style.cursor = 'pointer';
-    card.addEventListener('click', function (e) {
-      if (e.target.closest('button, a, input, label, [data-add-to-cart], [data-toggle-favorite]')) return;
-      var href = titleLink.getAttribute('href');
-      if (href) window.location.href = href;
-    });
-
   /* ============================================
      9. HERO-СЛАЙДЕР
      ============================================ */
