@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var heading = card.querySelector('h1, h2, h3, h4');
       if (heading && isUsefulProductText(heading.textContent)) return heading.textContent;
 
-      var titleLink = card.querySelector('a[href^="product.html"]:not(.product-card-overlay a)');
+      var titleLink = card.querySelector('a[href^="catalog/"]:not(.product-card-overlay a), a[href^="product.html"]:not(.product-card-overlay a)');
       if (titleLink && isUsefulProductText(titleLink.textContent)) return titleLink.textContent;
 
       var image = card.querySelector('img[alt]');
@@ -327,6 +327,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return '';
   }
 
+  // Legacy fallback: rewrite bare "product.html" links to "catalog/<slug>.html"
+  // (all statically-authored product links already use that pattern).
   document.querySelectorAll('a[href^="product.html"]').forEach(function (link) {
     var productName = getProductNameFromLink(link);
     var productSlug = normalizeProductSlug(productName);
@@ -336,11 +338,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var hashIndex = href.indexOf('#');
     var hash = hashIndex >= 0 ? href.slice(hashIndex) : '';
     var cleanHref = hashIndex >= 0 ? href.slice(0, hashIndex) : href;
-    var parts = cleanHref.split('?');
-    var base = parts[0] || 'product.html';
-    var params = new URLSearchParams(parts[1] || '');
-    if (!params.get('product')) params.set('product', productSlug);
-    link.setAttribute('href', base + '?' + params.toString() + hash);
+    var qIndex = cleanHref.indexOf('?');
+    var qs = qIndex >= 0 ? cleanHref.slice(qIndex + 1) : '';
+    var newHref = 'catalog/' + productSlug + '.html';
+    if (qs) newHref += '?' + qs;
+    link.setAttribute('href', newHref + hash);
   });
 
   /* ============================================
@@ -601,7 +603,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var cards = Array.prototype.slice.call(candidates);
 
     // Also pick up related-products blocks that don't carry a marker class.
-    document.querySelectorAll('a[href^="product.html"]').forEach(function (link) {
+    document.querySelectorAll('a[href^="catalog/"], a[href^="product.html"]').forEach(function (link) {
       var card = link.closest(
         '.group, article, [class*="rounded-2xl"], [class*="rounded-xl"]'
       );
@@ -611,7 +613,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     cards.forEach(function (card) {
-      var link = card.querySelector('a[href^="product.html"]');
+      var link = card.querySelector('a[href^="catalog/"], a[href^="product.html"]');
       if (!link || card.dataset.cardClickBound === '1') return;
       card.dataset.cardClickBound = '1';
       card.style.cursor = 'pointer';
