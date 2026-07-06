@@ -240,23 +240,31 @@
   var grid = document.getElementById('results-grid');
   var viewMode = 'grid';
 
+  function slugifyName(v){
+    return String(v||'').trim().toLowerCase()
+      .replace(/\s+/g,'-')
+      .replace(/[^a-z0-9а-яё_-]+/gi,'-')
+      .replace(/-+/g,'-').replace(/^-|-$/g,'');
+  }
+
   function renderCard(p) {
     var badgeHtml = p.badge ? '<span class="absolute top-2 ' + (p.inStock ? 'left-2' : 'right-2') + ' ' + p.badgeClass + ' text-xs font-bold px-2 py-1 rounded">' + p.badge + '</span>' : '';
     var oldPriceHtml = p.oldPrice ? '<span class="text-xs text-muted-foreground line-through">' + p.oldPrice.toLocaleString('ru-RU') + ' ₽</span>' : '';
     var btn = p.inStock
       ? '<button class="w-full gradient-accent text-accent-foreground text-xs font-bold py-2 rounded-lg hover:opacity-90 transition-opacity">В корзину</button>'
       : '<button class="w-full border border-border text-foreground text-xs font-bold py-2 rounded-lg hover:bg-muted transition-colors">Под заказ</button>';
+    var url = 'catalog/' + slugifyName(p.name) + '.html';
 
     if (viewMode === 'list') {
       return '<div class="product-card bg-card rounded-lg border overflow-hidden hover:shadow-lg transition-shadow flex gap-4 p-3">'
-        + '<a href="product.html" class="shrink-0 w-32"><div class="relative overflow-hidden h-24"><img src="' + p.img + '" alt="' + p.name + '" class="w-full h-full object-cover rounded">' + badgeHtml + '</div></a>'
-        + '<div class="flex-1 flex flex-col justify-between"><a href="product.html" class="text-sm font-medium hover:text-primary transition-colors line-clamp-2">' + p.name + '</a>'
+        + '<a href="' + url + '" class="shrink-0 w-32"><div class="relative overflow-hidden h-24"><img src="' + p.img + '" alt="' + p.name + '" class="w-full h-full object-cover rounded">' + badgeHtml + '</div></a>'
+        + '<div class="flex-1 flex flex-col justify-between"><a href="' + url + '" class="text-sm font-medium hover:text-primary transition-colors line-clamp-2">' + p.name + '</a>'
         + '<div class="flex items-center justify-between mt-2"><div class="flex items-baseline gap-2"><span class="font-bold text-primary">' + p.price.toLocaleString('ru-RU') + ' ₽</span>' + oldPriceHtml + '</div>' + btn + '</div></div>'
         + '</div>';
     }
     return '<div class="product-card bg-card rounded-lg border overflow-hidden hover:shadow-lg transition-shadow group">'
-      + '<a href="product.html" class="block"><div class="relative overflow-hidden"><img src="' + p.img + '" alt="' + p.name + '" class="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-300">' + badgeHtml + '</div></a>'
-      + '<div class="p-3"><a href="product.html" class="text-sm font-medium line-clamp-2 hover:text-primary transition-colors mb-2 block">' + p.name + '</a>'
+      + '<a href="' + url + '" class="block"><div class="relative overflow-hidden"><img src="' + p.img + '" alt="' + p.name + '" class="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-300">' + badgeHtml + '</div></a>'
+      + '<div class="p-3"><a href="' + url + '" class="text-sm font-medium line-clamp-2 hover:text-primary transition-colors mb-2 block">' + p.name + '</a>'
       + '<div class="flex items-baseline gap-2 mb-2"><span class="font-bold text-primary">' + p.price.toLocaleString('ru-RU') + ' ₽</span>' + oldPriceHtml + '</div>' + btn + '</div>'
       + '</div>';
   }
