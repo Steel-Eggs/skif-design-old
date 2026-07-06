@@ -9,8 +9,9 @@ const MaxPopup = () => {
 
   useEffect(() => {
     if (sessionStorage.getItem("max-popup-dismissed")) return;
-    const t = setTimeout(() => setVisible(true), 4000);
+    const t = setTimeout(() => setVisible(true), 15000);
     return () => clearTimeout(t);
+
   }, []);
 
   const handleClose = (e: React.MouseEvent) => {
