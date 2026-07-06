@@ -24,7 +24,6 @@ import {
   ChevronLeft,
   ChevronRight
 } from "lucide-react";
-import FeedbackButton from "@/components/FeedbackButton";
 import berggolts1 from "@/assets/offices/berggolts-1.jpg";
 import berggolts2 from "@/assets/offices/berggolts-2.jpg";
 import berggolts3 from "@/assets/offices/berggolts-3.jpg";
@@ -477,7 +476,6 @@ const Contacts = () => {
       </main>
 
       <Footer />
-      <FeedbackButton />
 
       {/* Photo Lightbox Modal */}
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
