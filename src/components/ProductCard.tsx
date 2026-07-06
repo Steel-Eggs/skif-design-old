@@ -286,7 +286,7 @@ const ProductCard = ({ product, index = 0, viewMode = 'grid' }: ProductCardProps
               className={`absolute top-2 right-2 xl:top-3 xl:right-3 w-9 h-9 xl:w-10 xl:h-10 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-300 z-20 ${
                 isInFavorites 
                   ? 'bg-destructive text-destructive-foreground opacity-100' 
-                  : 'bg-card/90 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground'
+                  : 'bg-card/90 opacity-100 md:opacity-0 md:group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground'
               }`}
               onClick={handleToggleFavorite}
             >
