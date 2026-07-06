@@ -190,10 +190,6 @@ html {
 .form-checkbox label { font-size:0.875rem; color:hsl(var(--muted-foreground)); }
 .form-checkbox a { color:hsl(var(--primary)); }
 
-/* Floating button */
-.floating-feedback-btn { position:fixed; bottom:2rem; right:2rem; width:3.5rem; height:3.5rem; border-radius:9999px; background:var(--gradient-primary); color:white; border:none; box-shadow:0 4px 20px rgba(11,74,122,0.4); z-index:50; display:flex; align-items:center; justify-content:center; transition:transform 0.2s; cursor:pointer; }
-.floating-feedback-btn:hover { transform:scale(1.1); }
-.floating-feedback-btn svg { width:1.5rem; height:1.5rem; }
 
 /* Disable legacy price notice popup in static HTML pages */
 #price-notification-overlay {
