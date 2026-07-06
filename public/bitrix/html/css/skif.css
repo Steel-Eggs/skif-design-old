@@ -141,12 +141,21 @@ html {
 
 /* Product card overlay */
 .product-card-overlay { position:absolute; inset:0; background:hsl(200 50% 10% / 0.6); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s; z-index:10; pointer-events:none; }
-.group:hover .product-card-overlay { opacity:1; }
+@media (hover: hover) { .group:hover .product-card-overlay { opacity:1; } }
 .product-card-overlay > * { pointer-events:auto; }
 .product-card-favorite { position:absolute; top:0.75rem; right:0.75rem; width:2.5rem; height:2.5rem; border-radius:9999px; background:hsl(0 0% 100% / 0.9); border:none; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s; z-index:20; cursor:pointer; }
-.group:hover .product-card-favorite { opacity:1; }
+@media (hover: hover) { .group:hover .product-card-favorite { opacity:1; } }
 .product-card-favorite.active { opacity:1; background:hsl(var(--destructive)); color:hsl(var(--destructive-foreground)); }
 .product-card-favorite svg { width:1.25rem; height:1.25rem; }
+/* Neutralize sticky-hover transforms/opacities on touch devices so iPhone users
+   don't need the "first tap reveals hover, second tap clicks" workflow. */
+@media (hover: none) {
+  .group:hover img,
+  .group:hover .group-hover\:scale-105,
+  .group:hover .group-hover\:scale-110 { transform: none !important; }
+  .group:hover .group-hover\:opacity-100 { opacity: 0 !important; }
+}
+
 
 /* Product images: support horizontal and vertical photos without cropping */
 .aspect-\[4\/3\].bg-muted.overflow-hidden > img {

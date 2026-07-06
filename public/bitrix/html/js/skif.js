@@ -619,21 +619,29 @@ document.addEventListener('DOMContentLoaded', function () {
       card.style.cursor = 'pointer';
       card.style.touchAction = 'manipulation';
 
+      function shouldSkip(target) {
+        // Only skip for interactive controls, NOT for the product link itself
+        // (otherwise iOS "sticky hover" makes users tap twice on the image).
+        return !!target.closest('button, [data-add-to-cart], [data-toggle-favorite], [data-add-to-favorites]');
+      }
+
       function go(e) {
-        if (e.target.closest('button, a, [data-add-to-cart], [data-toggle-favorite]')) return;
+        if (shouldSkip(e.target)) return;
         e.preventDefault();
         window.location.href = link.getAttribute('href');
       }
 
       card.addEventListener('click', go);
-      // On touch devices, fire immediately on first tap to bypass the
-      // hover-emulation delay that made users tap twice.
+      // On touch devices, navigate on touchend to bypass the ~300ms
+      // iOS hover-emulation delay ("first tap reveals hover, second tap
+      // clicks"). preventDefault stops the subsequent synthetic click.
       card.addEventListener('touchend', function (e) {
-        if (e.target.closest('button, a, [data-add-to-cart], [data-toggle-favorite]')) return;
+        if (shouldSkip(e.target)) return;
         e.preventDefault();
         window.location.href = link.getAttribute('href');
       }, { passive: false });
     });
+
   })();
 
   /* ============================================
@@ -825,7 +833,9 @@ document.addEventListener('DOMContentLoaded', function () {
       p.href = 'https://max.ru/'; // TODO: реальная ссылка на канал
       p.target = '_blank';
       p.rel = 'noopener';
-      p.style.cssText = 'position:fixed;bottom:16px;right:16px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;background:#fff;border:1px solid #e5e7eb;border-radius:9999px;box-shadow:0 10px 25px -5px rgba(0,0,0,.18);text-decoration:none;color:#0d1821;font-family:inherit;animation:maxSlideIn .4s ease-out';
+      var isMobile = window.matchMedia('(max-width: 767px)').matches;
+      var bottomPx = isMobile ? 96 : 16;
+      p.style.cssText = 'position:fixed;bottom:' + bottomPx + 'px;right:16px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;background:#fff;border:1px solid #e5e7eb;border-radius:9999px;box-shadow:0 10px 25px -5px rgba(0,0,0,.18);text-decoration:none;color:#0d1821;font-family:inherit;animation:maxSlideIn .4s ease-out';
       p.innerHTML =
         '<img src="images/max-logo.png" alt="MAX" style="width:32px;height:32px;border-radius:8px;display:block">' +
         '<span style="font-size:14px;font-weight:600">Мы в MAX</span>' +
@@ -839,8 +849,9 @@ document.addEventListener('DOMContentLoaded', function () {
         sessionStorage.setItem('max-popup-dismissed', '1');
         p.remove();
       });
-    }, 4000);
+    }, 15000);
   }
+
 
   var maxStyle = document.createElement('style');
   maxStyle.textContent = '@keyframes maxSlideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}';

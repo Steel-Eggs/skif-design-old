@@ -341,7 +341,7 @@ const HeroSection = () => {
 
         <aside className="bg-card text-card-foreground rounded-2xl shadow-xl overflow-hidden">
           {asideHeader}
-          <nav className="p-2 max-h-[60vh] overflow-y-auto scrollbar-thin">
+          <nav className="p-2 max-h-[42vh] overflow-y-auto scrollbar-thin">
             <div className="space-y-0.5">
               {heroCategories.map((c) => <CategoryRow key={c.id} cat={c} compact />)}
             </div>

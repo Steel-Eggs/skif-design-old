@@ -9,8 +9,9 @@ const MaxPopup = () => {
 
   useEffect(() => {
     if (sessionStorage.getItem("max-popup-dismissed")) return;
-    const t = setTimeout(() => setVisible(true), 4000);
+    const t = setTimeout(() => setVisible(true), 15000);
     return () => clearTimeout(t);
+
   }, []);
 
   const handleClose = (e: React.MouseEvent) => {
@@ -27,7 +28,7 @@ const MaxPopup = () => {
       href={MAX_CHANNEL_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-4 right-4 z-50 flex items-center gap-2 pl-2 pr-3 py-2 rounded-full bg-card border border-border shadow-lg hover:shadow-xl hover:scale-105 transition-all animate-in slide-in-from-bottom-3 fade-in duration-500"
+      className="fixed bottom-24 right-4 md:bottom-4 z-50 flex items-center gap-2 pl-2 pr-3 py-2 rounded-full bg-card border border-border shadow-lg hover:shadow-xl hover:scale-105 transition-all animate-in slide-in-from-bottom-3 fade-in duration-500"
       aria-label="Наш канал в MAX"
     >
       <img src={maxLogo} alt="MAX" className="w-8 h-8 rounded-lg" />
